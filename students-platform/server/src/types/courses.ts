@@ -1,9 +1,7 @@
-import { Lection } from "./lections";
-import { User } from "./users";
+import { UserAttributes } from "./users";
 
 export interface Course{
+    id: number | undefined,
     courseName:string,
-    students:User[],
-    lector:User,
-    lections:Lection[],
+    lector_id:UserAttributes,
 }

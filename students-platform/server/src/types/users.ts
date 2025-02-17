@@ -1,11 +1,16 @@
-import { Course } from "./courses";
-import { Grade } from "./grades";
+export interface UserAttributes {
+    id: number | undefined;
+    fullname: string;
+    course: number;
+    role: "student" | "lector";
+    facultyNumber: string;
+}
 
-export interface User{
-    fullname:string,
-    course:number,
-    courses:Course[],
-    isLector:boolean,
-    grades:Grade[],
-    facultyNumber:string
+export interface UserForAuth{
+    id: number|undefined,
+    fullname: string;
+    course: number;
+    role: "student" | "lector";
+    facultyNumber: string;
+    accessToken:string;
 }

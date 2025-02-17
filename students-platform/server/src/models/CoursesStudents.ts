@@ -1,5 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from "sequelize";
 import dotenv from "dotenv";
+import { CoursesStudents } from "../types/CoursesStudents";
+import { Course } from "../types/courses";
+import { UserAttributes } from "../types/users";
 
 dotenv.config();
 
@@ -9,7 +12,12 @@ const sequelize=new Sequelize("students-platform",dbUser,process.env.DB_PASSWORD
         dialect:"postgres"
 });
 
-const CoursesUsers=sequelize.define("CoursesStudents",{
+class CoursesUsers extends Model<CoursesStudents> implements CoursesStudents{
+    public course_id!:Course;
+    public user_id!:UserAttributes;
+}
+
+CoursesUsers.init({
     course_id:{
         type:DataTypes.INTEGER,
         unique:true,
@@ -28,6 +36,9 @@ const CoursesUsers=sequelize.define("CoursesStudents",{
             key:"id"
         }
     }
+},{
+    sequelize,
+    tableName:"CoursesStudents"
 })
 
 export {
