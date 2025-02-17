@@ -36,7 +36,7 @@ async function login(fullname: string, password: string) {
     if (!user) {
         throw new Error("Full name or password don't match!");
     }
-    const isValidPass = await bcrypt.compare(user.password, password);
+    const isValidPass = await bcrypt.compare(password,user.password);
     if (!isValidPass) {
         throw new Error("Full name or password don't match!");
     }
