@@ -1,6 +1,7 @@
 export interface UserAttributes {
     id: number | undefined;
     fullname: string;
+    password:string;
     course: number;
     role: "student" | "lector";
     facultyNumber: string;

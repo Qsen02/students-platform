@@ -18,6 +18,7 @@ const sequelize = new Sequelize(
 class Users extends Model<UserAttributes> implements UserAttributes {
     public id: number | undefined;
     public fullname!: string;
+    public password!:string;
     public course!: number;
     public role!: "student" | "lector";
     public facultyNumber!: string;
@@ -33,6 +34,10 @@ Users.init(
         fullname: {
             type: DataTypes.STRING(70),
             allowNull: false,
+        },
+        password:{
+            type: DataTypes.STRING,
+            allowNull:false
         },
         course: {
             type: DataTypes.INTEGER,
