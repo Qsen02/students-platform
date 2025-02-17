@@ -4,15 +4,21 @@ import { Lections } from "./lection";
 import { Users } from "./user";
 
 function makeAssociations(){
-    Grades.belongsTo(Users,{
+    Users.hasMany(Grades,{
         foreignKey:"student_id",
-        as:"studentId"
     });
 
-    Users.hasMany(Grades,{
-        foreignKey:"grades",
-        as:"studentId"
+    Grades.belongsTo(Users,{
+        foreignKey:"student_id",
     });
+
+    Courses.hasOne(Grades,{
+        foreignKey:"course_id"
+    })
+
+    Grades.belongsTo(Courses,{
+        foreignKey:"course_id"
+    })
     
     Courses.hasMany(Lections,{
         foreignKey:"lections",

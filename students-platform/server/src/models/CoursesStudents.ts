@@ -12,6 +12,8 @@ const sequelize=new Sequelize("students-platform",dbUser,process.env.DB_PASSWORD
 const CoursesUsers=sequelize.define("CoursesStudents",{
     course_id:{
         type:DataTypes.INTEGER,
+        unique:true,
+        allowNull:false,
         references:{
             model:'Courses',
             key:"id"
@@ -19,6 +21,8 @@ const CoursesUsers=sequelize.define("CoursesStudents",{
     },
     user_id:{
         type:DataTypes.INTEGER,
+        unique:true,
+        allowNull:false,
         references:{
             model:'Users',
             key:"id"

@@ -21,20 +21,6 @@ const Courses=sequelize.define("Courses",{
             key:"id"
         }
     },
-    students:{
-        type:DataTypes.ARRAY(INTEGER),
-        references:{
-            model:'CoursesStudents',
-            key:"user_id"
-        }
-    },
-    lections:{
-        type:DataTypes.ARRAY(INTEGER),
-        references:{
-            model:'Lections',
-            key:"id"
-        }
-    }
 })
 
 export {

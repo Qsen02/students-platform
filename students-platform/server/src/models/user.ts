@@ -27,20 +27,6 @@ const Users = sequelize.define("Users", {
         type: DataTypes.STRING(8),
         allowNull: false,
     },
-    courses:{
-        type:DataTypes.ARRAY(INTEGER),
-        references:{
-            model:'CoursesStudents',
-            key:"course_id"
-        }
-    },
-    grades:{
-        type:DataTypes.ARRAY(INTEGER),
-        references:{
-            model:'Grades',
-            key:"id"
-        }
-    }
 });
 
 export { Users };

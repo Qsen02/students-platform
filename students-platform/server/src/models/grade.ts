@@ -14,11 +14,18 @@ const Grades=sequelize.define("Grades",{
         type:DataTypes.INTEGER,
         allowNull:false
     },
+    course_id:{
+        type:DataTypes.INTEGER,
+        references:{
+            model:'Courses',
+            key:"id"
+        }
+    },
     student_id:{
         type:DataTypes.INTEGER,
         references:{
             model:'Users',
-            key:"grades"
+            key:"id"
         }
     }
 })
