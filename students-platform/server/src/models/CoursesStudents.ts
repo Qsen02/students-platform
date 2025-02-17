@@ -9,20 +9,23 @@ const sequelize=new Sequelize("students-platform",dbUser,process.env.DB_PASSWORD
         dialect:"postgres"
 });
 
-const Grades=sequelize.define("Grades",{
-    grade:{
+const CoursesUsers=sequelize.define("CoursesStudents",{
+    course_id:{
         type:DataTypes.INTEGER,
-        allowNull:false
+        references:{
+            model:'Courses',
+            key:"id"
+        }
     },
-    student_id:{
+    user_id:{
         type:DataTypes.INTEGER,
         references:{
             model:'Users',
-            key:"grades"
+            key:"id"
         }
     }
 })
 
 export {
-    Grades
+    CoursesUsers
 }

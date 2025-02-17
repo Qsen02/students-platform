@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, INTEGER, Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,6 +14,27 @@ const Courses=sequelize.define("Courses",{
         type:DataTypes.STRING(30),
         allowNull:false
     },
+    lector_id:{
+        type:DataTypes.INTEGER,
+        references:{
+            model:'Users',
+            key:"id"
+        }
+    },
+    students:{
+        type:DataTypes.ARRAY(INTEGER),
+        references:{
+            model:'CoursesStudents',
+            key:"user_id"
+        }
+    },
+    lections:{
+        type:DataTypes.ARRAY(INTEGER),
+        references:{
+            model:'Lections',
+            key:"id"
+        }
+    }
 })
 
 export {

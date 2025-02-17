@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { expressConfig } from "./config/express";
 import { routerConfig } from "./config/routes";
-import { runDB } from "./config/postgreSQL";
+import { runDB } from "./config/sequelize";
 
 dotenv.config();
 

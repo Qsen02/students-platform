@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, INTEGER, Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,15 +18,29 @@ const Users = sequelize.define("Users", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    isLector: {
-        type: DataTypes.BOOLEAN,
+    role: {
+        type:DataTypes.ENUM("student","lector"),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: "student"
     },
     facultyNumber: {
         type: DataTypes.STRING(8),
         allowNull: false,
     },
+    courses:{
+        type:DataTypes.ARRAY(INTEGER),
+        references:{
+            model:'CoursesStudents',
+            key:"course_id"
+        }
+    },
+    grades:{
+        type:DataTypes.ARRAY(INTEGER),
+        references:{
+            model:'Grades',
+            key:"id"
+        }
+    }
 });
 
 export { Users };

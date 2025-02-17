@@ -17,6 +17,13 @@ const Lections=sequelize.define("Lections",{
     content:{
         type:DataTypes.TEXT,
         allowNull:false
+    },
+    course_id:{
+        type:DataTypes.INTEGER,
+        references:{
+            model:'Courses',
+            key:"id"
+        }
     }
 })
 
