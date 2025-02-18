@@ -18,7 +18,7 @@ async function getCourseById(courseId: number) {
     return course;
 }
 
-async function createCourse(courseName: string, lectorId: number) {
+async function createCourse(courseName: string, lectorId: number | undefined) {
     const newCourse = await Courses.create({
         courseName: courseName,
         lector_id: lectorId,
@@ -27,9 +27,10 @@ async function createCourse(courseName: string, lectorId: number) {
 }
 
 async function deleteCourse(courseId: number) {
-    await Courses.destroy({
+    const rowsAffected = await Courses.destroy({
         where: { id: courseId },
     });
+    return rowsAffected;
 }
 
 async function updateCourse(courseId: number, data: Partial<Course>) {
@@ -40,10 +41,20 @@ async function updateCourse(courseId: number, data: Partial<Course>) {
     return updatedCourse;
 }
 
+async function checkCourseId(courseId: number) {
+    const user = await Courses.findByPk(courseId);
+    if (user) {
+        return true;
+    }
+    return false;
+}
+
+
 export {
     getCourseById,
     getAllCourses,
     deleteCourse,
     updateCourse,
     createCourse,
+    checkCourseId
 };

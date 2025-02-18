@@ -1,17 +1,18 @@
 export interface UserAttributes {
     id: number | undefined;
     fullname: string;
-    password:string;
+    password: string;
     course: number;
     role: "student" | "lector";
     facultyNumber: string;
+    courses: number[] | null;
 }
 
-export interface UserForAuth{
-    id: number|undefined,
+export interface UserForAuth {
+    id: number | undefined;
     fullname: string;
     course: number;
     role: "student" | "lector";
     facultyNumber: string;
-    accessToken:string;
+    accessToken: string;
 }

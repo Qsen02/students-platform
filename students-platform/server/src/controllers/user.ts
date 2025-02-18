@@ -7,8 +7,8 @@ import { errorParser } from "../utils/errorParser";
 
 const userRouter = Router();
 
-userRouter.get("/logout", isUser(),(req, res) => {
-    res.status(200).json({message:"Logout was successfull!"});
+userRouter.get("/logout", isUser(), (req, res) => {
+    res.status(200).json({ message: "Logout was successfull!" });
 });
 
 userRouter.get("/:userId", async (req, res) => {
@@ -35,7 +35,8 @@ userRouter.post(
         ),
     body("repass")
         .trim()
-        .custom((value: string, { req }) => req.body.password == value).withMessage("Password must match!"),
+        .custom((value: string, { req }) => req.body.password == value)
+        .withMessage("Password must match!"),
     body("course")
         .isInt({ min: 1, max: 4 })
         .withMessage("Course must be between 1 and 4"),
@@ -98,8 +99,14 @@ userRouter.post(
                 role: newUser.role,
                 accessToken: token,
             });
-        } catch (err: any) {
-            res.status(400).json({ message: err.message });
+        } catch (err) {
+            if (err instanceof Error) {
+                res.status(400).json({ message: err.message });
+            } else {
+                res.status(400).json({
+                    message: "Your data is not in valid format!",
+                });
+            }
         }
     }
 );

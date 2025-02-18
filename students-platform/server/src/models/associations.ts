@@ -27,15 +27,19 @@ function makeAssociations(){
     
     Lections.belongsTo(Courses,{
         foreignKey:"course_id",
-        as:"lectionId"
     });
     
-    Courses.hasMany(Lections);
+    Courses.hasMany(Lections,{
+        foreignKey:"lection_id"
+    });
     
-    // Courses.hasOne(Users,{
-    //     foreignKey:"lector_id"
-    // });
-    
+    Courses.belongsTo(Users,{
+        foreignKey:"lector_id"
+    });
+
+    Users.hasMany(Courses,{
+        foreignKey:"courses"
+    })
     Users.belongsToMany(Courses,{
        through:"CoursesUsers",
     });

@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { verifyToken } from "../services/token";
+import { MyRequest } from "../types/express";
 
 function session(){
-    return function(req:Request,res:Response,next:NextFunction){
+    return function(req:MyRequest,res:Response,next:NextFunction){
         const token=req.headers['x-authorization'];
         if(token && typeof(token)=="string"){
             try{

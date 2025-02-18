@@ -24,6 +24,7 @@ async function register(
         facultyNumber: facultyNumber,
         role: "student",
         password: await bcrypt.hash(password, 10),
+        courses:null
     });
 
     return newUser;

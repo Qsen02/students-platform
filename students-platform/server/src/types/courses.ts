@@ -1,5 +1,5 @@
 export interface Course{
     id: number | undefined,
     courseName:string,
-    lector_id: number,
+    lector_id: number | undefined,
 }
