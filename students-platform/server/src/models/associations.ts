@@ -30,6 +30,8 @@ function makeAssociations(){
         as:"lectionId"
     });
     
+    Courses.hasMany(Lections);
+    
     // Courses.hasOne(Users,{
     //     foreignKey:"lector_id"
     // });

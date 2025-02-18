@@ -19,7 +19,7 @@ const sequelize = new Sequelize(
 class Courses extends Model<Course> implements Course {
     public id: number | undefined;
     public courseName!: string;
-    public lector_id!: UserAttributes;
+    public lector_id!: number;
 }
 
 Courses.init(
