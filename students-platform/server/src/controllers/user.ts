@@ -7,6 +7,10 @@ import { errorParser } from "../utils/errorParser";
 
 const userRouter = Router();
 
+userRouter.get("/logout", isUser(),(req, res) => {
+    res.status(200).json({message:"Logout was successfull!"});
+});
+
 userRouter.get("/:userId", async (req, res) => {
     const userId = Number(req.params.userId);
     const isValid = await checkUserId(userId);
@@ -65,9 +69,6 @@ userRouter.post(
         }
     }
 );
-userRouter.get("/logout", isUser(), (req, res) => {
-    res.status(200).json({message:"Logout was successfull!"});
-});
 
 userRouter.post(
     "/login",

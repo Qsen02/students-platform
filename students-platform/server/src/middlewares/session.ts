@@ -3,7 +3,7 @@ import { verifyToken } from "../services/token";
 
 function session(){
     return function(req:Request,res:Response,next:NextFunction){
-        const token=req.headers['X-Authorization'];
+        const token=req.headers['x-authorization'];
         if(token && typeof(token)=="string"){
             try{
                 const payload=verifyToken(token);
