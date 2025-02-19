@@ -20,7 +20,7 @@ class Lections extends Model<Lection> implements Lections {
     id: number | undefined;
     lectionName!: string;
     content!: string;
-    course_id!: Course;
+    course_id!: number;
 }
 
 Lections.init(
