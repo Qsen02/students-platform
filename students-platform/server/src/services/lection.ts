@@ -16,9 +16,10 @@ async function createLection(name: string, content: string, courseId: number) {
 }
 
 async function deleteLection(lectionId: number) {
-    await Lections.destroy({
+    const count=await Lections.destroy({
         where: { id: lectionId },
     });
+    return count;
 }
 
 async function updateLection(lectionId: number, data: Partial<Lection>) {
