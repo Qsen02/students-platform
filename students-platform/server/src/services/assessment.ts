@@ -1,4 +1,6 @@
 import { Assessments } from "../models/assessment";
+import { Courses } from "../models/course";
+import { Users } from "../models/user";
 
 async function getAssessmentById(assessmentId: number) {
     const grade = await Assessments.findByPk(assessmentId);
@@ -23,15 +25,17 @@ async function updateAssessment(
     assessmentId: number,
     data: Partial<Assessments>
 ) {
-    const count = await Assessments.update(data, {
+    const assessment = await Assessments.update(data, {
         where: { id: assessmentId },
+        returning: true,
     });
-    return count[0];
+    return assessment[1][0];
 }
 
 async function getUserAssessments(userId: number) {
     const assessments = await Assessments.findAll({
         where: { student_id: userId },
+        include: [{ model: Users }, { model: Courses }],
     });
     return assessments;
 }

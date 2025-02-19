@@ -45,7 +45,7 @@ async function updateCourse(courseId: number, data: Partial<Course>) {
         where: { id: courseId },
         returning: true,
     });
-    return updatedCourse;
+    return updatedCourse[1][0];
 }
 
 async function pagination(pageCount: number) {
