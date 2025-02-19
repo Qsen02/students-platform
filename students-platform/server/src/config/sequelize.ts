@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { Grades } from "../models/grade";
+import { Assessments } from "../models/assessment";
 import { Lections } from "../models/lection";
 import { Courses } from "../models/course";
 import { Users } from "../models/user";
@@ -22,7 +22,7 @@ async function runDB() {
     await Lections.sync({ alter: true });
     await Courses.sync({ alter: true });
     await Users.sync({ alter: true });
-    await Grades.sync({ alter: true });
+    await Assessments.sync({ alter: true });
     await CoursesUsers.sync({ alter: true });
     makeAssociations();
     console.log("Database is running...");

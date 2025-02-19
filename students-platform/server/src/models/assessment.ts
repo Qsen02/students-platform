@@ -1,8 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import dotenv from "dotenv";
-import { Grade } from "../types/grades";
-import { Course } from "../types/courses";
-import { UserAttributes } from "../types/users";
+import { Assessment } from "../types/assassments";
 
 dotenv.config();
 
@@ -17,21 +15,21 @@ const sequelize = new Sequelize(
     }
 );
 
-class Grades extends Model<Grade> implements Grade {
+class Assessments extends Model<Assessment> implements Assessments {
     public id: number | undefined;
-    public course_id!: Course;
-    public student_id!: UserAttributes;
-    public grade!: number;
+    public course_id!: number;
+    public student_id!: number;
+    public assessment!: number;
 }
 
-Grades.init(
+Assessments.init(
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        grade: {
+        assessment: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -52,8 +50,8 @@ Grades.init(
     },
     {
         sequelize,
-        tableName: "Grades",
+        tableName: "Assessments",
     }
 );
 
-export { Grades };
+export { Assessments };
