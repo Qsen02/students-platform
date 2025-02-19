@@ -1,9 +1,8 @@
-import { Router } from "express";
+import { Response, Router } from "express";
 import { isUser } from "../middlewares/guard";
-import { checkCourseId, createCourse, deleteCourse, getAllCourses, getCourseById, updateCourse } from "../services/course";
+import { checkCourseId, createCourse, deleteCourse, getAllCourses, getCourseById, pagination, searchCourses, updateCourse } from "../services/course";
 import { body, validationResult } from "express-validator";
 import { errorParser } from "../utils/errorParser";
-import { UserAttributes } from "../types/users";
 import { MyRequest } from "../types/express";
 
 const courseRouter = Router();
@@ -13,11 +12,24 @@ courseRouter.get("/",async (req, res) => {
     res.json(courses);
 });
 
+courseRouter.get("/page/:pageNumber",async(req,res)=>{
+    const pageNumber=Number(req.params.pageNumber);
+    const {count,courses}=await pagination(pageNumber);
+    res.json({count,courses});
+})
+
+courseRouter.get("/search/:query",async(req,res)=>{
+    const query=req.params.query;
+    const courses=await searchCourses(query);
+    res.json(courses);
+})
+
 courseRouter.get("/:courseId",async(req,res)=>{
     const courseId=Number(req.params.courseId);
     const isValid=await checkCourseId(courseId);
     if(!isValid){
         res.status(404).json({message:"Resource not found!"});
+        return;
     }
     const course=await getCourseById(courseId);
     res.json(course);
@@ -52,6 +64,7 @@ courseRouter.delete("/:courseId",isUser(),async(req,res)=>{
     const isValid=await checkCourseId(courseId);
     if(!isValid){
         res.status(404).json({message:"Resource not found!"});
+        return;
     }
     const deletedCount=await deleteCourse(courseId);
     res.json({message:`${deletedCount} records was deleted successfully`});
@@ -66,13 +79,14 @@ courseRouter.put("/:courseId",
     const isValid=await checkCourseId(courseId);
     if(!isValid){
         res.status(404).json({message:"Resource not found!"});
+        return;
     }
     try{
         const results=validationResult(req);
         if(!results.isEmpty()){
             throw new Error(errorParser(results))
         }
-        const updatedCourse=await updateCourse(fields.courseName,fields);
+        const updatedCourse=await updateCourse(courseId,fields);
         res.json(updatedCourse);
     }catch(err){
         if (err instanceof Error) {

@@ -5,7 +5,6 @@ export interface UserAttributes {
     course: number;
     role: "student" | "lector";
     facultyNumber: string;
-    courses: number[] | null;
 }
 
 export interface UserForAuth {

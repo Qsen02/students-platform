@@ -1,4 +1,4 @@
-import { DataTypes, INTEGER, Model, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from "sequelize";
 import dotenv from "dotenv";
 import { UserAttributes } from "../types/users";
 
@@ -22,7 +22,6 @@ class Users extends Model<UserAttributes> implements UserAttributes {
     public course!: number;
     public role!: "student" | "lector";
     public facultyNumber!: string;
-    public courses!: number[] | null;
 }
 
 Users.init(
@@ -53,14 +52,6 @@ Users.init(
             type: DataTypes.STRING(8),
             allowNull: false,
         },
-        courses:{
-            type:DataTypes.ARRAY(INTEGER),
-            allowNull: true,
-            references:{
-                model:"Courses",
-                key:"id"
-            }
-        }
     },
     {
         sequelize,

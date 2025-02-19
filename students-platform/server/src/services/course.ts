@@ -1,9 +1,16 @@
+import { Op } from "sequelize";
 import { Courses } from "../models/course";
 import { Users } from "../models/user";
 import { Course } from "../types/courses";
 
 async function getAllCourses() {
-    const courses = await Courses.findAll();
+    const courses = await Courses.findAll({
+        include: [
+            {
+                model: Users,
+            },
+        ],
+    });
     return courses;
 }
 
@@ -41,6 +48,20 @@ async function updateCourse(courseId: number, data: Partial<Course>) {
     return updatedCourse;
 }
 
+async function pagination(pageCount: number) {
+    const skipCount = pageCount * 6;
+    const { count, rows } = await Courses.findAndCountAll({
+        include: [
+            {
+                model: Users,
+            },
+        ],
+        limit: 6,
+        offset: skipCount,
+    });
+    return { count: count, courses: rows };
+}
+
 async function checkCourseId(courseId: number) {
     const user = await Courses.findByPk(courseId);
     if (user) {
@@ -49,6 +70,16 @@ async function checkCourseId(courseId: number) {
     return false;
 }
 
+async function searchCourses(courseName: string) {
+    const courses = await Courses.findAll({
+        where: {
+            courseName: {
+                [Op.iLike]: `%${courseName}%`,
+            },
+        },
+    });
+    return courses;
+}
 
 export {
     getCourseById,
@@ -56,5 +87,7 @@ export {
     deleteCourse,
     updateCourse,
     createCourse,
-    checkCourseId
+    checkCourseId,
+    pagination,
+    searchCourses,
 };
