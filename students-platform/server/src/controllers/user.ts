@@ -1,9 +1,17 @@
 import { Request, Router } from "express";
-import { checkUserId, getUserById, login, register } from "../services/user";
+import {
+    checkUserId,
+    getSignById,
+    getUserById,
+    login,
+    register,
+    signUpForCourse,
+} from "../services/user";
 import { body, validationResult } from "express-validator";
 import { setToken } from "../services/token";
 import { isUser } from "../middlewares/guard";
 import { errorParser } from "../utils/errorParser";
+import { checkCourseId } from "../services/course";
 
 const userRouter = Router();
 
@@ -111,5 +119,34 @@ userRouter.post(
         }
     }
 );
+
+userRouter.post("/sign/:userId/for/:courseId", isUser(), async (req, res) => {
+    const userId = Number(req.params.userId);
+    const courseId = Number(req.params.courseId);
+    const isValidUser = await checkUserId(userId);
+    const isValidCourse = await checkCourseId(courseId);
+    if (!isValidCourse || !isValidUser) {
+        res.status(404).json({ message: "Resource not found!" });
+        return;
+    }
+    const newSignUser = await signUpForCourse(userId, courseId);
+    res.json(newSignUser);
+});
+
+userRouter.get("/sign/:userId/for/:courseId", async (req, res) => {
+    const userId = Number(req.params.userId);
+    const courseId = Number(req.params.courseId);
+    try {
+        const sign = await getSignById(userId, courseId);
+        res.json(sign);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(404).json({ message: err.message });
+        } else {
+            res.status(400).json({ message: "Unknown error occurd!" });
+        }
+        return;
+    }
+});
 
 export { userRouter };

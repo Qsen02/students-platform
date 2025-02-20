@@ -1,20 +1,6 @@
-import { DataTypes, INTEGER, Model, Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { DataTypes, Model } from "sequelize";
 import { Course } from "../types/courses";
-import { UserAttributes } from "../types/users";
-
-dotenv.config();
-
-const dbUser = process.env.DB_USER!;
-const sequelize = new Sequelize(
-    "students-platform",
-    dbUser,
-    process.env.DB_PASSWORD,
-    {
-        host: "localhost",
-        dialect: "postgres",
-    }
-);
+import { sequelize } from "../config/sequelize";
 
 class Courses extends Model<Course> implements Course {
     public id: number | undefined;

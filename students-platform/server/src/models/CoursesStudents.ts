@@ -1,44 +1,38 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { DataTypes, Model } from "sequelize";
 import { CoursesStudents } from "../types/CoursesStudents";
-import { Course } from "../types/courses";
-import { UserAttributes } from "../types/users";
-
-dotenv.config();
-
-const dbUser=process.env.DB_USER!;
-const sequelize=new Sequelize("students-platform",dbUser,process.env.DB_PASSWORD,{
-        host:"localhost",
-        dialect:"postgres"
-});
+import { sequelize } from "../config/sequelize";
+import { Courses } from "./course";
+import { Users } from "./user";
 
 class CoursesUsers extends Model<CoursesStudents> implements CoursesStudents{
-    public course_id!:Course;
-    public user_id!:UserAttributes;
+    public course_id!:number;
+    public user_id!:number;
 }
 
 CoursesUsers.init({
-    course_id:{
+    user_id:{
         type:DataTypes.INTEGER,
-        unique:true,
+        primaryKey:true,
         allowNull:false,
         references:{
-            model:'Courses',
+            model:Users,
             key:"id"
         }
     },
-    user_id:{
+    course_id:{
         type:DataTypes.INTEGER,
-        unique:true,
+        primaryKey:true,
         allowNull:false,
         references:{
-            model:'Users',
+            model:Courses,
             key:"id"
         }
-    }
+    },
 },{
     sequelize,
-    tableName:"CoursesStudents"
+    tableName:"CoursesUsers",
+    timestamps:false,
+    underscored: true
 })
 
 export {

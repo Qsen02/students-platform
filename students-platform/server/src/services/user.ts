@@ -1,3 +1,6 @@
+import { Op } from "sequelize";
+import { Courses } from "../models/course";
+import { CoursesUsers } from "../models/CoursesStudents";
 import { Users } from "../models/user";
 import bcrypt from "bcrypt";
 
@@ -23,7 +26,7 @@ async function register(
         course: course,
         facultyNumber: facultyNumber,
         role: "student",
-        password: await bcrypt.hash(password, 10)
+        password: await bcrypt.hash(password, 10),
     });
 
     return newUser;
@@ -36,7 +39,7 @@ async function login(fullname: string, password: string) {
     if (!user) {
         throw new Error("Full name or password don't match!");
     }
-    const isValidPass = await bcrypt.compare(password,user.password);
+    const isValidPass = await bcrypt.compare(password, user.password);
     if (!isValidPass) {
         throw new Error("Full name or password don't match!");
     }
@@ -57,4 +60,35 @@ async function checkUserId(userId: number) {
     return false;
 }
 
-export { register, login, checkUserId, getUserById };
+async function signUpForCourse(userId: number, courseId: number) {
+    const newSignStudent = await CoursesUsers.create({
+        user_id: userId,
+        course_id: courseId,
+    });
+
+    return newSignStudent;
+}
+
+async function getSignById(userId: number, courseId: number) {
+    const sign = await CoursesUsers.findOne({
+        where: {
+            [Op.and]: [{ user_id: userId }, { course_id: courseId }],
+        },
+        include: [{ model: Users, as:"Users" }, { model: Courses, as:"Courses"}],
+    });
+
+    if(!sign){
+        throw new Error("Resource not found!");
+    }
+
+    return sign;
+}
+
+export {
+    register,
+    login,
+    checkUserId,
+    getUserById,
+    signUpForCourse,
+    getSignById,
+};
