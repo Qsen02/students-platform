@@ -49,6 +49,11 @@ async function login(fullname: string, password: string) {
 
 async function getUserById(userId: number) {
     const user = await Users.findByPk(userId);
+
+    if(!user){
+        throw new Error("Resource not found!");
+    }
+
     return user;
 }
 

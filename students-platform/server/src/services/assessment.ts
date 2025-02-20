@@ -3,8 +3,13 @@ import { Courses } from "../models/course";
 import { Users } from "../models/user";
 
 async function getAssessmentById(assessmentId: number) {
-    const grade = await Assessments.findByPk(assessmentId);
-    return grade;
+    const assessment = await Assessments.findByPk(assessmentId);
+
+    if (!assessment) {
+        throw new Error("Resource not found!");
+    }
+
+    return assessment;
 }
 
 async function createAssessment(

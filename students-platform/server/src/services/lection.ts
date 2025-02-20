@@ -3,6 +3,11 @@ import { Lection } from "../types/lections";
 
 async function getLectionById(lectionId: number) {
     const lection = await Lections.findByPk(lectionId);
+
+    if(!lection){
+        throw new Error("Resource not found!");
+    }
+
     return lection;
 }
 

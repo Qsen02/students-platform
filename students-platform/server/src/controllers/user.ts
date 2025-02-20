@@ -21,13 +21,17 @@ userRouter.get("/logout", isUser(), (req, res) => {
 
 userRouter.get("/:userId", async (req, res) => {
     const userId = Number(req.params.userId);
-    const isValid = await checkUserId(userId);
-    if (!isValid) {
-        res.status(404).json({ message: "Resource not found!" });
+    try {
+        const user = await getUserById(userId);
+        res.json(user);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(404).json({ message: err.message });
+        } else {
+            res.status(400).json({ message: "Unknown error occurd!" });
+        }
         return;
     }
-    const user = await getUserById(userId);
-    res.json(user);
 });
 
 userRouter.post(

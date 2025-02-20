@@ -22,6 +22,11 @@ async function getCourseById(courseId: number) {
             },
         ],
     });
+
+    if (!course) {
+        throw new Error("Resource not found!");
+    }
+
     return course;
 }
 

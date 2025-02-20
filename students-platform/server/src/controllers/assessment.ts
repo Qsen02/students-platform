@@ -27,13 +27,17 @@ assessmentRouter.get("/for/:userId", isUser(), async (req, res) => {
 
 assessmentRouter.get("/:assessmentId", async (req, res) => {
     const assessmentId = Number(req.params.assessmentId);
-    const isValid = await checkAssessmentId(assessmentId);
-    if (!isValid) {
-        res.status(404).json({ message: "Resource not found!" });
+    try {
+        const assessment = await getAssessmentById(assessmentId);
+        res.json(assessment);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(404).json({ message: err.message });
+        } else {
+            res.status(400).json({ message: "Unknown error occurd!" });
+        }
         return;
     }
-    const assessment = await getAssessmentById(assessmentId);
-    res.json(assessment);
 });
 
 assessmentRouter.post(
@@ -94,7 +98,10 @@ assessmentRouter.put(
             if (!results.isEmpty()) {
                 throw new Error(errorParser(results));
             }
-            const updatedAssessment=await updateAssessment(assessmentId,fields);
+            const updatedAssessment = await updateAssessment(
+                assessmentId,
+                fields
+            );
             res.json(updatedAssessment);
         } catch (err) {
             if (err instanceof Error) {
