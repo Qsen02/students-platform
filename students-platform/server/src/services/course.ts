@@ -3,6 +3,16 @@ import { Courses } from "../models/course";
 import { Users } from "../models/user";
 import { Course } from "../types/courses";
 
+async function getLatestCourses(){
+    const courses = await Courses.findAll({
+        order:[
+            ["createdAt","DESC"]
+        ],
+        limit:6
+    })
+    return courses;
+}
+
 async function getAllCourses() {
     const courses = await Courses.findAll({
         include: [
@@ -100,4 +110,5 @@ export {
     checkCourseId,
     pagination,
     searchCourses,
+    getLatestCourses
 };

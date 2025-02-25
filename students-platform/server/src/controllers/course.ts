@@ -6,6 +6,7 @@ import {
     deleteCourse,
     getAllCourses,
     getCourseById,
+    getLatestCourses,
     pagination,
     searchCourses,
     updateCourse,
@@ -20,6 +21,11 @@ courseRouter.get("/", async (req, res) => {
     const courses = await getAllCourses();
     res.json(courses);
 });
+
+courseRouter.get("/latest",async(req,res)=>{
+    const courses=await getLatestCourses();
+    res.json(courses);
+})
 
 courseRouter.get("/page/:pageNumber", async (req, res) => {
     const pageNumber = Number(req.params.pageNumber);

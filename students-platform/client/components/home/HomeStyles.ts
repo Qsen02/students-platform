@@ -23,5 +23,12 @@ export const homeStyles=StyleSheet.create({
         textAlign:"center",
         fontSize:14,
         color:"white"
+    },
+    latest:{
+        marginTop:20,
+        textAlign:"center",
+        fontWeight:"bold",
+        fontSize:18,
+        color:"black"
     }
 })

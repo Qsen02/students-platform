@@ -8,6 +8,11 @@ export async function getAllCourses(){
     return courses as Course[];
 }
 
+export async function getLatestCourses(){
+    const courses = await get(`${endpoint}/latest`);
+    return courses as Course[];
+}
+
 export async function getCourseById(courseId:number){
     const course = await get(`${endpoint}/${courseId}`);
     return course as Course;
