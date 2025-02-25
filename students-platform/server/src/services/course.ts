@@ -30,10 +30,15 @@ async function getCourseById(courseId: number) {
     return course;
 }
 
-async function createCourse(courseName: string, lectorId: number | undefined) {
+async function createCourse(
+    courseName: string,
+    lectorId: number | undefined,
+    courseImage: string | null
+) {
     const newCourse = await Courses.create({
         courseName: courseName,
         lector_id: lectorId,
+        courseImage: courseImage,
     });
     return newCourse;
 }

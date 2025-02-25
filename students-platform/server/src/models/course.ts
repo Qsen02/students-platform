@@ -6,6 +6,7 @@ class Courses extends Model<Course> implements Course {
     public id: number | undefined;
     public courseName!: string;
     public lector_id!: number;
+    public courseImage!: string | null;
 }
 
 Courses.init(
@@ -25,6 +26,10 @@ Courses.init(
                 model: "Users",
                 key: "id",
             },
+        },
+        courseImage: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
     },
     {

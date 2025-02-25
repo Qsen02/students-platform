@@ -63,7 +63,7 @@ courseRouter.post(
             if (!results.isEmpty()) {
                 throw new Error(errorParser(results));
             }
-            const newCourse = await createCourse(fields.courseName, user?.id);
+            const newCourse = await createCourse(fields.courseName, user?.id,fields.courseImage);
             res.json(newCourse);
         } catch (err) {
             if (err instanceof Error) {
