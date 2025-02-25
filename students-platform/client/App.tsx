@@ -1,9 +1,19 @@
-import { Text, View } from "react-native";
+import { NavigationContainer, StackRouter } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./components/home/Home";
 
-export default function App(){
+const Stack = createNativeStackNavigator();
+
+export default function App() {
     return (
-        <View>
-            <Text>Hello world!</Text>
-        </View>
-    )
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{ headerShown: false }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
