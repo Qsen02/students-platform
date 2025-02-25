@@ -5,8 +5,5 @@ export const styles=StyleSheet.create({
         marginTop:40,
         marginLeft:'auto',
         marginRight:'auto'
-    },
-    text:{
-        color:'red'
     }
 })
