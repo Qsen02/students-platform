@@ -4,7 +4,13 @@ import { homeStyles } from "./HomeStyles";
 export default function Home() {
     return (
         <View style={homeStyles.container}>
-            <Text>Hello React Native!</Text>
+            <Text style={homeStyles.title}>
+                Welcome! This is student platform.
+            </Text>
+            <Text style={homeStyles.text}>
+                In this platfom you can sign up in courses and you can read
+                lections in this courses!
+            </Text>
         </View>
     );
 }

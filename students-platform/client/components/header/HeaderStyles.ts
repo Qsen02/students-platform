@@ -6,7 +6,7 @@ export const headerStyles=StyleSheet.create({
         display:"flex",
         flexDirection:"row",
         justifyContent:"space-around",
-        backgroundColor:"blue",
+        backgroundColor:"rgb(0, 157, 255)",
         padding:10
     }
 })
