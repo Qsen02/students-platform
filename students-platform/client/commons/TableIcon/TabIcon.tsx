@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import {Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { tabIconStyles } from "./TableIconStyles";
 
 interface TabIconProps {
     title: "Profile" | "Home" | "Courses" | "Assessments" | "Create";
@@ -12,9 +13,9 @@ interface TabIconProps {
 export default function TabIcon({ title, color, name, size }: TabIconProps) {
     const navigation = useNavigation<NavigationProp<TabIconProps["title"]>>();
     return (
-        <TouchableOpacity onPress={() => navigation.navigate(title)}>
+        <TouchableOpacity onPress={() => navigation.navigate(title)} style={tabIconStyles.item}>
             <Icon name={name} color={color} size={size} />
-            <Text>{title}</Text>
+            <Text style={tabIconStyles.itemText}>{title}</Text>
         </TouchableOpacity>
     );
 }

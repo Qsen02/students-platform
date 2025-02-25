@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
-import { styles } from "./HomeStyles";
+import { homeStyles } from "./HomeStyles";
 
 export default function Home() {
     return (
-        <View style={styles.container}>
+        <View style={homeStyles.container}>
             <Text>Hello React Native!</Text>
         </View>
     );

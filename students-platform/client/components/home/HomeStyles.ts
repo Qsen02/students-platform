@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const styles=StyleSheet.create({
+export const homeStyles=StyleSheet.create({
     container:{
         marginTop:40,
         marginLeft:'auto',
