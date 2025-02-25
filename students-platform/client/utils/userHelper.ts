@@ -13,13 +13,13 @@ export async function setUserData(key: string, data: UserForAuth) {
     }
 }
 
-export async function getUserData(key: string) {
+export async function getUserData(key: string): Promise<UserForAuth | null> {
     try {
         const data = await EncryptedStorage.getItem(key);
         if (data) {
             return JSON.parse(data);
         }
-        return data;
+        return null;
     } catch (err) {
         if (err instanceof Error) {
             throw new Error(err.message);
