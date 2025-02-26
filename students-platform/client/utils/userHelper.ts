@@ -1,9 +1,9 @@
 import { UserForAuth } from "@/types/user";
-import EncryptedStorage from "react-native-encrypted-storage";
+import ExpoStore from "expo-secure-store"
 
 export async function setUserData(key: string, data: UserForAuth) {
     try {
-        await EncryptedStorage.setItem(key, JSON.stringify(data));
+        await ExpoStore.setItemAsync(key, JSON.stringify(data));
     } catch (err) {
         if (err instanceof Error) {
             throw new Error(err.message);
@@ -15,7 +15,7 @@ export async function setUserData(key: string, data: UserForAuth) {
 
 export async function getUserData(key: string): Promise<UserForAuth | null> {
     try {
-        const data = await EncryptedStorage.getItem(key);
+        const data = await ExpoStore.getItemAsync(key);
         if (data) {
             return JSON.parse(data);
         }
@@ -31,7 +31,7 @@ export async function getUserData(key: string): Promise<UserForAuth | null> {
 
 export async function removeUserData(key:string){
     try {
-       await EncryptedStorage.removeItem(key);
+       await ExpoStore.deleteItemAsync(key);
     } catch (err) {
         if (err instanceof Error) {
             throw new Error(err.message);
