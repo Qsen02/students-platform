@@ -1,9 +1,10 @@
 import { ScrollView, Text, View } from "react-native";
 import { homeStyles } from "./HomeStyles";
 import { useGetLatestCourses } from "@/hooks/useCourses";
+import HomeCourseItem from "./home-course-item/HomeCourseItem";
 
 export default function Home() {
-    const {courses,loading,error}=useGetLatestCourses([]);
+    const { courses, loading, error } = useGetLatestCourses([]);
     return (
         <>
             <View style={homeStyles.container}>
@@ -18,11 +19,15 @@ export default function Home() {
             <View>
                 <Text style={homeStyles.latest}>Latest courses</Text>
             </View>
-            {/* <ScrollView>
-                {
-                    courses.map()
-                }
-            </ScrollView> */}
+            <ScrollView>
+                {courses.map((el) => (
+                    <HomeCourseItem
+                        id={el.id}
+                        name={el.courseName}
+                        image={el.courseImage}
+                    />
+                ))}
+            </ScrollView>
         </>
     );
 }

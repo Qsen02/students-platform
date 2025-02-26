@@ -12,6 +12,7 @@ export function useGetLatestCourses(initialValues:[]){
             try{
                 setLoading(true);
                 const courses=await getLatestCourses();
+                console.log(courses);
                 setCourses(courses);
                 setLoading(false);
             }catch(err){
