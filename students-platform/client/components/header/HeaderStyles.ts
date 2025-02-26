@@ -5,7 +5,7 @@ export const headerStyles=StyleSheet.create({
         marginTop:20,
         display:"flex",
         flexDirection:"row",
-        justifyContent:"space-around",
+        justifyContent:"space-between",
         backgroundColor:"rgb(0, 157, 255)",
         padding:10
     }
