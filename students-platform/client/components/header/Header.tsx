@@ -18,8 +18,11 @@ export default function Header() {
                 <View>
                     <TabIcon title={"Profile"} color={"white"} name={"user"} size={30}/>
                 </View>
+                <View>
+                    <TabIcon title={"Logout"} color={"white"} name={"sign-out"} size={30}/>
+                </View>
                 {/* <View>
-                    <TabIcon title={"Create"} color={"black"} name={"plus"} size={30}/>
+                    <TabIcon title={"Create"} color={"white"} name={"plus"} size={30}/>
                 </View> */}
             </View>
         </>
