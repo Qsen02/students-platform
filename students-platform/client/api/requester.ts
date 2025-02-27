@@ -10,7 +10,7 @@ async function request(method: string, url: string, data?: object) {
         method: method,
         headers: headers,
     };
-    const user = await getUserData("user");
+    const user = getUserData("user");
     if (user) {
         headers["X-Authorization"] = user.accessToken;
     }
