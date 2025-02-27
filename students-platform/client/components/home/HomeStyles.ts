@@ -29,6 +29,7 @@ export const homeStyles=StyleSheet.create({
         textAlign:"center",
         fontWeight:"bold",
         fontSize:18,
-        color:"black"
+        color:"black",
+        marginBottom:20
     }
 })

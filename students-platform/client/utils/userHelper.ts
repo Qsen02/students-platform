@@ -1,5 +1,5 @@
 import { UserForAuth } from "@/types/user";
-import ExpoStore from "expo-secure-store"
+import * as ExpoStore from "expo-secure-store"
 
 export async function setUserData(key: string, data: UserForAuth) {
     try {

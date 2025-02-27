@@ -1,6 +1,6 @@
 import { getUserData, removeUserData } from "@/utils/userHelper";
 
-const host = "https://7ad1-212-39-76-42.ngrok-free.app";
+const host = "https://7368-212-39-76-42.ngrok-free.app";
 
 async function request(method: string, url: string, data?: object) {
     const headers: Record<string, string> = {
@@ -10,10 +10,10 @@ async function request(method: string, url: string, data?: object) {
         method: method,
         headers: headers,
     };
-    // const user = await getUserData("user");
-    // if (user) {
-    //     headers["X-Authorization"] = user.accessToken;
-    // }
+    const user = await getUserData("user");
+    if (user) {
+        headers["X-Authorization"] = user.accessToken;
+    }
     if (data) {
         options.body = JSON.stringify(data);
     }
