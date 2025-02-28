@@ -36,7 +36,7 @@ export const courseItemStyles=StyleSheet.create({
     },
     buttonText:{
         color:"white",
-        fontSize:20,
+        fontSize:16,
         fontWeight:"bold"
     }
 })

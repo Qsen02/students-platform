@@ -22,7 +22,7 @@ export default function HomeCourseItem({
             )}
             <Text style={courseItemStyles.text}>{name}</Text>
             <TouchableOpacity style={courseItemStyles.button}>
-                <Text style={courseItemStyles.buttonText}>Details</Text>
+                <Text style={courseItemStyles.buttonText}>DETAILS</Text>
             </TouchableOpacity>
         </View>
     );
