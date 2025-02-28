@@ -5,7 +5,7 @@ export const registerStyles = StyleSheet.create({
         backgroundColor: "rgb(0, 157, 255)",
         width:"80%",
         borderRadius:10,
-        marginTop: 30,
+        marginTop: 15,
         marginLeft: "auto",
         marginRight: "auto",
         padding: 20,
