@@ -1,4 +1,4 @@
-import TabIcon from "@/commons/TableIcon/TabIcon";
+import TabIcon from "@/commons/table-icon/TabIcon";
 import { View } from "react-native";
 import { headerStyles } from "./HeaderStyles";
 import { useUserContext } from "@/context/userContext";
