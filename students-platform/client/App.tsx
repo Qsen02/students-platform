@@ -5,6 +5,7 @@ import Header from "./components/header/Header";
 import UserContextProvider from "./context/userContext";
 import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
+import Login from "./components/login/Login";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,11 @@ export default function App() {
                         <Stack.Screen
                             name="Logout"
                             component={Logout}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Login"
+                            component={Login}
                             options={{ headerShown: false }}
                         />
                     </Stack.Navigator>

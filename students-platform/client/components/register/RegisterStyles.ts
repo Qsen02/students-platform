@@ -39,5 +39,10 @@ export const registerStyles = StyleSheet.create({
         fontSize:16,
         color:"white",
         fontWeight:"bold"
+    },
+    link:{
+        textAlign:"center",
+        color:"rgb(255, 55, 55)",
+        fontSize:16
     }
 });
