@@ -22,25 +22,24 @@ export default function Login() {
     const [isErr, setIsErr] = useState(false);
 
     async function onSubmit() {
+        const errors: string[] = [];
+        if (!form.fullname || !form.password) {
+            errors.push("All fields required!");
+        }
+        if (
+            form.fullname.length < 3 ||
+            !/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(form.password)
+        ) {
+            errors.push("Full name or password don't match!");
+        }
+
+        if (errors.length > 0) {
+            setErrMessage(errors);
+            setIsErr(true);
+            return;
+        }
+
         try {
-            if (!form.fullname || !form.password) {
-                setErrMessage((value) => [...value, "All fields required!"]);
-            }
-
-            if (
-                form.fullname.length < 3 ||
-                !/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(form.password)
-            ) {
-                setErrMessage((value) => [
-                    ...value,
-                    "Full name or password don't match!",
-                ]);
-            }
-
-            if (errMessage.length > 0) {
-                throw new Error(errMessage.join("\n"));
-            }
-
             const user = await login({
                 fullname: form.fullname,
                 password: form.password,
@@ -52,15 +51,11 @@ export default function Login() {
         } catch (err) {
             if (err instanceof Error) {
                 setErrMessage([err.message]);
-                setIsErr(true);
-                return;
             } else {
-                setErrMessage((value) => [
-                    "Error occurd! Please try again later.",
-                ]);
-                setIsErr(true);
-                return;
+                setErrMessage(["Error occurd! Please try again later."]);
             }
+            setIsErr(true);
+            return;
         }
     }
 

@@ -1,6 +1,6 @@
 import InputField from "@/commons/input-field/InputField";
 import { useState } from "react";
-import {Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { registerStyles } from "./RegisterStyles";
 import { useRegister } from "@/hooks/useUsers";
@@ -25,6 +25,7 @@ export default function Register() {
     const [isErr, setIsErr] = useState(false);
 
     async function onSubmit() {
+        const errors:string[]=[]
         if (
             !form.course ||
             !form.facultyNumber ||
@@ -32,42 +33,31 @@ export default function Register() {
             !form.password ||
             !form.repass
         ) {
-            setErrMessage((value) => [...value, "All fields required!"]);
+            errors.push("All fields required!");
         }
 
         if (form.fullname.length < 3) {
-            setErrMessage((value) => [
-                ...value,
-                "Full name must be at least 3 symbols long!",
-            ]);
+            errors.push("Full name must be at least 3 symbols long!")
         }
 
         if (Number(form.course) > 4 || Number(form.course) < 1) {
-            setErrMessage((value) => [
-                ...value,
-                "Course must be between 1 and 4!",
-            ]);
+            errors.push("Course must be between 1 and 4!")
         }
 
         if (form.facultyNumber.length != 8) {
-            setErrMessage((value) => [
-                ...value,
-                "Faculty number must be exactly 8 digits!",
-            ]);
+            errors.push("Faculty number must be exactly 8 digits!")
         }
 
         if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(form.password)) {
-            setErrMessage((value) => [
-                ...value,
-                "Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol!",
-            ]);
+                errors.push("Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol!")
         }
 
         if (form.repass != form.password) {
-            setErrMessage((value) => [...value, "Password must match!"]);
+           errors.push("Password must match!");
         }
 
-        if (errMessage.length > 0) {
+        if (errors.length > 0) {
+            setErrMessage(errors);
             setIsErr(true);
             return;
         }
@@ -86,14 +76,12 @@ export default function Register() {
             navigation.navigate("Home");
         } catch (err) {
             if (err instanceof Error) {
-                setErrMessage((value) => [...value, err.message]);
-                setIsErr(true);
-                return;
+                setErrMessage([err.message]);
             } else {
-                setErrMessage((value) => [...value, "Error occurd! Please try again later!"]);
-                setIsErr(true);
-                return;
+                setErrMessage(["Error occurd! Please try again later!"]);
             }
+            setIsErr(true);
+            return;
         }
     }
 

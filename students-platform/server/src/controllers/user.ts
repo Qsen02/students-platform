@@ -89,13 +89,11 @@ userRouter.post(
     body("fullname")
         .trim()
         .isLength({ min: 3 })
-        .withMessage("Full name must be at least 3 symbols long!"),
+        .withMessage("Full name or password don't match!"),
     body("password")
         .trim()
         .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/)
-        .withMessage(
-            "Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol"
-        ),
+        .withMessage("Full name or password don't match!"),
     async (req, res) => {
         const fields = req.body;
         try {

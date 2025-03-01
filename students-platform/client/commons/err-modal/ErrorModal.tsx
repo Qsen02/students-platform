@@ -14,6 +14,7 @@ export default function ErrorModal({
     visibleHanlder,
     messageHandler,
 }: ErrorModalProps) {
+    
     function close() {
         visibleHanlder(false);
         messageHandler([]);
