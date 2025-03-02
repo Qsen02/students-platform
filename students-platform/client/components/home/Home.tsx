@@ -1,8 +1,8 @@
 import { FlatList, Text, View } from "react-native";
 import { homeStyles } from "./HomeStyles";
 import { useGetLatestCourses } from "@/hooks/useCourses";
-import HomeCourseItem from "./home-course-item/HomeCourseItem";
 import Spinner from "react-native-loading-spinner-overlay";
+import CourseItem from "../../commons/course-items/CourseItem";
 
 export default function Home() {
     const { courses, loading, error } = useGetLatestCourses([]);
@@ -37,7 +37,7 @@ export default function Home() {
                     data={courses}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <HomeCourseItem
+                        <CourseItem
                             id={item.id}
                             name={item.courseName}
                             image={item.courseImage}

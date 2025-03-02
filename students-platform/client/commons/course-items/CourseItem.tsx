@@ -1,6 +1,6 @@
 import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import alternative from "../../../assets/images/alternative-image.jpg";
-import { courseItemStyles } from "./HomeCourseItemStyles";
+import { courseItemStyles } from "./CourseItemStyles";
 
 interface HomeCourseItemProps {
     id: number;
@@ -8,7 +8,7 @@ interface HomeCourseItemProps {
     image: string | null;
 }
 
-export default function HomeCourseItem({
+export default function CourseItem({
     id,
     name,
     image,

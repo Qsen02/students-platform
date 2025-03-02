@@ -7,7 +7,7 @@ import { coursesStyles } from "./CoursesStlyes";
 import { useGetAllCourses, useSearchCourses } from "@/hooks/useCourses";
 import { homeStyles } from "../home/HomeStyles";
 import Spinner from "react-native-loading-spinner-overlay";
-import HomeCourseItem from "../home/home-course-item/HomeCourseItem";
+import CourseItem from "@/commons/course-items/CourseItem";
 
 export default function Courses() {
     const [serachValue, setSearchValue] = useState({
@@ -84,7 +84,7 @@ export default function Courses() {
                     data={courses}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <HomeCourseItem
+                        <CourseItem
                             id={item.id}
                             name={item.courseName}
                             image={item.courseImage}
