@@ -1,4 +1,4 @@
-import { Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { isUser } from "../middlewares/guard";
 import {
     checkCourseId,
@@ -36,6 +36,10 @@ courseRouter.get("/page/:pageNumber", async (req, res) => {
 courseRouter.get("/search/:query", async (req, res) => {
     const query = req.params.query;
     const courses = await searchCourses(query);
+    if(courses.length==0){
+        res.status(404).json({message:"No results found!"});
+        return;
+    }
     res.json(courses);
 });
 

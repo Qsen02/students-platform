@@ -3,13 +3,11 @@ import { Courses } from "../models/course";
 import { Users } from "../models/user";
 import { Course } from "../types/courses";
 
-async function getLatestCourses(){
+async function getLatestCourses() {
     const courses = await Courses.findAll({
-        order:[
-            ["createdAt","DESC"]
-        ],
-        limit:6
-    })
+        order: [["createdAt", "DESC"]],
+        limit: 6,
+    });
     return courses;
 }
 
@@ -91,13 +89,18 @@ async function checkCourseId(courseId: number) {
 }
 
 async function searchCourses(courseName: string) {
-    const courses = await Courses.findAll({
-        where: {
-            courseName: {
-                [Op.iLike]: `%${courseName}%`,
+    let courses: Course[] | []= [];
+    if (courseName != "No value") {
+        courses = await Courses.findAll({
+            where: {
+                courseName: {
+                    [Op.iLike]: `%${courseName}%`,
+                },
             },
-        },
-    });
+        });
+    } else {
+        courses = await Courses.findAll();
+    }
     return courses;
 }
 
@@ -110,5 +113,5 @@ export {
     checkCourseId,
     pagination,
     searchCourses,
-    getLatestCourses
+    getLatestCourses,
 };
