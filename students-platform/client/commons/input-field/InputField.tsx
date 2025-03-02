@@ -13,7 +13,7 @@ interface InputFieldProps {
     placeholder?: string;
     changeHandler: (e: string) => void;
     keyboardType: KeyboardTypeOptions;
-    title: string;
+    title?: string;
 }
 
 export default function InputField({

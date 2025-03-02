@@ -6,6 +6,7 @@ import UserContextProvider from "./context/userContext";
 import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
 import Login from "./components/login/Login";
+import Courses from "./components/courses/Courses";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,11 @@ export default function App() {
                         <Stack.Screen
                             name="Login"
                             component={Login}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Courses"
+                            component={Courses}
                             options={{ headerShown: false }}
                         />
                     </Stack.Navigator>
