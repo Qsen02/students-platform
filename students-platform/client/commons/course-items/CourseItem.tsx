@@ -1,5 +1,5 @@
-import { Button, Image, Text, TouchableOpacity, View } from "react-native";
-import alternative from "../../../assets/images/alternative-image.jpg";
+import {Image, Text, TouchableOpacity, View } from "react-native";
+import alternative from "../../assets/images/alternative-image.jpg";
 import { courseItemStyles } from "./CourseItemStyles";
 
 interface HomeCourseItemProps {
