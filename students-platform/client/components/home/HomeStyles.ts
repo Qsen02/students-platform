@@ -31,5 +31,18 @@ export const homeStyles=StyleSheet.create({
         fontSize:18,
         color:"black",
         marginBottom:20
+    },
+    error:{
+        marginTop:20,
+        borderRadius:5,
+        marginLeft:'auto',
+        marginRight:'auto',
+        padding:20,
+        backgroundColor:"rgb(0, 157, 255)",
+    },
+    errorText:{
+        color:"white",
+        textAlign:"center",
+        fontSize:16
     }
 })

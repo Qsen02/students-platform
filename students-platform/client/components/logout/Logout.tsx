@@ -13,10 +13,10 @@ export default function Logout() {
     }
 
     async function onLogout() {
+        navigation.navigate("Login");
         if (removeCurUser) {
             await removeCurUser();
         }
-        navigation.navigate("Login");
     }
 
     return (

@@ -1,7 +1,8 @@
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { homeStyles } from "./HomeStyles";
 import { useGetLatestCourses } from "@/hooks/useCourses";
 import HomeCourseItem from "./home-course-item/HomeCourseItem";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Home() {
     const { courses, loading, error } = useGetLatestCourses([]);
@@ -19,17 +20,31 @@ export default function Home() {
             <View>
                 <Text style={homeStyles.latest}>Latest courses</Text>
             </View>
-            <FlatList
-                data={courses}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <HomeCourseItem
-                        id={item.id}
-                        name={item.courseName}
-                        image={item.courseImage}
-                    />
-                )}
+            <Spinner
+                visible={loading}
+                color="rgb(0, 157, 255)"
+                animation="fade"
+                size={"large"}
             />
+            {error ? (
+                <View style={homeStyles.error}>
+                    <Text style={homeStyles.errorText}>
+                        Server is not responding, please try again later.
+                    </Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={courses}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <HomeCourseItem
+                            id={item.id}
+                            name={item.courseName}
+                            image={item.courseImage}
+                        />
+                    )}
+                />
+            )}
         </>
     );
 }
