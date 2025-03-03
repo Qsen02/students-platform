@@ -42,6 +42,7 @@ export default function InputField({
                 onChangeText={changeHandler}
                 keyboardType={keyboardType}
                 secureTextEntry={(title === "Password" || title === "Repeat password") && !shown}
+                placeholderTextColor="darkgrey"
             />
             {title === "Password" || title === "Repeat password" ? (
                 shown ? (
