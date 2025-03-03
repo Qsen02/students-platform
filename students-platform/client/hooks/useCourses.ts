@@ -1,7 +1,7 @@
 import { Course } from "@/types/course";
 import { useEffect, useState } from "react";
 import { useErrorLoading } from "./useErrorLoading";
-import { getAllCourses, getLatestCourses, searchCourses } from "@/api/courseService";
+import { createCourse, getAllCourses, getLatestCourses, searchCourses } from "@/api/courseService";
 
 export function useGetLatestCourses(initialValues:[]){
     const [courses,setCourses]=useState<Course[]>(initialValues);
@@ -55,4 +55,12 @@ export function useSearchCourses(){
     }
 
     return onSearching;
+}
+
+export function useCreateCourse(){
+    async function creatingCourse(data:object){
+        return await createCourse(data);
+    }
+
+    return creatingCourse;
 }
