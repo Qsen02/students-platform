@@ -1,8 +1,12 @@
-type UserNav="Profile" | "Home" | "Courses" | "Assessments" | "Create"|"Logout";
-
-type GuestNav="Home" | "Login" | "Register";
-
-type LectorNav="Home" | "Courses" | "Create" | "Profile" | "Logout"
-
-export type Routes=UserNav | GuestNav | LectorNav
-
+export interface Routes {
+    Home: undefined;
+    Courses: undefined;
+    Profile: { userId: number };
+    Create: undefined;
+    CourseDetails: { courseId: number };
+    Assessments: { userId: number };
+    Logout: undefined;
+    Login: undefined;
+    Register: undefined;
+    LectionDetails:{lectionId:number}
+}
