@@ -1,4 +1,6 @@
-export interface Routes {
+import { ParamListBase } from "@react-navigation/native";
+
+export interface Routes extends ParamListBase {
     Home: undefined;
     Courses: undefined;
     Profile: { userId: number };
