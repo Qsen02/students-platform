@@ -4,11 +4,14 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { courseDetailsStyles } from "./CourseDetailsStyles";
+import { useGetOneCourse } from "@/hooks/useCourses";
 
 export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
     const { courseId } = route.params;
     const { user } = useUserContext();
+    const {course,lections,loading,error}=useGetOneCourse({},[],courseId);
+
     return (
         <View style={courseDetailsStyles.detailsWrapper}>
             <View style={courseDetailsStyles.titleWrapper}>
@@ -51,7 +54,7 @@ export default function CourseDetails() {
                     </Text>
                 </View>
             )}
-            <View>
+            <View style={courseDetailsStyles.lectionWrapper}>
                 <Text style={courseDetailsStyles.detailsTitle}>Lections:</Text>
             </View>
         </View>

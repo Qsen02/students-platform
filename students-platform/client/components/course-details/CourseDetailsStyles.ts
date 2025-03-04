@@ -44,5 +44,11 @@ export const courseDetailsStyles = StyleSheet.create({
         fontSize:16,
         fontWeight:"bold",
         color:"white"
+    },
+    lectionWrapper:{
+        width:"90%",
+        borderRadius:5,
+        padding:20,
+        boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"
     }
 });
