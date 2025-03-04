@@ -87,11 +87,11 @@ export function useCreateCourse() {
 }
 
 export function useGetOneCourse(
-    initialCourse: {},
+    initialCourse: null,
     initialLections: [],
     courseId: number
 ) {
-    const [course, setCourse] = useState<Course | {}>(initialCourse);
+    const [course, setCourse] = useState<Course | null>(initialCourse);
     const [lections,setLections]=useState<Lection[]>(initialLections);
     const {loading,setLoading,error,setError}=useErrorLoading(false,false);
 

@@ -31,6 +31,7 @@ function makeAssociations() {
 
     Courses.belongsTo(Users, {
         foreignKey: "lector_id",
+        as:"lector"
     });
 
     Users.hasMany(Courses, {

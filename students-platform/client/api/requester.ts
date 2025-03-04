@@ -4,7 +4,7 @@ const host = "https://d07b-212-39-76-42.ngrok-free.app";
 
 async function request(method: string, url: string, data?: object) {
     const headers: Record<string, string> = {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
     };
     const options: RequestInit = {
         method: method,
@@ -19,7 +19,6 @@ async function request(method: string, url: string, data?: object) {
     }
     try {
         const res = await fetch(url, options);
-        console.log(res);
         if (!res.ok) {
             const err = await res.json();
             if (res.status == 401 || res.status == 403) {

@@ -27,6 +27,7 @@ async function getCourseById(courseId: number) {
         include: [
             {
                 model: Users,
+                as:"lector"
             },
         ],
     });
@@ -34,7 +35,6 @@ async function getCourseById(courseId: number) {
     if (!course) {
         throw new Error("Resource not found!");
     }
-
     return course;
 }
 
@@ -89,7 +89,7 @@ async function checkCourseId(courseId: number) {
 }
 
 async function searchCourses(courseName: string) {
-    let courses: Course[] | []= [];
+    let courses: Course[] | [] = [];
     if (courseName != "No value") {
         courses = await Courses.findAll({
             where: {
