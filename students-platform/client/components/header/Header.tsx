@@ -107,6 +107,14 @@ export default function Header() {
                     </View>
                     <View>
                         <TabIcon
+                            title={"Courses"}
+                            color={"white"}
+                            name={"book"}
+                            size={30}
+                        />
+                    </View>
+                    <View>
+                        <TabIcon
                             title={"Login"}
                             color={"white"}
                             name={"sign-in"}
