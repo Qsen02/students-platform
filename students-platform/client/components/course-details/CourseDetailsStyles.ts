@@ -49,6 +49,14 @@ export const courseDetailsStyles = StyleSheet.create({
         width:"90%",
         borderRadius:5,
         padding:20,
-        boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"
+        boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        gap:20
+    },
+    lections:{
+        height:440,
+        width:"95%"
     }
 });

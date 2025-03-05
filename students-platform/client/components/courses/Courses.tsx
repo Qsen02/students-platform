@@ -90,6 +90,9 @@ export default function Courses() {
                             image={item.courseImage}
                         />
                     )}
+                    ListEmptyComponent={()=>(
+                        <Text style={coursesStyles.text}>No courses yet.</Text>
+                    )}
                 />
             )}
         </>

@@ -3,6 +3,7 @@ import { homeStyles } from "./HomeStyles";
 import { useGetLatestCourses } from "@/hooks/useCourses";
 import Spinner from "react-native-loading-spinner-overlay";
 import CourseItem from "../../commons/course-items/CourseItem";
+import { coursesStyles } from "../courses/CoursesStlyes";
 
 export default function Home() {
     const { courses, loading, error } = useGetLatestCourses([]);
@@ -42,6 +43,9 @@ export default function Home() {
                             name={item.courseName}
                             image={item.courseImage}
                         />
+                    )}
+                    ListEmptyComponent={() => (
+                        <Text style={coursesStyles.text}>No courses yet.</Text>
                     )}
                 />
             )}

@@ -1,12 +1,13 @@
 import { useUserContext } from "@/context/userContext";
 import { Routes } from "@/types/navigation";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { courseDetailsStyles } from "./CourseDetailsStyles";
 import { useGetOneCourse } from "@/hooks/useCourses";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
+import LectionItem from "@/commons/lection-item/LectionItem";
 
 export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
@@ -82,6 +83,25 @@ export default function CourseDetails() {
                         <Text style={courseDetailsStyles.detailsTitle}>
                             Lections:
                         </Text>
+                        <View style={courseDetailsStyles.lections}>
+                            <FlatList
+                                data={lections}
+                                keyExtractor={(item) => item.id.toString()}
+                                renderItem={({ item }) => (
+                                    <LectionItem
+                                        id={item.id}
+                                        lectionName={item.lectionName}
+                                    />
+                                )}
+                                ListEmptyComponent={() => (
+                                    <Text
+                                        style={courseDetailsStyles.optionsText}
+                                    >
+                                        No lections in this course yet.
+                                    </Text>
+                                )}
+                            />
+                        </View>
                     </View>
                 </View>
             )}
