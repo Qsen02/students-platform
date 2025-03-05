@@ -1,9 +1,6 @@
-import { Course } from "./course";
-import { User } from "./user";
-
 export interface Assessment {
     id: number ;
-    course_id: Course;
-    student_id: User;
+    course_id: number;
+    student_id: number;
     assessment: number;
 }
