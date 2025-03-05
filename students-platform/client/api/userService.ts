@@ -29,6 +29,6 @@ export async function signForCourse(userId: number, courseId: number) {
 }
 
 export async function getSignForCourse(userId: number, courseId: number) {
-    const user = await get(`${endpoint}/sign/${userId}/for/${courseId}`);
-    return user as UserCourse | null;
+    const userCourse = await get(`${endpoint}/sign/${userId}/for/${courseId}`);
+    return userCourse as UserCourse | null;
 }

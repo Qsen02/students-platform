@@ -72,6 +72,7 @@ userRouter.post(
             );
             const token = setToken(newUser);
             res.json({
+                id:newUser.id,
                 fullname: newUser.fullname,
                 course: newUser.course,
                 facultyNumber: newUser.facultyNumber,
@@ -104,6 +105,7 @@ userRouter.post(
             const newUser = await login(fields.fullname, fields.password);
             const token = setToken(newUser);
             res.json({
+                id:newUser.id,
                 fullname: newUser.fullname,
                 course: newUser.course,
                 facultyNumber: newUser.facultyNumber,

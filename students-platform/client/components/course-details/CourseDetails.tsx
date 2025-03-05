@@ -8,15 +8,53 @@ import { useGetOneCourse } from "@/hooks/useCourses";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
 import LectionItem from "@/commons/lection-item/LectionItem";
+import { useState } from "react";
+import ErrorModal from "@/commons/err-modal/ErrorModal";
+import { useSignForCourse } from "@/hooks/useUsers";
 
 export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
     const { courseId } = route.params;
     const { user } = useUserContext();
-    const { course, lections, loading, error, isSignUp, setIsSignUp } =
-        useGetOneCourse(null, [], courseId, user?.id);
+    const {
+        course,
+        lections,
+        loading,
+        setLoading,
+        error,
+        isSignUp,
+        setIsSignUp,
+    } = useGetOneCourse(null, [], courseId, user?.id);
+    const [errMessage, setErrMessage] = useState<string[]>([]);
+    const [isErr, setIsErr] = useState(false);
+    const signForCourse = useSignForCourse();
+
+    async function onSign() {
+        try {
+            setLoading(true);
+            if (user) {
+                await signForCourse(user.id, courseId);
+            } else {
+                return;
+            }
+            setIsSignUp(true);
+            setLoading(false);
+        } catch (err) {
+            setLoading(false);
+            setIsErr(true);
+            setErrMessage(["Something went wrong! Please try again later."]);
+            return;
+        }
+    }
+
     return (
         <>
+            <ErrorModal
+                message={errMessage.join("\n")}
+                visibleHanlder={setIsErr}
+                visible={isErr}
+                messageHandler={setErrMessage}
+            />
             <Spinner
                 visible={loading}
                 color="rgb(0, 157, 255)"
@@ -57,6 +95,7 @@ export default function CourseDetails() {
                                 </Text>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
+                                    onPress={onSign}
                                 >
                                     <Text
                                         style={

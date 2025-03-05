@@ -92,7 +92,7 @@ export function useGetOneCourse(
     initialCourse: null,
     initialLections: [],
     courseId: number,
-    userId: number | undefined
+    userId: number | null | undefined
 ) {
     const [course, setCourse] = useState<Course | null>(initialCourse);
     const [lections, setLections] = useState<Lection[]>(initialLections);
@@ -109,9 +109,9 @@ export function useGetOneCourse(
                 const course = await getCourseById(courseId);
                 setCourse(course);
                 const lections = await getAllLectionsForCourse(courseId);
-                let sign:UserCourse|null=null;
+                let sign: UserCourse | null = null;
                 if (userId) {
-                     sign = await getSignForCourse(userId, courseId);
+                    sign = await getSignForCourse(userId, courseId);
                 }
                 setIsSignUp(Boolean(sign));
                 setLections(lections);
@@ -127,6 +127,7 @@ export function useGetOneCourse(
         course,
         lections,
         loading,
+        setLoading,
         error,
         isSignUp,
         setIsSignUp,
