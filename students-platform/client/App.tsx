@@ -9,6 +9,7 @@ import Login from "./components/login/Login";
 import Courses from "./components/courses/Courses";
 import CourseCreate from "./components/course-create/CourseCreate";
 import CourseDetails from "./components/course-details/CourseDetails";
+import LectionDetails from "./components/lection-details/LectioDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,11 @@ export default function App() {
                         <Stack.Screen
                             name="CourseDetails"
                             component={CourseDetails}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="LectionDetails"
+                            component={LectionDetails}
                             options={{ headerShown: false }}
                         />
                     </Stack.Navigator>

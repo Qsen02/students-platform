@@ -24,7 +24,7 @@ export default function LectionItem({
                 <TouchableOpacity
                     onPress={() =>
                         navigation.navigate("LectionDetails", {
-                            lecctionId: id,
+                            lectionId: id,
                         })
                     }
                     style={lectionItemStyles.lectionButton}
