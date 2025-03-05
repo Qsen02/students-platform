@@ -79,12 +79,8 @@ async function getSignById(userId: number, courseId: number) {
         where: {
             [Op.and]: [{ user_id: userId }, { course_id: courseId }],
         },
-        include: [{ model: Users, as:"Users" }, { model: Courses, as:"Courses"}],
+        include: [{ model: Users, as:"user" }, { model: Courses, as:"course"}],
     });
-
-    if(!sign){
-        throw new Error("Resource not found!");
-    }
 
     return sign;
 }

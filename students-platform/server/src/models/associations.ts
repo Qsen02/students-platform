@@ -46,8 +46,8 @@ function makeAssociations() {
         through: "CoursesUsers",
     });
 
-    CoursesUsers.belongsTo(Users, { foreignKey: "user_id", as: "Users" });
-    CoursesUsers.belongsTo(Courses, { foreignKey: "course_id", as: "Courses" });
+    CoursesUsers.belongsTo(Users, { foreignKey: "user_id", as: "user" });
+    CoursesUsers.belongsTo(Courses, { foreignKey: "course_id", as: "course" });
 }
 
 export { makeAssociations };

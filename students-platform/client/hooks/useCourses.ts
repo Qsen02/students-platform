@@ -10,6 +10,8 @@ import {
 } from "@/api/courseService";
 import { Lection } from "@/types/lection";
 import { getAllLectionsForCourse } from "@/api/lectionService";
+import { getSignForCourse } from "@/api/userService";
+import { UserCourse } from "@/types/userCourses";
 
 export function useGetLatestCourses(initialValues: []) {
     const [courses, setCourses] = useState<Course[]>(initialValues);
@@ -89,11 +91,16 @@ export function useCreateCourse() {
 export function useGetOneCourse(
     initialCourse: null,
     initialLections: [],
-    courseId: number
+    courseId: number,
+    userId: number | undefined
 ) {
     const [course, setCourse] = useState<Course | null>(initialCourse);
-    const [lections,setLections]=useState<Lection[]>(initialLections);
-    const {loading,setLoading,error,setError}=useErrorLoading(false,false);
+    const [lections, setLections] = useState<Lection[]>(initialLections);
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+    const [isSignUp, setIsSignUp] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -101,7 +108,12 @@ export function useGetOneCourse(
                 setLoading(true);
                 const course = await getCourseById(courseId);
                 setCourse(course);
-                const lections=await getAllLectionsForCourse(courseId);
+                const lections = await getAllLectionsForCourse(courseId);
+                let sign:UserCourse|null=null;
+                if (userId) {
+                     sign = await getSignForCourse(userId, courseId);
+                }
+                setIsSignUp(Boolean(sign));
                 setLections(lections);
                 setLoading(false);
             } catch (err) {
@@ -112,6 +124,11 @@ export function useGetOneCourse(
     }, []);
 
     return {
-        course,lections,loading,error
-    }
+        course,
+        lections,
+        loading,
+        error,
+        isSignUp,
+        setIsSignUp,
+    };
 }

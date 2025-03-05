@@ -13,11 +13,8 @@ export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
     const { courseId } = route.params;
     const { user } = useUserContext();
-    const { course, lections, loading, error } = useGetOneCourse(
-        null,
-        [],
-        courseId
-    );
+    const { course, lections, loading, error, isSignUp, setIsSignUp } =
+        useGetOneCourse(null, [], courseId, user?.id);
     return (
         <>
             <Spinner
@@ -52,7 +49,7 @@ export default function CourseDetails() {
                                     <Icon name="plus" color="white" size={15} />
                                 </TouchableOpacity>
                             </View>
-                        ) : (
+                        ) : user.role == "student" && !isSignUp ? (
                             <View style={courseDetailsStyles.optionsWrapper}>
                                 <Text style={courseDetailsStyles.optionsText}>
                                     If you want to read lections you must sign
@@ -69,6 +66,12 @@ export default function CourseDetails() {
                                         Sign up
                                     </Text>
                                 </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <View>
+                                <Text>
+                                    Welcome! You are signed for this course.
+                                </Text>
                             </View>
                         )
                     ) : (
@@ -91,6 +94,7 @@ export default function CourseDetails() {
                                     <LectionItem
                                         id={item.id}
                                         lectionName={item.lectionName}
+                                        isSign={isSignUp}
                                     />
                                 )}
                                 ListEmptyComponent={() => (

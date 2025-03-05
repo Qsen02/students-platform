@@ -138,17 +138,8 @@ userRouter.post("/sign/:userId/for/:courseId", isUser(), async (req, res) => {
 userRouter.get("/sign/:userId/for/:courseId", async (req, res) => {
     const userId = Number(req.params.userId);
     const courseId = Number(req.params.courseId);
-    try {
-        const sign = await getSignById(userId, courseId);
-        res.json(sign);
-    } catch (err) {
-        if (err instanceof Error) {
-            res.status(404).json({ message: err.message });
-        } else {
-            res.status(400).json({ message: "Unknown error occurd!" });
-        }
-        return;
-    }
+    const sign = await getSignById(userId, courseId);
+    res.json(sign);
 });
 
 export { userRouter };

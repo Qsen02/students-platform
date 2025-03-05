@@ -7,15 +7,20 @@ import { useUserContext } from "@/context/userContext";
 interface LectionItemProps {
     id: number;
     lectionName: string;
+    isSign: boolean;
 }
 
-export default function LectionItem({ id, lectionName }: LectionItemProps) {
+export default function LectionItem({
+    id,
+    lectionName,
+    isSign,
+}: LectionItemProps) {
     const navigation = useNavigation<NavigationProp<Routes>>();
     const { user } = useUserContext();
     return (
         <View style={lectionItemStyles.lectionWrapper}>
             <Text style={lectionItemStyles.lectionText}>{lectionName}</Text>
-            {user || user? (
+            {user && isSign ? (
                 <TouchableOpacity
                     onPress={() =>
                         navigation.navigate("LectionDetails", {
