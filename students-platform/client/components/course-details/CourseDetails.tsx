@@ -76,7 +76,7 @@ export default function CourseDetails() {
                         <Text>Lector: {course?.lector?.fullname}</Text>
                     </View>
                     {user ? (
-                        user.role == "lector" ? (
+                        user.role == "lector" && user.id==course?.lector.id ? (
                             <View style={courseDetailsStyles.optionsWrapper}>
                                 <Text style={courseDetailsStyles.optionsText}>
                                     Add new lection to course
@@ -134,6 +134,7 @@ export default function CourseDetails() {
                                         id={item.id}
                                         lectionName={item.lectionName}
                                         isSign={isSignUp}
+                                        lectorId={course?.lector_id}
                                     />
                                 )}
                                 ListEmptyComponent={() => (

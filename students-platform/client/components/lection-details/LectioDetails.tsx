@@ -8,7 +8,7 @@ import { useUserContext } from "@/context/userContext";
 
 export default function LectionDetails() {
     const route = useRoute<RouteProp<Routes, "LectionDetails">>();
-    const { lectionId } = route.params;
+    const { lectionId, lectorId } = route.params;
     const { user } = useUserContext();
     const [fontSize, setFontSize] = useState("Normal");
     const sizes = ["Small", "Normal", "Big"];
@@ -16,13 +16,17 @@ export default function LectionDetails() {
     return (
         <>
             <View style={LectionDetailsStyles.buttonWrapper}>
-                {user?.role == "lector" ? (
+                {lectorId == user?.id ? (
                     <>
                         <TouchableOpacity style={LectionDetailsStyles.button}>
-                            <Text style={LectionDetailsStyles.buttonText}>EDIT</Text>
+                            <Text style={LectionDetailsStyles.buttonText}>
+                                EDIT
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={LectionDetailsStyles.button}>
-                            <Text style={LectionDetailsStyles.buttonText}>DELETE</Text>
+                            <Text style={LectionDetailsStyles.buttonText}>
+                                DELETE
+                            </Text>
                         </TouchableOpacity>
                     </>
                 ) : (

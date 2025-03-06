@@ -55,15 +55,16 @@ export const LectionDetailsStyles = StyleSheet.create({
     smallContent: {
         textAlign: "center",
         fontSize: 12,
+        marginBottom: 40
     },
     normalContent: {
         textAlign: "center",
-        marginBottom: 30,
+        marginBottom: 40,
         fontSize: 14,
     },
     bigContent: {
         textAlign: "center",
-        marginBottom: 30,
+        marginBottom: 40,
         fontSize: 16,
     },
 });
