@@ -14,6 +14,7 @@ export const lectionItemStyles=StyleSheet.create({
         alignItems:"center"
     },
     lectionText:{
+        flexBasis:"40%",
         fontSize:16,
         color:"white",
         textAlign:"center"
