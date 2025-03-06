@@ -24,7 +24,6 @@ export default function DeleteModal({
 
     function onCancel() {
         clickHanlder(false);
-        navigation.goBack();
     }
 
     async function onDelete() {
@@ -42,14 +41,14 @@ export default function DeleteModal({
                         Are you sure you want to delete {lectionName} lection?
                     </Text>
                     <View style={deleteModalStyles.buttonWrapper}>
-                        <TouchableOpacity onPress={onDelete}>
+                        <TouchableOpacity onPress={onDelete} style={deleteModalStyles.button}>
                             <Text style={deleteModalStyles.buttonText}>
-                                Delete
+                                DELETE
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onCancel}>
+                        <TouchableOpacity onPress={onCancel} style={deleteModalStyles.button}>
                             <Text style={deleteModalStyles.buttonText}>
-                                Cancel
+                                CANCEL
                             </Text>
                         </TouchableOpacity>
                     </View>

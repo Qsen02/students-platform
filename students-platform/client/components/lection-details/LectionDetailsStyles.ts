@@ -11,13 +11,8 @@ export const LectionDetailsStyles = StyleSheet.create({
     },
     button:{
         backgroundColor:"red",
-        paddingLeft:15,
-        paddingRight:15,
+        padding:15,
         borderRadius:10,
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"center"
     },
     buttonText:{
         fontSize:16,

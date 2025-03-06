@@ -25,7 +25,7 @@ export default function ErrorModal({
             <View style={ErrorModalStyles.overlay}>
                 <View style={ErrorModalStyles.modalContainer}>
                     <Text style={ErrorModalStyles.text}>{message}</Text>
-                    <TouchableOpacity onPress={close} >
+                    <TouchableOpacity onPress={close} style={ErrorModalStyles.button}>
                         <Text style={ErrorModalStyles.buttonText}>OK</Text>
                     </TouchableOpacity>
                 </View>

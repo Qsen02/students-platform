@@ -22,12 +22,20 @@ export const ErrorModalStyles = StyleSheet.create({
     text:{
         textAlign:"center",
         color:"white",
-        fontSize:14,
+        fontSize:16,
         lineHeight:20
     },
     buttonText:{
-        color:"red",
+        color:"white",
         fontWeight:"bold",
         fontSize:16
-    }
+    },
+    button:{
+        paddingLeft:15,
+        paddingRight:15,
+        paddingTop:5,
+        paddingBottom:5,
+        backgroundColor:"red",
+        borderRadius:10
+    },
 });
