@@ -1,7 +1,7 @@
 import { Lection } from "@/types/lection";
 import { useEffect, useState } from "react";
 import { useErrorLoading } from "./useErrorLoading";
-import { getLectionById } from "@/api/lectionService";
+import { addLectionToCourse, getLectionById } from "@/api/lectionService";
 
 export function useGetOneLection(initialValues: null, lectionId: number) {
     const [lection, setLection] = useState<Lection | null>(initialValues);
@@ -24,4 +24,12 @@ export function useGetOneLection(initialValues: null, lectionId: number) {
     return {
         lection,loading,error
     }
+}
+
+export function useCreateLection(){
+    async function creatingLection(courseId:number,data:object){
+        return await addLectionToCourse(courseId,data);
+    }
+
+    return creatingLection;
 }
