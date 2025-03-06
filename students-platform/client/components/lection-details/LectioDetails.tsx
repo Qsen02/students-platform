@@ -5,6 +5,7 @@ import { LectionDetailsStyles } from "./LectionDetailsStyles";
 import { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import { useUserContext } from "@/context/userContext";
+import { useGetOneLection } from "@/hooks/useLections";
 
 export default function LectionDetails() {
     const route = useRoute<RouteProp<Routes, "LectionDetails">>();
@@ -12,6 +13,7 @@ export default function LectionDetails() {
     const { user } = useUserContext();
     const [fontSize, setFontSize] = useState("Normal");
     const sizes = ["Small", "Normal", "Big"];
+    const {lection,loading,error}=useGetOneLection(null,lectionId);
 
     return (
         <>
