@@ -8,6 +8,7 @@ import { useUserContext } from "@/context/userContext";
 import { useGetOneLection } from "@/hooks/useLections";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
+import DeleteModal from "@/commons/delete-modal/DeleteModal";
 
 export default function LectionDetails() {
     const route = useRoute<RouteProp<Routes, "LectionDetails">>();
@@ -16,9 +17,17 @@ export default function LectionDetails() {
     const [fontSize, setFontSize] = useState("Normal");
     const sizes = ["Small", "Normal", "Big"];
     const { lection, loading, error } = useGetOneLection(null, lectionId);
+    const [isDeleteClicked, setIsDeleteClicked] = useState(false);
 
     return (
         <>
+            <DeleteModal
+                courseId={lection?.course_id}
+                lectionId={lection?.id}
+                lectionName={lection?.lectionName}
+                isClicked={isDeleteClicked}
+                clickHanlder={setIsDeleteClicked}
+            />
             <Spinner
                 visible={loading}
                 animation="fade"
@@ -33,7 +42,10 @@ export default function LectionDetails() {
                                 EDIT
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={LectionDetailsStyles.button}>
+                        <TouchableOpacity
+                            style={LectionDetailsStyles.button}
+                            onPress={() => setIsDeleteClicked(true)}
+                        >
                             <Text style={LectionDetailsStyles.buttonText}>
                                 DELETE
                             </Text>
