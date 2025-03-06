@@ -1,6 +1,6 @@
 import { useUserContext } from "@/context/userContext";
 import { Routes } from "@/types/navigation";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { courseDetailsStyles } from "./CourseDetailsStyles";
@@ -28,6 +28,7 @@ export default function CourseDetails() {
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
     const signForCourse = useSignForCourse();
+    const navigation=useNavigation<NavigationProp<Routes>>()
 
     async function onSign() {
         try {
@@ -83,6 +84,9 @@ export default function CourseDetails() {
                                 </Text>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
+                                    onPress={()=>navigation.navigate("LectionCreate",{
+                                        courseId:course.id
+                                    })}
                                 >
                                     <Icon name="plus" color="white" size={15} />
                                 </TouchableOpacity>

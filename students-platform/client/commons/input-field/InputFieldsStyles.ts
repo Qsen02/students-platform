@@ -12,6 +12,15 @@ export const inputFieldsStyles=StyleSheet.create({
         borderRadius:5,
         fontSize:14
     },
+    textarea:{
+        width:"100%",
+        height:200,
+        textAlignVertical:"top",
+        padding:5,
+        backgroundColor:"white",
+        borderRadius:5,
+        fontSize:14
+    },
     eyeWrapper:{
         position:"absolute",
         top:4,

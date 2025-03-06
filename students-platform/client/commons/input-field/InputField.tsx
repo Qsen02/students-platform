@@ -14,6 +14,7 @@ interface InputFieldProps {
     changeHandler: (e: string) => void;
     keyboardType: KeyboardTypeOptions;
     title?: string;
+    textarea?:boolean
 }
 
 export default function InputField({
@@ -22,6 +23,7 @@ export default function InputField({
     changeHandler,
     keyboardType,
     title,
+    textarea
 }: InputFieldProps) {
     const [shown, setIsShown] = useState(false);
 
@@ -36,7 +38,8 @@ export default function InputField({
     return (
         <View style={inputFieldsStyles.inputWrapper}>
             <TextInput
-                style={inputFieldsStyles.input}
+                style={textarea?inputFieldsStyles.textarea:inputFieldsStyles.input}
+                multiline={textarea}
                 value={value}
                 placeholder={placeholder ? placeholder : ""}
                 onChangeText={changeHandler}
