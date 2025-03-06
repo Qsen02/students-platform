@@ -8,7 +8,8 @@ import { useUserContext } from "@/context/userContext";
 import { useGetOneLection } from "@/hooks/useLections";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
-import DeleteModal from "@/commons/delete-modal/DeleteModal";
+import LectionDelete from "@/components/lection-details/lection-delete/LectionDelete";
+import LectionEdit from "./lection-edit/LectionEdit";
 
 export default function LectionDetails() {
     const route = useRoute<RouteProp<Routes, "LectionDetails">>();
@@ -16,17 +17,26 @@ export default function LectionDetails() {
     const { user } = useUserContext();
     const [fontSize, setFontSize] = useState("Normal");
     const sizes = ["Small", "Normal", "Big"];
-    const { lection, loading, error } = useGetOneLection(null, lectionId);
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
+    const [isEditClicked, setIsEditClicked] = useState(false);
+    const { lection,setLection, loading, error } = useGetOneLection(null, lectionId,isDeleteClicked,isEditClicked);
 
     return (
         <>
-            <DeleteModal
+            <LectionDelete
                 courseId={lection?.course_id}
                 lectionId={lection?.id}
                 lectionName={lection?.lectionName}
                 isClicked={isDeleteClicked}
                 clickHanlder={setIsDeleteClicked}
+            />
+            <LectionEdit
+                lectionName={lection?.lectionName}
+                lectionId={lection?.id}
+                isClicked={isEditClicked}
+                content={lection?.content}
+                setLectionHandler={setLection}
+                clickHandler={setIsEditClicked}
             />
             <Spinner
                 visible={loading}
@@ -37,7 +47,10 @@ export default function LectionDetails() {
             <View style={LectionDetailsStyles.buttonWrapper}>
                 {lectorId == user?.id ? (
                     <>
-                        <TouchableOpacity style={LectionDetailsStyles.button}>
+                        <TouchableOpacity
+                            style={LectionDetailsStyles.button}
+                            onPress={() => setIsEditClicked(true)}
+                        >
                             <Text style={LectionDetailsStyles.buttonText}>
                                 EDIT
                             </Text>

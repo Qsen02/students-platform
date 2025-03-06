@@ -1,5 +1,5 @@
 import { Modal, Text, TouchableOpacity, View } from "react-native";
-import { deleteModalStyles } from "./DeleteModalStyles";
+import { deleteModalStyles } from "./LectionDeleteStyles";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "@/types/navigation";
 import { useDeleteLection } from "@/hooks/useLections";
@@ -12,7 +12,7 @@ interface DeleteModalProps {
     clickHanlder: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function DeleteModal({
+export default function LectionDelete({
     courseId,
     lectionId,
     lectionName,

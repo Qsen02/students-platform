@@ -6,12 +6,16 @@ export const LectionDetailsStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
+        alignItems:"center",
         gap: 20,
         marginTop:10
     },
     button:{
         backgroundColor:"red",
-        padding:15,
+        paddingLeft:15,
+        paddingRight:15,
+        paddingTop:5,
+        paddingBottom:5,
         borderRadius:10,
     },
     buttonText:{
@@ -21,7 +25,7 @@ export const LectionDetailsStyles = StyleSheet.create({
     },
     pickerButton: {
         width: 100,
-        height: 50,
+        height: 45,
         borderWidth: 1,
         borderColor: "darkgrey",
         borderRadius: 10,
