@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useErrorLoading } from "./useErrorLoading";
 import {
     createCourse,
+    deleteCourse,
     getAllCourses,
     getCourseById,
     getLatestCourses,
@@ -132,4 +133,12 @@ export function useGetOneCourse(
         isSignUp,
         setIsSignUp,
     };
+}
+
+export function useDeleteCourse(){
+    async function deleting(courseId:number){
+        return await deleteCourse(courseId);
+    }
+
+    return deleting;
 }

@@ -16,6 +16,7 @@ import LectionItem from "@/commons/lection-item/LectionItem";
 import { useState } from "react";
 import ErrorModal from "@/commons/err-modal/ErrorModal";
 import { useSignForCourse } from "@/hooks/useUsers";
+import CourseDelete from "./course-delete/CourseDelete";
 
 export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
@@ -34,6 +35,7 @@ export default function CourseDetails() {
     const [isErr, setIsErr] = useState(false);
     const signForCourse = useSignForCourse();
     const navigation = useNavigation<NavigationProp<Routes>>();
+    const [isDeleteClicked, setIsDeleteClicked] = useState(false);
 
     async function onSign() {
         try {
@@ -55,6 +57,12 @@ export default function CourseDetails() {
 
     return (
         <>
+            <CourseDelete
+                courseId={course?.id}
+                courseName={course?.courseName}
+                isClicked={isDeleteClicked}
+                clickHanlder={setIsDeleteClicked}
+            />
             <ErrorModal
                 message={errMessage.join("\n")}
                 visibleHanlder={setIsErr}
@@ -98,6 +106,7 @@ export default function CourseDetails() {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
+                                    onPress={() => setIsDeleteClicked(true)}
                                 >
                                     <Icon
                                         name="trash"
