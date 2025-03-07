@@ -4,7 +4,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "@/types/navigation";
 import { useDeleteCourse } from "@/hooks/useCourses";
 
-interface DeleteModalProps {
+interface CourseDeleteProps {
     courseId: number | undefined;
     courseName: string | undefined;
     isClicked: boolean;
@@ -16,7 +16,7 @@ export default function CourseDelete({
     courseName,
     isClicked,
     clickHanlder,
-}: DeleteModalProps) {
+}: CourseDeleteProps) {
     const navigation = useNavigation<NavigationProp<Routes>>();
     const deleteCourse = useDeleteCourse();
 

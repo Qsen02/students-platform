@@ -1,4 +1,4 @@
-import { login, logout, register, signForCourse } from "@/api/userService";
+import { getUserById, login, logout, register, signForCourse } from "@/api/userService";
 
 export function useRegister(){
     async function onRegister(data:object){
@@ -30,4 +30,12 @@ export function useSignForCourse(){
     }
 
     return signing;
+}
+
+export function useGetUserById(){
+    async function getting(userId:number){
+        return await getUserById(userId);
+    }
+
+    return getting
 }

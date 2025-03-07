@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import { isUser } from "../middlewares/guard";
 import {
     checkCourseId,
@@ -22,10 +22,10 @@ courseRouter.get("/", async (req, res) => {
     res.json(courses);
 });
 
-courseRouter.get("/latest",async(req,res)=>{
-    const courses=await getLatestCourses();
+courseRouter.get("/latest", async (req, res) => {
+    const courses = await getLatestCourses();
     res.json(courses);
-})
+});
 
 courseRouter.get("/page/:pageNumber", async (req, res) => {
     const pageNumber = Number(req.params.pageNumber);
@@ -36,8 +36,8 @@ courseRouter.get("/page/:pageNumber", async (req, res) => {
 courseRouter.get("/search/:query", async (req, res) => {
     const query = req.params.query;
     const courses = await searchCourses(query);
-    if(courses.length==0){
-        res.status(404).json({message:"No results found!"});
+    if (courses.length == 0) {
+        res.status(404).json({ message: "No results found!" });
         return;
     }
     res.json(courses);
@@ -73,7 +73,11 @@ courseRouter.post(
             if (!results.isEmpty()) {
                 throw new Error(errorParser(results));
             }
-            const newCourse = await createCourse(fields.courseName, user?.id,fields.courseImage);
+            const newCourse = await createCourse(
+                fields.courseName,
+                user?.id,
+                fields.courseImage
+            );
             res.json(newCourse);
         } catch (err) {
             if (err instanceof Error) {
@@ -101,7 +105,6 @@ courseRouter.delete("/:courseId", isUser(), async (req, res) => {
 courseRouter.put(
     "/:courseId",
     body("courseName")
-        .trim()
         .isLength({ min: 3 })
         .withMessage("Course name must be at least 3 symbols long!"),
     isUser(),

@@ -4,6 +4,7 @@ import { useErrorLoading } from "./useErrorLoading";
 import {
     createCourse,
     deleteCourse,
+    editCourse,
     getAllCourses,
     getCourseById,
     getLatestCourses,
@@ -126,6 +127,7 @@ export function useGetOneCourse(
 
     return {
         course,
+        setCourse,
         lections,
         loading,
         setLoading,
@@ -141,4 +143,54 @@ export function useDeleteCourse(){
     }
 
     return deleting;
+}
+
+export function useEditCourse(){
+    async function editing(courseId:number,data:object){
+        return await editCourse(courseId,data);
+    }
+
+    return editing;
+}
+
+export function useGetCourseForEditFrom(
+    initialFormValues: { courseName: string; courseImage: string},
+    courseId: number | undefined,
+    isClicked:boolean
+) {
+    const [values, setValues] = useState(initialFormValues);
+
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                if (courseId) {
+                    const course = await getCourseById(courseId);
+                    if(!course.courseImage){
+                        course.courseImage="";
+                    }
+                    setValues({
+                        courseName: course.courseName,
+                        courseImage: course.courseImage,
+                    });
+                }
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, [isClicked]);
+
+    return {
+        values,
+        setValues,
+        loading,
+        error,
+    };
 }

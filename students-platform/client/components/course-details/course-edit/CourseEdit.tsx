@@ -1,45 +1,53 @@
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { lectionEditStyles } from "./LectionEditStyles";
-import { useEditLection, useGetLectionForEditFrom } from "@/hooks/useLections";
+import { lectionEditStyles } from "../../lection-details/lection-edit/LectionEditStyles";
 import InputField from "@/commons/input-field/InputField";
 import { registerStyles } from "@/components/register/RegisterStyles";
-import { Lection } from "@/types/lection";
 import Spinner from "react-native-loading-spinner-overlay";
+import { useEditCourse, useGetCourseForEditFrom } from "@/hooks/useCourses";
+import { Course } from "@/types/course";
+import { useUserContext } from "@/context/userContext";
+import { useGetUserById } from "@/hooks/useUsers";
 
-interface LectionEditProps {
-    lectionName: string | undefined;
+interface CourseEditProps {
+    courseName: string | undefined;
     isClicked: boolean;
-    lectionId: number | undefined;
-    setLectionHandler: React.Dispatch<React.SetStateAction<Lection | null>>;
+    courseId: number | undefined;
+    setCourseHandler: React.Dispatch<React.SetStateAction<Course | null>>;
     clickHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function LectionEdit({
-    lectionName,
+export default function CourseEdit({
+    courseName,
     isClicked,
-    lectionId,
-    setLectionHandler,
+    courseId,
+    setCourseHandler,
     clickHandler,
-}: LectionEditProps) {
-    const { values, setValues, loading, error } = useGetLectionForEditFrom(
-        { lectionName: "", content: "" },
-        lectionId,
+}: CourseEditProps) {
+    const { values, setValues, loading, error } = useGetCourseForEditFrom(
+        { courseName: "", courseImage: "" },
+        courseId,
         isClicked
     );
-    const editLection = useEditLection();
+    const { user } = useUserContext();
+    const editCourse = useEditCourse();
+    const getUserById = useGetUserById();
 
     function onCancel() {
         clickHandler(false);
     }
 
     async function onEdit() {
-        if (lectionId) {
-            const updatedLection = await editLection(lectionId, {
-                lectionName: values.lectionName,
-                content: values.content,
+        if (courseId) {
+            const updatedCourse = await editCourse(courseId, {
+                courseName: values.courseName,
+                courseImage: values.courseImage,
             });
-            setLectionHandler(updatedLection);
+            if (user) {
+                const curUser = await getUserById(user.id);
+                updatedCourse.lector=curUser;
+            }
+            setCourseHandler(updatedCourse);
             clickHandler(false);
         } else {
             clickHandler(false);
@@ -75,30 +83,29 @@ export default function LectionEdit({
                         ) : (
                             <>
                                 <Text style={lectionEditStyles.text}>
-                                    Edit {lectionName} lection here.
+                                    Edit {courseName} course here.
                                 </Text>
                                 <Text style={registerStyles.formText}>
-                                    Lection name
+                                    Course name
                                 </Text>
                                 <InputField
-                                    value={values.lectionName}
-                                    title="Lection name"
+                                    value={values.courseName}
+                                    title="Course name"
                                     changeHandler={(e: string) =>
-                                        setValues({ ...values, lectionName: e })
+                                        setValues({ ...values, courseName: e })
                                     }
                                     keyboardType="default"
                                 />
                                 <Text style={registerStyles.formText}>
-                                    Content
+                                    Course image
                                 </Text>
                                 <InputField
-                                    value={values.content}
-                                    title="Content"
+                                    value={values.courseImage}
+                                    title="Course image"
                                     changeHandler={(e: string) =>
-                                        setValues({ ...values, content: e })
+                                        setValues({ ...values, courseImage: e })
                                     }
                                     keyboardType="default"
-                                    textarea={true}
                                 />
                                 <View style={lectionEditStyles.buttonWrapper}>
                                     <TouchableOpacity

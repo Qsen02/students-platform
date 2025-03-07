@@ -17,6 +17,7 @@ import { useState } from "react";
 import ErrorModal from "@/commons/err-modal/ErrorModal";
 import { useSignForCourse } from "@/hooks/useUsers";
 import CourseDelete from "./course-delete/CourseDelete";
+import CourseEdit from "./course-edit/CourseEdit";
 
 export default function CourseDetails() {
     const route = useRoute<RouteProp<Routes, "CourseDetails">>();
@@ -25,6 +26,7 @@ export default function CourseDetails() {
     const {
         course,
         lections,
+        setCourse,
         loading,
         setLoading,
         error,
@@ -36,6 +38,7 @@ export default function CourseDetails() {
     const signForCourse = useSignForCourse();
     const navigation = useNavigation<NavigationProp<Routes>>();
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
+    const [isEditClicked, setIsEditClicked] = useState(false);
 
     async function onSign() {
         try {
@@ -57,6 +60,13 @@ export default function CourseDetails() {
 
     return (
         <>
+            <CourseEdit
+                courseName={course?.courseName}
+                courseId={course?.id}
+                setCourseHandler={setCourse}
+                isClicked={isEditClicked}
+                clickHandler={setIsEditClicked}
+            />
             <CourseDelete
                 courseId={course?.id}
                 courseName={course?.courseName}
@@ -92,7 +102,7 @@ export default function CourseDetails() {
                     </View>
                     {user ? (
                         user.role == "lector" &&
-                        user.id == course?.lector.id ? (
+                        user.id == course?.lector_id ? (
                             <View style={courseDetailsStyles.buttonsWrapper}>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
@@ -116,6 +126,7 @@ export default function CourseDetails() {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
+                                    onPress={()=>setIsEditClicked(true)}
                                 >
                                     <Icon name="edit" size={15} color="white" />
                                 </TouchableOpacity>
