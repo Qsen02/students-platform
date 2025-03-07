@@ -28,7 +28,7 @@ export default function Courses() {
                 query = "No value";
             }
             const searchedResults = await searchCourses(query);
-            setCourses(searchedResults);
+            setCourses({ type: "search", payload: searchedResults });
             setLoading(false);
         } catch (err) {
             setLoading(false);
@@ -90,7 +90,7 @@ export default function Courses() {
                             image={item.courseImage}
                         />
                     )}
-                    ListEmptyComponent={()=>(
+                    ListEmptyComponent={() => (
                         <Text style={coursesStyles.text}>No courses yet.</Text>
                     )}
                 />

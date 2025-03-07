@@ -1,5 +1,5 @@
 import { Course } from "@/types/course";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useErrorLoading } from "./useErrorLoading";
 import {
     createCourse,
@@ -14,6 +14,7 @@ import { Lection } from "@/types/lection";
 import { getAllLectionsForCourse } from "@/api/lectionService";
 import { getSignForCourse } from "@/api/userService";
 import { UserCourse } from "@/types/userCourses";
+import { ActionType, courseReducer } from "@/reducers/courseReducer";
 
 export function useGetLatestCourses(initialValues: []) {
     const [courses, setCourses] = useState<Course[]>(initialValues);
@@ -44,7 +45,9 @@ export function useGetLatestCourses(initialValues: []) {
 }
 
 export function useGetAllCourses(initialValues: []) {
-    const [courses, setCourses] = useState<Course[]>(initialValues);
+    const [courses, setCourses] = useReducer<
+        React.Reducer<Course[], ActionType>
+    >(courseReducer, initialValues);
     const { loading, error, setLoading, setError } = useErrorLoading(
         false,
         false
@@ -55,7 +58,7 @@ export function useGetAllCourses(initialValues: []) {
             try {
                 setLoading(true);
                 const courses = await getAllCourses();
-                setCourses(courses);
+                setCourses({ type: "getAll", payload: courses });
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
@@ -137,26 +140,26 @@ export function useGetOneCourse(
     };
 }
 
-export function useDeleteCourse(){
-    async function deleting(courseId:number){
+export function useDeleteCourse() {
+    async function deleting(courseId: number) {
         return await deleteCourse(courseId);
     }
 
     return deleting;
 }
 
-export function useEditCourse(){
-    async function editing(courseId:number,data:object){
-        return await editCourse(courseId,data);
+export function useEditCourse() {
+    async function editing(courseId: number, data: object) {
+        return await editCourse(courseId, data);
     }
 
     return editing;
 }
 
 export function useGetCourseForEditFrom(
-    initialFormValues: { courseName: string; courseImage: string},
+    initialFormValues: { courseName: string; courseImage: string },
     courseId: number | undefined,
-    isClicked:boolean
+    isClicked: boolean
 ) {
     const [values, setValues] = useState(initialFormValues);
 
@@ -171,8 +174,8 @@ export function useGetCourseForEditFrom(
                 setLoading(true);
                 if (courseId) {
                     const course = await getCourseById(courseId);
-                    if(!course.courseImage){
-                        course.courseImage="";
+                    if (!course.courseImage) {
+                        course.courseImage = "";
                     }
                     setValues({
                         courseName: course.courseName,
