@@ -27,7 +27,7 @@ async function getCourseById(courseId: number) {
         include: [
             {
                 model: Users,
-                as:"lector"
+                as: "lector",
             },
         ],
     });
@@ -59,11 +59,19 @@ async function deleteCourse(courseId: number) {
 }
 
 async function updateCourse(courseId: number, data: Partial<Course>) {
-    const updatedCourse = await Courses.update(data, {
+    await Courses.update(data, {
         where: { id: courseId },
-        returning: true,
     });
-    return updatedCourse[1][0];
+
+    const course = await Courses.findByPk(courseId, {
+        include: [
+            {
+                model: Users,
+                as: "lector",
+            },
+        ],
+    });
+    return course;
 }
 
 async function pagination(pageCount: number) {

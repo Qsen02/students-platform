@@ -29,9 +29,7 @@ export default function CourseEdit({
         courseId,
         isClicked
     );
-    const { user } = useUserContext();
     const editCourse = useEditCourse();
-    const getUserById = useGetUserById();
 
     function onCancel() {
         clickHandler(false);
@@ -43,10 +41,6 @@ export default function CourseEdit({
                 courseName: values.courseName,
                 courseImage: values.courseImage,
             });
-            if (user) {
-                const curUser = await getUserById(user.id);
-                updatedCourse.lector=curUser;
-            }
             setCourseHandler(updatedCourse);
             clickHandler(false);
         } else {
