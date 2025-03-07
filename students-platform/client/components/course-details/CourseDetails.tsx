@@ -1,6 +1,11 @@
 import { useUserContext } from "@/context/userContext";
 import { Routes } from "@/types/navigation";
-import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+    NavigationProp,
+    RouteProp,
+    useNavigation,
+    useRoute,
+} from "@react-navigation/native";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { courseDetailsStyles } from "./CourseDetailsStyles";
@@ -28,7 +33,7 @@ export default function CourseDetails() {
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
     const signForCourse = useSignForCourse();
-    const navigation=useNavigation<NavigationProp<Routes>>()
+    const navigation = useNavigation<NavigationProp<Routes>>();
 
     async function onSign() {
         try {
@@ -70,6 +75,7 @@ export default function CourseDetails() {
                 </View>
             ) : (
                 <View style={courseDetailsStyles.detailsWrapper}>
+                    <View style={courseDetailsStyles.buttonsWrapper}></View>
                     <View style={courseDetailsStyles.titleWrapper}>
                         <Text style={courseDetailsStyles.detailsTitle}>
                             {course?.courseName}
@@ -77,18 +83,37 @@ export default function CourseDetails() {
                         <Text>Lector: {course?.lector?.fullname}</Text>
                     </View>
                     {user ? (
-                        user.role == "lector" && user.id==course?.lector.id ? (
-                            <View style={courseDetailsStyles.optionsWrapper}>
-                                <Text style={courseDetailsStyles.optionsText}>
-                                    Add new lection to course
-                                </Text>
+                        user.role == "lector" &&
+                        user.id == course?.lector.id ? (
+                            <View style={courseDetailsStyles.buttonsWrapper}>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
-                                    onPress={()=>navigation.navigate("LectionCreate",{
-                                        courseId:course.id
-                                    })}
+                                    onPress={() =>
+                                        navigation.navigate("LectionCreate", {
+                                            courseId: course.id,
+                                        })
+                                    }
                                 >
                                     <Icon name="plus" color="white" size={15} />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={courseDetailsStyles.optionsButton}
+                                >
+                                    <Icon
+                                        name="trash"
+                                        size={15}
+                                        color="white"
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={courseDetailsStyles.optionsButton}
+                                >
+                                    <Icon name="edit" size={15} color="white" />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={courseDetailsStyles.optionsButton}
+                                >
+                                    <Icon name="info" size={15} color="white" />
                                 </TouchableOpacity>
                             </View>
                         ) : user.role == "student" && !isSignUp ? (

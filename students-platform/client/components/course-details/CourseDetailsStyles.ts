@@ -1,9 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const courseDetailsStyles = StyleSheet.create({
+    buttonsWrapper:{
+        width:"95%",
+        display:"flex",
+        flexDirection:"row",
+        gap:10,
+        justifyContent:"center"
+    },
     detailsWrapper: {
         width: "100%",
-        marginTop: 20,
         display: "flex",
         flexDirection: "column",
         gap: 20,
@@ -56,7 +62,7 @@ export const courseDetailsStyles = StyleSheet.create({
         gap:20
     },
     lections:{
-        height:440,
+        height:460,
         width:"95%"
     }
 });
