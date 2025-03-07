@@ -19,6 +19,12 @@ export const lectionEditStyles=StyleSheet.create({
         alignItems:"center",
         padding:20
     },
+    title:{
+        textAlign:"center",
+        color:"white",
+        fontSize:18,
+        fontWeight:"bold"
+    },
     text:{
         textAlign:"center",
         color:"white",

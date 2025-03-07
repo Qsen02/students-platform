@@ -8,6 +8,8 @@ import { useEditCourse, useGetCourseForEditFrom } from "@/hooks/useCourses";
 import { Course } from "@/types/course";
 import { useUserContext } from "@/context/userContext";
 import { useGetUserById } from "@/hooks/useUsers";
+import { useState } from "react";
+import ErrorModal from "@/commons/err-modal/ErrorModal";
 
 interface CourseEditProps {
     courseName: string | undefined;
@@ -30,19 +32,43 @@ export default function CourseEdit({
         isClicked
     );
     const editCourse = useEditCourse();
+    const [errMessage, setErrMessage] = useState<string[]>([]);
+    const [isErr, setIsErr] = useState(false);
 
     function onCancel() {
         clickHandler(false);
     }
 
     async function onEdit() {
+        const errors: string[] = [];
+        if (!values.courseName) {
+            errors.push("Course name is required!");
+        }
+        if (values.courseName.length < 3) {
+            errors.push("Course name must be at least 3 symbols long!");
+        }
+        if (values.courseImage && !/^https?:\/\//.test(values.courseImage)) {
+            errors.push("Course image must be valid URL!");
+        }
+        if (errors.length > 0) {
+            setErrMessage(errors);
+            setIsErr(true);
+            return;
+        }
+
         if (courseId) {
-            const updatedCourse = await editCourse(courseId, {
-                courseName: values.courseName,
-                courseImage: values.courseImage,
-            });
-            setCourseHandler(updatedCourse);
-            clickHandler(false);
+            try {
+                const updatedCourse = await editCourse(courseId, {
+                    courseName: values.courseName,
+                    courseImage: values.courseImage,
+                });
+                setCourseHandler(updatedCourse);
+                clickHandler(false);
+            } catch (err) {
+                setErrMessage(["Error occurd! Please try again later."]);
+                setIsErr(true);
+                return;
+            }
         } else {
             clickHandler(false);
         }
@@ -50,6 +76,12 @@ export default function CourseEdit({
 
     return (
         <>
+            <ErrorModal
+                visible={isErr}
+                visibleHanlder={setIsErr}
+                message={errMessage.join("\n")}
+                messageHandler={setErrMessage}
+            />
             <Spinner
                 visible={loading}
                 animation="fade"
@@ -76,7 +108,7 @@ export default function CourseEdit({
                             </>
                         ) : (
                             <>
-                                <Text style={lectionEditStyles.text}>
+                                <Text style={lectionEditStyles.title}>
                                     Edit {courseName} course here.
                                 </Text>
                                 <Text style={registerStyles.formText}>

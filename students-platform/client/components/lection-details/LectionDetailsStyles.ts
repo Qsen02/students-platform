@@ -46,24 +46,24 @@ export const LectionDetailsStyles = StyleSheet.create({
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
     },
     lectionTitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 20,
     },
     smallContent: {
         textAlign: "center",
-        fontSize: 12,
+        fontSize: 14,
         marginBottom: 40
     },
     normalContent: {
         textAlign: "center",
         marginBottom: 40,
-        fontSize: 14,
+        fontSize: 16,
     },
     bigContent: {
         textAlign: "center",
         marginBottom: 40,
-        fontSize: 16,
+        fontSize: 18,
     },
 });

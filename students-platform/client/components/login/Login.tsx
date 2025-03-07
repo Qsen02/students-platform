@@ -49,11 +49,7 @@ export default function Login() {
             }
             navigation.navigate("Home");
         } catch (err) {
-            if (err instanceof Error) {
-                setErrMessage([err.message]);
-            } else {
-                setErrMessage(["Error occurd! Please try again later."]);
-            }
+            setErrMessage(["Error occurd! Please try again later."]);
             setIsErr(true);
             return;
         }

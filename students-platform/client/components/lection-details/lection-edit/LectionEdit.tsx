@@ -6,6 +6,8 @@ import InputField from "@/commons/input-field/InputField";
 import { registerStyles } from "@/components/register/RegisterStyles";
 import { Lection } from "@/types/lection";
 import Spinner from "react-native-loading-spinner-overlay";
+import { useState } from "react";
+import ErrorModal from "@/commons/err-modal/ErrorModal";
 
 interface LectionEditProps {
     lectionName: string | undefined;
@@ -28,19 +30,43 @@ export default function LectionEdit({
         isClicked
     );
     const editLection = useEditLection();
+    const [errMessage, setErrMessage] = useState<string[]>([]);
+    const [isErr, setIsErr] = useState(false);
 
     function onCancel() {
         clickHandler(false);
     }
 
     async function onEdit() {
+        const errors: string[] = [];
+        if (!values.lectionName || !values.content) {
+            errors.push("All fields required!");
+        }
+        if (values.lectionName.length < 3) {
+            errors.push("Lection name must be at least 3 symbols long!");
+        }
+        if (values.content.length < 3) {
+            errors.push("Content must be at least 3 symbols long!");
+        }
+        if (errors.length > 0) {
+            setErrMessage(errors);
+            setIsErr(true);
+            return;
+        }
+
         if (lectionId) {
-            const updatedLection = await editLection(lectionId, {
-                lectionName: values.lectionName,
-                content: values.content,
-            });
-            setLectionHandler(updatedLection);
-            clickHandler(false);
+            try {
+                const updatedLection = await editLection(lectionId, {
+                    lectionName: values.lectionName,
+                    content: values.content,
+                });
+                setLectionHandler(updatedLection);
+                clickHandler(false);
+            } catch (err) {
+                setErrMessage(["Error occurd! Please try again later."]);
+                setIsErr(true);
+                return;
+            }
         } else {
             clickHandler(false);
         }
@@ -48,6 +74,12 @@ export default function LectionEdit({
 
     return (
         <>
+            <ErrorModal
+                visible={isErr}
+                visibleHanlder={setIsErr}
+                message={errMessage.join("\n")}
+                messageHandler={setErrMessage}
+            />
             <Spinner
                 visible={loading}
                 animation="fade"
@@ -74,7 +106,7 @@ export default function LectionEdit({
                             </>
                         ) : (
                             <>
-                                <Text style={lectionEditStyles.text}>
+                                <Text style={lectionEditStyles.title}>
                                     Edit {lectionName} lection here.
                                 </Text>
                                 <Text style={registerStyles.formText}>

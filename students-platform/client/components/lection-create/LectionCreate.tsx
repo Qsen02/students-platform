@@ -52,11 +52,7 @@ export default function LectionCreate() {
             });
             navigation.navigate("CourseDetails", { courseId: courseId });
         } catch (err) {
-            if (err instanceof Error) {
-                setErrMessage([err.message]);
-            } else {
-                setErrMessage(["Error occurs! Please try again later!"]);
-            }
+            setErrMessage(["Error occurs! Please try again later!"]);
             setIsErr(true);
             return;
         }

@@ -25,7 +25,7 @@ export default function Register() {
     const [isErr, setIsErr] = useState(false);
 
     async function onSubmit() {
-        const errors:string[]=[]
+        const errors: string[] = [];
         if (
             !form.course ||
             !form.facultyNumber ||
@@ -37,23 +37,25 @@ export default function Register() {
         }
 
         if (form.fullname.length < 3) {
-            errors.push("Full name must be at least 3 symbols long!")
+            errors.push("Full name must be at least 3 symbols long!");
         }
 
         if (Number(form.course) > 4 || Number(form.course) < 1) {
-            errors.push("Course must be between 1 and 4!")
+            errors.push("Course must be between 1 and 4!");
         }
 
         if (form.facultyNumber.length != 8) {
-            errors.push("Faculty number must be exactly 8 digits!")
+            errors.push("Faculty number must be exactly 8 digits!");
         }
 
         if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(form.password)) {
-                errors.push("Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol!")
+            errors.push(
+                "Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol!"
+            );
         }
 
         if (form.repass != form.password) {
-           errors.push("Password must match!");
+            errors.push("Password must match!");
         }
 
         if (errors.length > 0) {
@@ -75,11 +77,7 @@ export default function Register() {
             }
             navigation.navigate("Home");
         } catch (err) {
-            if (err instanceof Error) {
-                setErrMessage([err.message]);
-            } else {
-                setErrMessage(["Error occurd! Please try again later!"]);
-            }
+            setErrMessage(["Error occurd! Please try again later!"]);
             setIsErr(true);
             return;
         }
