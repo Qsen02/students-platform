@@ -8,12 +8,7 @@ import {
     getLectionById,
 } from "@/api/lectionService";
 
-export function useGetOneLection(
-    initialValues: null,
-    lectionId: number,
-    isDeleteClicked: boolean,
-    isEditClicked: boolean
-) {
+export function useGetOneLection(initialValues: null, lectionId: number) {
     const [lection, setLection] = useState<Lection | null>(initialValues);
     const { loading, setLoading, error, setError } = useErrorLoading(
         false,
@@ -32,7 +27,7 @@ export function useGetOneLection(
                 setError(true);
             }
         })();
-    }, [isDeleteClicked, isEditClicked]);
+    }, []);
 
     return {
         lection,
@@ -64,4 +59,43 @@ export function useEditLection() {
     }
 
     return editingLection;
+}
+
+export function useGetLectionForEditFrom(
+    initialFormValues: { lectionName: string; content: string },
+    lectionId: number | undefined,
+    isClicked:boolean
+) {
+    const [values, setValues] = useState(initialFormValues);
+
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                if (lectionId) {
+                    const lection = await getLectionById(lectionId);
+                    setValues({
+                        lectionName: lection.lectionName,
+                        content: lection.content,
+                    });
+                }
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, [isClicked]);
+
+    return {
+        values,
+        setValues,
+        loading,
+        error,
+    };
 }

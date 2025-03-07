@@ -19,7 +19,10 @@ export default function LectionDetails() {
     const sizes = ["Small", "Normal", "Big"];
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
     const [isEditClicked, setIsEditClicked] = useState(false);
-    const { lection,setLection, loading, error } = useGetOneLection(null, lectionId,isDeleteClicked,isEditClicked);
+    const { lection, setLection, loading, error } = useGetOneLection(
+        null,
+        lectionId
+    );
 
     return (
         <>
@@ -34,7 +37,6 @@ export default function LectionDetails() {
                 lectionName={lection?.lectionName}
                 lectionId={lection?.id}
                 isClicked={isEditClicked}
-                content={lection?.content}
                 setLectionHandler={setLection}
                 clickHandler={setIsEditClicked}
             />
