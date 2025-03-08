@@ -3,6 +3,7 @@ import { Courses } from "../models/course";
 import { CoursesUsers } from "../models/CoursesStudents";
 import { Users } from "../models/user";
 import bcrypt from "bcrypt";
+import { UserAttributes } from "../types/users";
 
 async function register(
     fullname: string,
@@ -114,6 +115,37 @@ async function getAllCreatedCoursesForLector(userId: number) {
     return courses;
 }
 
+async function editUser(userId: number, data: Partial<UserAttributes>) {
+    const updatedUser = await Users.update(data, {
+        where: {
+            id: userId,
+        },
+        returning: true,
+    });
+
+    return updatedUser;
+}
+
+async function changePassword(userId: number, newPassword: string) {
+    const user = await Users.findByPk(userId);
+    if (!user) {
+        throw new Error("Resource not found!");
+    }
+    const isOldPassword = await bcrypt.compare(newPassword, user.password);
+    if (isOldPassword) {
+        throw new Error("Old password can't the new password!");
+    }
+    const updatedUser = await Users.update(
+        { password: await bcrypt.hash(newPassword, 10) },
+        {
+            where: { id: userId },
+            returning: true,
+        }
+    );
+
+    return updatedUser;
+}
+
 export {
     register,
     login,
@@ -122,5 +154,6 @@ export {
     signUpForCourse,
     getSignById,
     getAllSignedCoursesForUser,
-    getAllCreatedCoursesForLector
+    getAllCreatedCoursesForLector,
+    editUser,changePassword
 };
