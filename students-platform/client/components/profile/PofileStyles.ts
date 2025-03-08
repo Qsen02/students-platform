@@ -42,5 +42,12 @@ export const profileStyles=StyleSheet.create({
         fontSize:14,
         color:"white",
         fontWeight:"bold"
+    },
+    title:{
+        fontSize:20,
+        fontWeight:"bold",
+        color:"black",
+        textAlign:"center",
+        marginTop:15
     }
 })
