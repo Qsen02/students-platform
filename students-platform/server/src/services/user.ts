@@ -85,6 +85,20 @@ async function getSignById(userId: number, courseId: number) {
     return sign;
 }
 
+async function getAllSignedCoursesForUser(userId:number){
+    const courses=await CoursesUsers.findAll({
+        where:{user_id:userId},
+        include:[
+            {
+                model:Courses,
+                as:"course"
+            }
+        ]
+    });
+
+    return courses;
+}
+
 export {
     register,
     login,
@@ -92,4 +106,5 @@ export {
     getUserById,
     signUpForCourse,
     getSignById,
+    getAllSignedCoursesForUser
 };
