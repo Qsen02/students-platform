@@ -1,6 +1,7 @@
 import { Request, Router } from "express";
 import {
     checkUserId,
+    getAllCreatedCoursesForAdmin,
     getAllSignedCoursesForUser,
     getSignById,
     getUserById,
@@ -153,6 +154,16 @@ userRouter.get("/all-signed-courses-for/:userId",isUser(),async(req,res)=>{
         return;
     }
     const courses=await getAllSignedCoursesForUser(userId);
+    res.json(courses);
+})
+userRouter.get("/all-created-courses-for/:userId",isUser(),async(req,res)=>{
+    const userId = Number(req.params.userId);
+    const isValid=await checkUserId(userId);
+    if(!isValid){
+        res.status(404).json({ message: "Resource not found!" });
+        return;
+    }
+    const courses=await getAllCreatedCoursesForAdmin(userId);
     res.json(courses);
 })
 

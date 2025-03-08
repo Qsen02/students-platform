@@ -50,7 +50,7 @@ async function login(fullname: string, password: string) {
 async function getUserById(userId: number) {
     const user = await Users.findByPk(userId);
 
-    if(!user){
+    if (!user) {
         throw new Error("Resource not found!");
     }
 
@@ -79,21 +79,36 @@ async function getSignById(userId: number, courseId: number) {
         where: {
             [Op.and]: [{ user_id: userId }, { course_id: courseId }],
         },
-        include: [{ model: Users, as:"user" }, { model: Courses, as:"course"}],
+        include: [
+            { model: Users, as: "user" },
+            { model: Courses, as: "course" },
+        ],
     });
 
     return sign;
 }
 
-async function getAllSignedCoursesForUser(userId:number){
-    const courses=await CoursesUsers.findAll({
-        where:{user_id:userId},
-        include:[
+async function getAllSignedCoursesForUser(userId: number) {
+    const courses = await CoursesUsers.findAll({
+        where: { user_id: userId },
+        include: [
+            { model: Users, as: "user" },
+            { model: Courses, as: "course" },
+        ],
+    });
+
+    return courses;
+}
+
+async function getAllCreatedCoursesForAdmin(userId: number) {
+    const courses = await Courses.findAll({
+        where: { lector_id: userId },
+        include: [
             {
-                model:Courses,
-                as:"course"
-            }
-        ]
+                model: Users,
+                as: "lector",
+            },
+        ],
     });
 
     return courses;
@@ -106,5 +121,6 @@ export {
     getUserById,
     signUpForCourse,
     getSignById,
-    getAllSignedCoursesForUser
+    getAllSignedCoursesForUser,
+    getAllCreatedCoursesForAdmin
 };
