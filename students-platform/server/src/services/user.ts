@@ -100,7 +100,7 @@ async function getAllSignedCoursesForUser(userId: number) {
     return courses;
 }
 
-async function getAllCreatedCoursesForAdmin(userId: number) {
+async function getAllCreatedCoursesForLector(userId: number) {
     const courses = await Courses.findAll({
         where: { lector_id: userId },
         include: [
@@ -122,5 +122,5 @@ export {
     signUpForCourse,
     getSignById,
     getAllSignedCoursesForUser,
-    getAllCreatedCoursesForAdmin
+    getAllCreatedCoursesForLector
 };

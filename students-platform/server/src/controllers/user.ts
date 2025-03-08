@@ -1,7 +1,7 @@
-import { Request, Router } from "express";
+import { Router } from "express";
 import {
     checkUserId,
-    getAllCreatedCoursesForAdmin,
+    getAllCreatedCoursesForLector,
     getAllSignedCoursesForUser,
     getSignById,
     getUserById,
@@ -163,7 +163,7 @@ userRouter.get("/all-created-courses-for/:userId",isUser(),async(req,res)=>{
         res.status(404).json({ message: "Resource not found!" });
         return;
     }
-    const courses=await getAllCreatedCoursesForAdmin(userId);
+    const courses=await getAllCreatedCoursesForLector(userId);
     res.json(courses);
 })
 

@@ -1,6 +1,7 @@
 import { User, UserForAuth } from "@/types/user";
 import { get, post } from "./requester";
 import { UserCourse } from "@/types/userCourses";
+import { Course } from "@/types/course";
 
 const endpoint = "users";
 
@@ -31,4 +32,14 @@ export async function signForCourse(userId: number, courseId: number) {
 export async function getSignForCourse(userId: number, courseId: number) {
     const userCourse = await get(`${endpoint}/sign/${userId}/for/${courseId}`);
     return userCourse as UserCourse | null;
+}
+
+export async function getAllSignedCoursesForUser(userId:number){
+    const courses=await get(`${endpoint}/all-signed-courses-for/${userId}`);
+    return courses as UserCourse[];
+}
+
+export async function getAllCreatedCoursesForLector(userId:number){
+    const courses=await get(`${endpoint}/all-created-courses-for/${userId}`);
+    return courses as Course[];
 }
