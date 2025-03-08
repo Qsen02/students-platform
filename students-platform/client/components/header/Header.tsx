@@ -28,6 +28,7 @@ export default function Header() {
                         </View>
                         <View>
                             <TabIcon
+                                params={{ userId: user?.id }}
                                 title={"Assessments"}
                                 color={"white"}
                                 name={"tag"}
@@ -36,6 +37,7 @@ export default function Header() {
                         </View>
                         <View>
                             <TabIcon
+                                params={{ userId: user?.id }}
                                 title={"Profile"}
                                 color={"white"}
                                 name={"user"}
@@ -79,6 +81,7 @@ export default function Header() {
                         </View>
                         <View>
                             <TabIcon
+                                params={{ userId: user?.id }}
                                 title={"Profile"}
                                 color={"white"}
                                 name={"user"}

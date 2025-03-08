@@ -11,6 +11,7 @@ import CourseCreate from "./components/course-create/CourseCreate";
 import CourseDetails from "./components/course-details/CourseDetails";
 import LectionDetails from "./components/lection-details/LectioDetails";
 import LectionCreate from "./components/lection-create/LectionCreate";
+import Profile from "./components/profile/Profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,11 @@ export default function App() {
                         <Stack.Screen
                             name="LectionCreate"
                             component={LectionCreate}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Profile"
+                            component={Profile}
                             options={{ headerShown: false }}
                         />
                     </Stack.Navigator>
