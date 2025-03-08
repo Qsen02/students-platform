@@ -1,5 +1,5 @@
 import { User, UserForAuth } from "@/types/user";
-import { get, post } from "./requester";
+import { get, post, put } from "./requester";
 import { UserCourse } from "@/types/userCourses";
 import { Course } from "@/types/course";
 
@@ -42,4 +42,14 @@ export async function getAllSignedCoursesForUser(userId:number){
 export async function getAllCreatedCoursesForLector(userId:number){
     const courses=await get(`${endpoint}/all-created-courses-for/${userId}`);
     return courses as Course[];
+}
+
+export async function editUser(userId:number,data:object){
+    const updatedUser=await put(`${endpoint}/${userId}/edit`,data);
+    return updatedUser as User;
+}
+
+export async function changePassword(userId:number,data:object){
+    const updatedUser=await put(`${endpoint}/${userId}/change-password`,data);
+    return updatedUser as User;
 }
