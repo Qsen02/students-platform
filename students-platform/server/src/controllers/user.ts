@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
+    changePassword,
     checkUserId,
+    editUser,
     getAllCreatedCoursesForLector,
     getAllSignedCoursesForUser,
     getSignById,
@@ -74,7 +76,7 @@ userRouter.post(
             );
             const token = setToken(newUser);
             res.json({
-                id:newUser.id,
+                id: newUser.id,
                 fullname: newUser.fullname,
                 course: newUser.course,
                 facultyNumber: newUser.facultyNumber,
@@ -107,7 +109,7 @@ userRouter.post(
             const newUser = await login(fields.fullname, fields.password);
             const token = setToken(newUser);
             res.json({
-                id:newUser.id,
+                id: newUser.id,
                 fullname: newUser.fullname,
                 course: newUser.course,
                 facultyNumber: newUser.facultyNumber,
@@ -146,25 +148,93 @@ userRouter.get("/sign/:userId/for/:courseId", async (req, res) => {
     res.json(sign);
 });
 
-userRouter.get("/all-signed-courses-for/:userId",isUser(),async(req,res)=>{
-    const userId = Number(req.params.userId);
-    const isValid=await checkUserId(userId);
-    if(!isValid){
-        res.status(404).json({ message: "Resource not found!" });
-        return;
+userRouter.get(
+    "/all-signed-courses-for/:userId",
+    isUser(),
+    async (req, res) => {
+        const userId = Number(req.params.userId);
+        const isValid = await checkUserId(userId);
+        if (!isValid) {
+            res.status(404).json({ message: "Resource not found!" });
+            return;
+        }
+        const courses = await getAllSignedCoursesForUser(userId);
+        res.json(courses);
     }
-    const courses=await getAllSignedCoursesForUser(userId);
-    res.json(courses);
-})
-userRouter.get("/all-created-courses-for/:userId",isUser(),async(req,res)=>{
-    const userId = Number(req.params.userId);
-    const isValid=await checkUserId(userId);
-    if(!isValid){
-        res.status(404).json({ message: "Resource not found!" });
-        return;
+);
+userRouter.get(
+    "/all-created-courses-for/:userId",
+    isUser(),
+    async (req, res) => {
+        const userId = Number(req.params.userId);
+        const isValid = await checkUserId(userId);
+        if (!isValid) {
+            res.status(404).json({ message: "Resource not found!" });
+            return;
+        }
+        const courses = await getAllCreatedCoursesForLector(userId);
+        res.json(courses);
     }
-    const courses=await getAllCreatedCoursesForLector(userId);
-    res.json(courses);
-})
+);
+
+userRouter.put(
+    "/:userId/edit",
+    body("fullname")
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage("Full name must be at least 3 symbols long!"),
+    isUser(),
+    async (req, res) => {
+        try {
+            const userId = Number(req.params.userId);
+            const fields = req.body;
+            const results = validationResult(req);
+            if (!results.isEmpty()) {
+                throw new Error(errorParser(results));
+            }
+            const updatedUser = await editUser(userId, fields);
+            res.json(updatedUser);
+        } catch (err) {
+            if (err instanceof Error) {
+                res.status(400).json({ message: err.message });
+            } else {
+                res.status(400).json({
+                    message: "Your data is not in valid format!",
+                });
+            }
+        }
+    }
+);
+
+userRouter.put(
+    "/:userId/change-password",
+    body("password")
+        .trim()
+        .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/)
+        .withMessage(
+            "Password must be at least 6 symbols with at least 1 capital letter, digit and sepcial symbol"
+        ),
+    isUser(),
+    async (req, res) => {
+        try {
+            const userId = Number(req.params.userId);
+            const fields = req.body;
+            const results = validationResult(req);
+            if (!results.isEmpty()) {
+                throw new Error(errorParser(results));
+            }
+            const updatedUser = await changePassword(userId, fields.password);
+            res.json(updatedUser);
+        } catch (err) {
+            if (err instanceof Error) {
+                res.status(400).json({ message: err.message });
+            } else {
+                res.status(400).json({
+                    message: "Your data is not in valid format!",
+                });
+            }
+        }
+    }
+);
 
 export { userRouter };

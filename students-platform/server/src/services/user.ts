@@ -123,7 +123,7 @@ async function editUser(userId: number, data: Partial<UserAttributes>) {
         returning: true,
     });
 
-    return updatedUser;
+    return updatedUser[1][0];
 }
 
 async function changePassword(userId: number, newPassword: string) {
@@ -133,7 +133,7 @@ async function changePassword(userId: number, newPassword: string) {
     }
     const isOldPassword = await bcrypt.compare(newPassword, user.password);
     if (isOldPassword) {
-        throw new Error("Old password can't the new password!");
+        throw new Error("Old password can't be the new password!");
     }
     const updatedUser = await Users.update(
         { password: await bcrypt.hash(newPassword, 10) },
@@ -143,7 +143,7 @@ async function changePassword(userId: number, newPassword: string) {
         }
     );
 
-    return updatedUser;
+    return updatedUser[1][0];
 }
 
 export {
