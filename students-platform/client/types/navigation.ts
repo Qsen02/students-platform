@@ -11,5 +11,6 @@ export interface Routes extends ParamListBase {
     Login: undefined;
     Register: undefined;
     LectionDetails: { lectionId: number; lectorId: number | undefined };
-    LectionCreate:{courseId:number}
+    LectionCreate:{courseId:number};
+    StudentsList:{courseId:number}
 }

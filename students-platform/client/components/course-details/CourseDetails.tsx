@@ -126,12 +126,17 @@ export default function CourseDetails() {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
-                                    onPress={()=>setIsEditClicked(true)}
+                                    onPress={() => setIsEditClicked(true)}
                                 >
                                     <Icon name="edit" size={15} color="white" />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={courseDetailsStyles.optionsButton}
+                                    onPress={() =>
+                                        navigation.navigate("StudentsList", {
+                                            courseId: course.id,
+                                        })
+                                    }
                                 >
                                     <Icon name="info" size={15} color="white" />
                                 </TouchableOpacity>

@@ -1,5 +1,6 @@
 import { Course } from "@/types/course";
 import { del, get, post, put } from "./requester";
+import { UserCourse } from "@/types/userCourses";
 
 const endpoint="courses";
 
@@ -40,4 +41,9 @@ export async function deleteCourse(courseId:number){
 export async function editCourse(courseId:number,data:object){
     const updatedCourse = await put(`${endpoint}/${courseId}`,data);
     return updatedCourse as Course;
+}
+
+export async function getAllSignedStudentsForCourse(courseId:number){
+    const users=await get(`${endpoint}/users/${courseId}`);
+    return users as UserCourse[] | [];
 }

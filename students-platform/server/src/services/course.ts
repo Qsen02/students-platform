@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { Courses } from "../models/course";
 import { Users } from "../models/user";
 import { Course } from "../types/courses";
+import { CoursesUsers } from "../models/CoursesStudents";
 
 async function getLatestCourses() {
     const courses = await Courses.findAll({
@@ -112,6 +113,17 @@ async function searchCourses(courseName: string) {
     return courses;
 }
 
+async function getAllSignedStudentsForCourse(courseId: number) {
+    const users = await CoursesUsers.findAll({
+        where: { course_id: courseId },
+        include: [
+            { model: Users, as: "user" },
+            { model: Courses, as: "course" },
+        ],
+    });
+
+    return users;
+}
 export {
     getCourseById,
     getAllCourses,
@@ -122,4 +134,5 @@ export {
     pagination,
     searchCourses,
     getLatestCourses,
+    getAllSignedStudentsForCourse
 };

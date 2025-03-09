@@ -5,6 +5,7 @@ import {
     createCourse,
     deleteCourse,
     getAllCourses,
+    getAllSignedStudentsForCourse,
     getCourseById,
     getLatestCourses,
     pagination,
@@ -41,6 +42,17 @@ courseRouter.get("/search/:query", async (req, res) => {
         return;
     }
     res.json(courses);
+});
+
+courseRouter.get("/users/:courseId", isUser(), async (req, res) => {
+    const courseId = Number(req.params.courseId);
+    const isValid = await checkCourseId(courseId);
+    if (!isValid) {
+        res.status(404).json({ message: "Resource not found!" });
+        return;
+    }
+    const users=await getAllSignedStudentsForCourse(courseId);
+    res.json(users);
 });
 
 courseRouter.get("/:courseId", async (req, res) => {
