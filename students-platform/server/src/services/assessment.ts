@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Assessments } from "../models/assessment";
 import { Courses } from "../models/course";
 import { Users } from "../models/user";
@@ -37,9 +38,11 @@ async function updateAssessment(
     return assessment[1][0];
 }
 
-async function getUserAssessments(userId: number) {
+async function getUserAssessments(userId: number, courseId: number) {
     const assessments = await Assessments.findAll({
-        where: { student_id: userId },
+        where: { 
+            [Op.and]: [{ student_id: userId }, { course_id: courseId }] 
+        },
         include: [{ model: Users }, { model: Courses }],
     });
     return assessments;

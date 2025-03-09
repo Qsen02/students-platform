@@ -14,14 +14,16 @@ import { errorParser } from "../utils/errorParser";
 
 const assessmentRouter = Router();
 
-assessmentRouter.get("/for/:userId", isUser(), async (req, res) => {
+assessmentRouter.get("/for/:userId/in/:courseId", isUser(), async (req, res) => {
     const userId = Number(req.params.userId);
-    const isValid = await checkUserId(userId);
-    if (!isValid) {
+    const courseId=Number(req.params.courseId);
+    const isValidCourse=await checkCourseId(courseId);
+    const isValidUser = await checkUserId(userId);
+    if (!isValidUser || !isValidCourse) {
         res.status(404).json({ message: "Resource not found!" });
         return;
     }
-    const assessments = await getUserAssessments(userId);
+    const assessments = await getUserAssessments(userId,courseId);
     res.json(assessments);
 });
 

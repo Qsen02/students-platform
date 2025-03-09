@@ -8,8 +8,8 @@ export async function getAssessmentById(assessmentId:number){
     return assessment as Assessment;
 }
 
-export async function getUserAssessments(userId:number){
-    const assessments = await get(`${endpoint}/for/${userId}`);
+export async function getUserAssessments(userId:number,courseId:number){
+    const assessments = await get(`${endpoint}/for/${userId}/in/${courseId}`);
     return assessments as Assessment[] | [];
 }
 
