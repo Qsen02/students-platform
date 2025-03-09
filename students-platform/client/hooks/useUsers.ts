@@ -1,4 +1,5 @@
 import {
+    editUser,
     getAllCreatedCoursesForLector,
     getAllSignedCoursesForUser,
     getUserById,
@@ -49,15 +50,19 @@ export function useGetUser(
     initalUserValues: null,
     userId: number,
     initialSignedCourses: [],
-    initialCreatedCourses: []
+    initialCreatedCourses: [],
+    isEditClicked: boolean
 ) {
     const [user, setUser] = useState<User | null>(initalUserValues);
     const { loading, setLoading, error, setError } = useErrorLoading(
         false,
         false
     );
-    const [signedCourse,setSignedCourses]=useState<UserCourse[]>(initialSignedCourses);
-    const [createdCourses,setCreatedCourses]=useState<Course[]>(initialCreatedCourses);
+    const [signedCourse, setSignedCourses] =
+        useState<UserCourse[]>(initialSignedCourses);
+    const [createdCourses, setCreatedCourses] = useState<Course[]>(
+        initialCreatedCourses
+    );
 
     useEffect(() => {
         (async () => {
@@ -65,11 +70,15 @@ export function useGetUser(
                 setLoading(true);
                 const curUser = await getUserById(userId);
                 setUser(curUser);
-                if(curUser.role=="lector"){
-                    const createdCourses=await getAllCreatedCoursesForLector(userId);
+                if (curUser.role == "lector") {
+                    const createdCourses = await getAllCreatedCoursesForLector(
+                        userId
+                    );
                     setCreatedCourses(createdCourses);
-                }else{
-                    const signedCourses=await getAllSignedCoursesForUser(userId);
+                } else {
+                    const signedCourses = await getAllSignedCoursesForUser(
+                        userId
+                    );
                     setSignedCourses(signedCourses);
                 }
                 setLoading(false);
@@ -79,13 +88,62 @@ export function useGetUser(
                 return;
             }
         })();
-    }, []);
+    }, [isEditClicked]);
 
     return {
         user,
+        setUser,
         createdCourses,
         signedCourse,
         loading,
         error,
     };
+}
+
+export function useGetUserValues(
+    userId: number | undefined,
+    isEditClicked: boolean
+) {
+    const [values, setValues] = useState({
+        fullname: "",
+    });
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                if (userId) {
+                    const curUser = await getUserById(userId);
+                    setValues({ fullname: curUser.fullname });
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                    return;
+                }
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+                return;
+            }
+        })();
+    }, [isEditClicked]);
+
+    return {
+        values,
+        setValues,
+        loading,
+        error,
+    };
+}
+
+export function useEditUser() {
+    async function editing(userId: number, data: object) {
+        return await editUser(userId, data);
+    }
+
+    return editing;
 }

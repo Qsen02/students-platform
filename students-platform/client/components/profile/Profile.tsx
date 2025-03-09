@@ -7,19 +7,29 @@ import { profileStyles } from "./PofileStyles";
 import CourseItem from "@/commons/course-items/CourseItem";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
+import { useState } from "react";
+import ProfileEdit from "./profile-edit/ProfileEdit";
 
 export default function Profile() {
     const route = useRoute<RouteProp<Routes, "Profile">>();
     const { userId } = route.params;
-    const { user, signedCourse, createdCourses, loading, error } = useGetUser(
+    const [isEditClicked, setIsEditClicked] = useState(false);
+    const { user,setUser, signedCourse, createdCourses, loading, error } = useGetUser(
         null,
         userId,
         [],
-        []
+        [],
+        isEditClicked
     );
 
     return (
         <>
+            <ProfileEdit
+                userId={user?.id}
+                setUserHandler={setUser}
+                isClicked={isEditClicked}
+                clickHandler={setIsEditClicked}
+            />
             <Spinner
                 visible={loading}
                 animation="fade"
@@ -57,6 +67,7 @@ export default function Profile() {
                                 <View style={profileStyles.buttonWrapper}>
                                     <TouchableOpacity
                                         style={profileStyles.button}
+                                        onPress={() => setIsEditClicked(true)}
                                     >
                                         <Text style={profileStyles.buttonText}>
                                             EDIT PROFILE

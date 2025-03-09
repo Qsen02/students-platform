@@ -1,37 +1,34 @@
-import { Modal, View, Text, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { lectionEditStyles } from "../../lection-details/lection-edit/LectionEditStyles";
-import InputField from "@/commons/input-field/InputField";
-import { registerStyles } from "@/components/register/RegisterStyles";
-import Spinner from "react-native-loading-spinner-overlay";
-import { useEditCourse, useGetCourseForEditFrom } from "@/hooks/useCourses";
-import { Course } from "@/types/course";
-import { useState } from "react";
 import ErrorModal from "@/commons/err-modal/ErrorModal";
+import InputField from "@/commons/input-field/InputField";
+import { lectionEditStyles } from "@/components/lection-details/lection-edit/LectionEditStyles";
+import { registerStyles } from "@/components/register/RegisterStyles";
+import { useEditUser, useGetUserValues } from "@/hooks/useUsers";
+import { User } from "@/types/user";
+import { useState } from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-interface CourseEditProps {
-    courseName: string | undefined;
+interface ProfileEditProps {
+    userId: number | undefined;
+    setUserHandler:React.Dispatch<React.SetStateAction<User | null>>;
     isClicked: boolean;
-    courseId: number | undefined;
-    setCourseHandler: React.Dispatch<React.SetStateAction<Course | null>>;
     clickHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CourseEdit({
-    courseName,
+export default function ProfileEdit({
+    userId,
+    setUserHandler,
     isClicked,
-    courseId,
-    setCourseHandler,
     clickHandler,
-}: CourseEditProps) {
-    const { values, setValues, loading, error } = useGetCourseForEditFrom(
-        { courseName: "", courseImage: "" },
-        courseId,
+}: ProfileEditProps) {
+    const { values, setValues, loading, error } = useGetUserValues(
+        userId,
         isClicked
     );
-    const editCourse = useEditCourse();
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
+    const editUser = useEditUser();
 
     function onCancel() {
         clickHandler(false);
@@ -39,52 +36,48 @@ export default function CourseEdit({
 
     async function onEdit() {
         const errors: string[] = [];
-        if (!values.courseName) {
-            errors.push("Course name is required!");
+
+        if (!values.fullname || values.fullname?.length < 3) {
+            errors.push("Full name must be at least 3 symbols long!");
         }
-        if (values.courseName.length < 3) {
-            errors.push("Course name must be at least 3 symbols long!");
-        }
-        if (values.courseImage && !/^https?:\/\//.test(values.courseImage)) {
-            errors.push("Course image must be valid URL!");
-        }
+
         if (errors.length > 0) {
             setErrMessage(errors);
             setIsErr(true);
             return;
         }
 
-        if (courseId) {
-            try {
-                const updatedCourse = await editCourse(courseId, {
-                    courseName: values.courseName,
-                    courseImage: values.courseImage,
+        try {
+            if (userId) {
+                const curUser = await editUser(userId, {
+                    fullname: values.fullname,
                 });
-                setCourseHandler(updatedCourse);
+                setUserHandler(curUser);
                 clickHandler(false);
-            } catch (err) {
-                setErrMessage(["Error occurd! Please try again later."]);
-                setIsErr(true);
+            }else{
+                clickHandler(false);
                 return;
             }
-        } else {
-            clickHandler(false);
+        } catch (err) {
+            setErrMessage(["Something went wrong, please try again later!"]);
+            setIsErr(true);
+            return;
         }
     }
 
     return (
         <>
-            <ErrorModal
-                visible={isErr}
-                visibleHanlder={setIsErr}
-                message={errMessage.join("\n")}
-                messageHandler={setErrMessage}
-            />
             <Spinner
                 visible={loading}
                 animation="fade"
                 size="large"
                 color="rgb(0, 157, 255)"
+            />
+            <ErrorModal
+                visible={isErr}
+                visibleHanlder={setIsErr}
+                message={errMessage.join("\n")}
+                messageHandler={setErrMessage}
             />
             <Modal transparent={true} visible={isClicked} animationType="fade">
                 <View style={lectionEditStyles.overlay}>
@@ -107,27 +100,16 @@ export default function CourseEdit({
                         ) : (
                             <>
                                 <Text style={lectionEditStyles.title}>
-                                    Edit {courseName} course here.
+                                    Edit your profile name here.
                                 </Text>
                                 <Text style={registerStyles.formText}>
-                                    Course name
+                                    Full name
                                 </Text>
                                 <InputField
-                                    value={values.courseName}
+                                    value={values.fullname}
                                     title="Course name"
                                     changeHandler={(e: string) =>
-                                        setValues({ ...values, courseName: e })
-                                    }
-                                    keyboardType="default"
-                                />
-                                <Text style={registerStyles.formText}>
-                                    Course image
-                                </Text>
-                                <InputField
-                                    value={values.courseImage}
-                                    title="Course image"
-                                    changeHandler={(e: string) =>
-                                        setValues({ ...values, courseImage: e })
+                                        setValues({ ...values, fullname: e })
                                     }
                                     keyboardType="default"
                                 />
