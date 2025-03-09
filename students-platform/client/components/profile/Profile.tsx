@@ -9,18 +9,16 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
 import { useState } from "react";
 import ProfileEdit from "./profile-edit/ProfileEdit";
+import ProfileChangePassword from "./profile-change-password/ProfileChangePassword";
 
 export default function Profile() {
     const route = useRoute<RouteProp<Routes, "Profile">>();
     const { userId } = route.params;
     const [isEditClicked, setIsEditClicked] = useState(false);
-    const { user,setUser, signedCourse, createdCourses, loading, error } = useGetUser(
-        null,
-        userId,
-        [],
-        [],
-        isEditClicked
-    );
+    const [isChangePasswordClicked, setIsChangePasswordClicked] =
+        useState(false);
+    const { user, setUser, signedCourse, createdCourses, loading, error } =
+        useGetUser(null, userId, [], [], isEditClicked);
 
     return (
         <>
@@ -29,6 +27,12 @@ export default function Profile() {
                 setUserHandler={setUser}
                 isClicked={isEditClicked}
                 clickHandler={setIsEditClicked}
+            />
+            <ProfileChangePassword
+                userId={user?.id}
+                setUserHandler={setUser}
+                clickHandler={setIsChangePasswordClicked}
+                isClicked={isChangePasswordClicked}
             />
             <Spinner
                 visible={loading}
@@ -75,6 +79,9 @@ export default function Profile() {
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={profileStyles.button}
+                                        onPress={() =>
+                                            setIsChangePasswordClicked(true)
+                                        }
                                     >
                                         <Text style={profileStyles.buttonText}>
                                             CHANGE PASSWORD
@@ -129,14 +136,24 @@ export default function Profile() {
                                     <TouchableOpacity
                                         style={profileStyles.button}
                                     >
-                                        <Text style={profileStyles.buttonText}>
+                                        <Text
+                                            style={profileStyles.buttonText}
+                                            onPress={() =>
+                                                setIsEditClicked(true)
+                                            }
+                                        >
                                             EDIT PROFILE
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={profileStyles.button}
                                     >
-                                        <Text style={profileStyles.buttonText}>
+                                        <Text
+                                            style={profileStyles.buttonText}
+                                            onPress={() =>
+                                                setIsChangePasswordClicked(true)
+                                            }
+                                        >
                                             CHANGE PASSWORD
                                         </Text>
                                     </TouchableOpacity>

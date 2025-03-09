@@ -77,7 +77,13 @@ export default function Register() {
             }
             navigation.navigate("Home");
         } catch (err) {
-            setErrMessage(["Error occurd! Please try again later!"]);
+            if(err instanceof Error){
+                if(err.message=="This user already exist!"){
+                    setErrMessage([err.message]);
+                }else{
+                    setErrMessage(["Error occurd! Please try again later!"]);
+                }
+            }
             setIsErr(true);
             return;
         }

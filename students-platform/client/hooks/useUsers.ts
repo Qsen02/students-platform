@@ -1,4 +1,5 @@
 import {
+    changePassword,
     editUser,
     getAllCreatedCoursesForLector,
     getAllSignedCoursesForUser,
@@ -146,4 +147,12 @@ export function useEditUser() {
     }
 
     return editing;
+}
+
+export function useChangePassword(){
+    async function changing(userId:number,data:object){
+        return await changePassword(userId,data);
+    }
+
+    return changing;
 }
