@@ -51,7 +51,7 @@ assessmentRouter.post(
     async (req, res) => {
         const userId = Number(req.params.userId);
         const isValidUser = await checkUserId(userId);
-        const assessment = req.body.assessment;
+        const assessment = Number(req.body.assessment);
         const courseId = Number(req.params.courseId);
         const isValidCourse = await checkCourseId(courseId);
         if (!isValidCourse || !isValidUser) {

@@ -18,6 +18,14 @@ async function createAssessment(
     userId: number,
     courseId: number
 ) {
+    const isExist=await Assessments.findOne({
+        where: { 
+            [Op.and]: [{ student_id: userId }, { course_id: courseId }] 
+        },
+    })
+    if(isExist){
+        throw new Error("This assessment already exist!");
+    }
     const assessment = await Assessments.create({
         assessment: assessmentNumber,
         student_id: userId,
@@ -39,7 +47,7 @@ async function updateAssessment(
 }
 
 async function getUserAssessments(userId: number, courseId: number) {
-    const assessments = await Assessments.findAll({
+    const assessments = await Assessments.findOne({
         where: { 
             [Op.and]: [{ student_id: userId }, { course_id: courseId }] 
         },

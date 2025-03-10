@@ -39,6 +39,7 @@ export default function StudentsList() {
                             keyExtractor={(item) => item.user.id.toString()}
                             renderItem={({ item }) => (
                                 <UserItem
+                                    courseId={item.course_id}
                                     userId={item.user.id}
                                     fullname={item.user.fullname}
                                     facultyNumber={item.user.facultyNumber}

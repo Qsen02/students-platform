@@ -10,7 +10,7 @@ export async function getAssessmentById(assessmentId:number){
 
 export async function getUserAssessments(userId:number,courseId:number){
     const assessments = await get(`${endpoint}/for/${userId}/in/${courseId}`);
-    return assessments as Assessment[] | [];
+    return assessments as Assessment | null;
 }
 
 export async function addAssessment(userId:number,courseId:number,data:object){
