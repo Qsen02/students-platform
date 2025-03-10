@@ -1,9 +1,8 @@
 import ErrorModal from "@/commons/err-modal/ErrorModal";
 import InputField from "@/commons/input-field/InputField";
-import { homeStyles } from "@/components/home/HomeStyles";
 import { lectionEditStyles } from "@/components/lection-details/lection-edit/LectionEditStyles";
 import { registerStyles } from "@/components/register/RegisterStyles";
-import { useSetAssessment } from "@/hooks/useAssessments";
+import { useEditAssessment, useGetAssessmentValue } from "@/hooks/useAssessments";
 import { useGetUserById } from "@/hooks/useUsers";
 import { Routes } from "@/types/navigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -12,34 +11,33 @@ import { Modal, Text, TouchableOpacity, View } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface setAssessmentProps {
+interface EditAssessmentProp {
+    userId: number | null;
+    courseId:number | null;
     isClicked: boolean;
     clickHandler: React.Dispatch<React.SetStateAction<boolean>>;
-    userId: number | null;
-    courseId: number | null;
 }
 
-export default function SetAssessment({
-    isClicked,
-    clickHandler,
+export default function EditAssessment({
     userId,
     courseId,
-}: setAssessmentProps) {
-    const [values, setValues] = useState({
-        assessment: "",
-    });
-    const { user, loading, error } = useGetUserById(null, userId);
-    const addAssessment = useSetAssessment();
+    isClicked,
+    clickHandler,
+}: EditAssessmentProp) {
+    const {values,setValues,loading,error}=useGetAssessmentValue(userId,courseId);
+    const {user} = useGetUserById(null, userId);
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
+    const editAssessment=useEditAssessment();
     const navigation = useNavigation<NavigationProp<Routes>>();
 
     function onCancel() {
         clickHandler(false);
     }
 
-    async function onSet() {
+    async function onEdit() {
         const errors: string[] = [];
+
         if (!values.assessment) {
             errors.push("Field is required!");
         }
@@ -55,25 +53,18 @@ export default function SetAssessment({
         }
 
         try {
-            if (courseId && userId) {
-                await addAssessment(userId, courseId, {
+            if (userId && courseId) {
+                await editAssessment(userId,courseId,{
                     assessment: values.assessment,
                 });
                 clickHandler(false);
                 navigation.navigate("CourseDetails", { courseId: courseId });
-            } else {
+            }else{
                 clickHandler(false);
+                return;
             }
         } catch (err) {
-            if (err instanceof Error) {
-                if (err.message == "This assessment already exist!") {
-                    setErrMessage([err.message]);
-                } else {
-                    setErrMessage([
-                        "Something went wrong, please try again later!",
-                    ]);
-                }
-            }
+            setErrMessage(["Something went wrong, please try again later!"]);
             setIsErr(true);
             return;
         }
@@ -88,46 +79,54 @@ export default function SetAssessment({
                 color="rgb(0, 157, 255)"
             />
             <ErrorModal
-                message={errMessage.join("\n")}
                 visible={isErr}
                 visibleHanlder={setIsErr}
+                message={errMessage.join("\n")}
                 messageHandler={setErrMessage}
             />
             <Modal transparent={true} visible={isClicked} animationType="fade">
                 <View style={lectionEditStyles.overlay}>
-                    <SafeAreaView style={registerStyles.formWrapper}>
+                    <SafeAreaView style={lectionEditStyles.modalContainer}>
                         {error ? (
-                            <View style={homeStyles.error}>
-                                <Text style={homeStyles.errorText}>
-                                    Server is not responding, please try again
-                                    later!
+                            <>
+                                <Text style={lectionEditStyles.text}>
+                                    Something went wrong! Please try again
+                                    later.
                                 </Text>
-                            </View>
+                                <TouchableOpacity
+                                    style={lectionEditStyles.button}
+                                    onPress={onCancel}
+                                >
+                                    <Text style={lectionEditStyles.buttonText}>
+                                        OK
+                                    </Text>
+                                </TouchableOpacity>
+                            </>
                         ) : (
                             <>
-                                <Text style={registerStyles.formTitle}>
-                                    Set mark for student {user?.fullname} here.
+                                <Text style={lectionEditStyles.title}>
+                                    Edit mark for student {user?.fullname} here.
                                 </Text>
                                 <Text style={registerStyles.formText}>
                                     Mark number
                                 </Text>
                                 <InputField
                                     value={values.assessment}
+                                    title="Mark number"
                                     changeHandler={(e: string) =>
                                         setValues({ ...values, assessment: e })
                                     }
                                     keyboardType="numeric"
-                                    title="Matk number"
                                 />
                                 <View style={lectionEditStyles.buttonWrapper}>
                                     <TouchableOpacity
                                         style={lectionEditStyles.button}
-                                        onPress={onSet}
+                                        onPress={onEdit}
                                     >
                                         <Text
                                             style={lectionEditStyles.buttonText}
                                         >
-                                            SET
+                                            EDIT
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity

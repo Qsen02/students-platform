@@ -18,7 +18,7 @@ export async function addAssessment(userId:number,courseId:number,data:object){
     return newAssessment as Assessment;
 }
 
-export async function editAssessment(assessmentId:number,data:object){
-    const updatedAssessment = await put(`${endpoint}/${assessmentId}`,data);
+export async function editAssessment(userId:number,courseId:number,data:object){
+    const updatedAssessment = await put(`${endpoint}/for/${userId}/in/${courseId}`,data);
     return updatedAssessment as Assessment;
 }

@@ -8,6 +8,7 @@ import { useGetSignedUsersForCourse } from "@/hooks/useCourses";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
 import SetAssessment from "./set-assessment/SetAssessment";
+import EditAssessment from "./edit-assessment/EditAssessment";
 
 export default function StudentsList() {
     const route = useRoute<RouteProp<Routes, "StudentsList">>();
@@ -17,9 +18,17 @@ export default function StudentsList() {
     const [isSetAssessmentClicked, setIsSetAssessmentClicked] = useState(false);
     const [choosenUserId, setChoosenUserId] = useState<number | null>(null);
     const [choosenCourseId, setChoosenCourseId] = useState<number | null>(null);
+    const [isEditAssessmentClicked, setIsEditAssessmentClicked] =
+        useState(false);
 
     return (
         <>
+            <EditAssessment
+                isClicked={isEditAssessmentClicked}
+                clickHandler={setIsEditAssessmentClicked}
+                userId={choosenUserId}
+                courseId={choosenCourseId}
+            />
             <SetAssessment
                 isClicked={isSetAssessmentClicked}
                 clickHandler={setIsSetAssessmentClicked}
@@ -58,6 +67,7 @@ export default function StudentsList() {
                                     }
                                     setUserId={setChoosenUserId}
                                     setCourseId={setChoosenCourseId}
+                                    editAssessmentHandler={setIsEditAssessmentClicked}
                                 />
                             )}
                             ListEmptyComponent={() => (

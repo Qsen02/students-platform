@@ -10,6 +10,7 @@ interface userItemProps {
     setAssessmentHandler: React.Dispatch<React.SetStateAction<boolean>>;
     setUserId: React.Dispatch<React.SetStateAction<number | null>>;
     setCourseId: React.Dispatch<React.SetStateAction<number | null>>;
+    editAssessmentHandler:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UserItem({
@@ -20,11 +21,18 @@ export default function UserItem({
     setAssessmentHandler,
     setUserId,
     setCourseId,
+    editAssessmentHandler
 }: userItemProps) {
-    const { assessment,setAssessment } = useGetAssessment(null, userId, courseId);
+    const { assessment } = useGetAssessment(null, userId, courseId);
 
     function setState() {
         setAssessmentHandler(true);
+        setUserId(userId);
+        setCourseId(courseId);
+    }
+
+    function editState(){
+        editAssessmentHandler(true);
         setUserId(userId);
         setCourseId(courseId);
     }
@@ -47,7 +55,7 @@ export default function UserItem({
                 >
                     <Text style={userItemStyles.buttonText}>SET MARK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={userItemStyles.button}>
+                <TouchableOpacity style={userItemStyles.button} onPress={editState}>
                     <Text style={userItemStyles.buttonText}>EDIT MARK</Text>
                 </TouchableOpacity>
             </View>

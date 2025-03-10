@@ -82,16 +82,18 @@ assessmentRouter.post(
 );
 
 assessmentRouter.put(
-    "/:assessmentId",
+    "/for/:userId/in/:courseId",
     body("assessment")
         .isInt({ min: 2, max: 6 })
         .withMessage("Assessment must be between 2 and 6!"),
     isUser(),
     async (req, res) => {
-        const assessmentId = Number(req.params.assessmentId);
-        const fields = req.body;
-        const isValid = await checkAssessmentId(assessmentId);
-        if (!isValid) {
+        const userId = Number(req.params.userId);
+        const isValidUser = await checkUserId(userId);
+        const assessment = Number(req.body.assessment);
+        const courseId = Number(req.params.courseId);
+        const isValidCourse = await checkCourseId(courseId);
+        if (!isValidCourse || !isValidUser) {
             res.status(404).json({ message: "Resource not found!" });
             return;
         }
@@ -101,8 +103,9 @@ assessmentRouter.put(
                 throw new Error(errorParser(results));
             }
             const updatedAssessment = await updateAssessment(
-                assessmentId,
-                fields
+                userId,
+                courseId,
+                assessment
             );
             res.json(updatedAssessment);
         } catch (err) {

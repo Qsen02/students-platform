@@ -1,6 +1,11 @@
 import { Assessment } from "@/types/assessment";
 import { useEffect, useState } from "react";
-import { addAssessment, getUserAssessments } from "@/api/assessmentService";
+import {
+    addAssessment,
+    editAssessment,
+    getUserAssessments,
+} from "@/api/assessmentService";
+import { useErrorLoading } from "./useErrorLoading";
 
 export function useGetAssessment(
     initalValues: null,
@@ -18,14 +23,65 @@ export function useGetAssessment(
     }, []);
 
     return {
-        assessment,setAssessment,
+        assessment,
     };
 }
 
-export function useSetAssessment(){
-    async function setting(userId:number,courseId:number,data:object){
-        return await addAssessment(userId,courseId,data);
+export function useSetAssessment() {
+    async function setting(userId: number, courseId: number, data: object) {
+        return await addAssessment(userId, courseId, data);
     }
 
     return setting;
+}
+
+export function useGetAssessmentValue(
+    userId: number | null,
+    courseId: number | null
+) {
+    const [values, setValues] = useState({
+        assessment: "",
+    });
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                if (userId && courseId) {
+                    const assessment = await getUserAssessments(
+                        userId,
+                        courseId
+                    );
+                    if (assessment?.assessment) {
+                        setValues({
+                            ...values,assessment: assessment.assessment.toString(),
+                        });
+                    }
+                }
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, []);
+
+    return {
+        values,
+        setValues,
+        loading,
+        error,
+    };
+}
+
+export function useEditAssessment() {
+    async function editing(userId: number, courseId: number, data: object) {
+        return await editAssessment(userId, courseId, data);
+    }
+
+    return editing;
 }
