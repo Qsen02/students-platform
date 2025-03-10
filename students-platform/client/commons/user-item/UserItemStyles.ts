@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const userItemStyles = StyleSheet.create({
     itemWrapper: {
-        width: "97%",
+        width: "100%",
         borderRadius: 7,
         padding: 10,
         display: "flex",
@@ -10,6 +10,7 @@ export const userItemStyles = StyleSheet.create({
         alignContent: "center",
         gap: 10,
         backgroundColor: "rgb(0, 157, 255)",
+        marginTop:10
     },
     itemHeader: {
         paddingBottom: 10,

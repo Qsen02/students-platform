@@ -6,6 +6,7 @@ import {
     deleteCourse,
     editCourse,
     getAllCourses,
+    getAllSignedStudentsForCourse,
     getCourseById,
     getLatestCourses,
     searchCourses,
@@ -196,4 +197,33 @@ export function useGetCourseForEditFrom(
         loading,
         error,
     };
+}
+
+export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
+    const [userCourses, setUserCourses] = useState<UserCourse[]>(initalValues);
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const users = await getAllSignedStudentsForCourse(courseId);
+                setUserCourses(users);
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, []);
+
+    return {
+        userCourses,
+        setUserCourses,
+        loading,
+        error
+    }
 }
