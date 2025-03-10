@@ -225,7 +225,6 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
 
     return {
         userCourses,
-        setUserCourses,
         course,
         loading,
         error

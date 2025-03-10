@@ -5,8 +5,7 @@ import { lectionEditStyles } from "@/components/lection-details/lection-edit/Lec
 import { registerStyles } from "@/components/register/RegisterStyles";
 import { useSetAssessment } from "@/hooks/useAssessments";
 import { useGetUserById } from "@/hooks/useUsers";
-import { Routes } from "@/types/navigation";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Assessment } from "@/types/assessment";
 import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -17,6 +16,7 @@ interface setAssessmentProps {
     clickHandler: React.Dispatch<React.SetStateAction<boolean>>;
     userId: number | null;
     courseId: number | null;
+    setAssessmentHandler:React.Dispatch<React.SetStateAction<Assessment|null>>;
 }
 
 export default function SetAssessment({
@@ -24,6 +24,7 @@ export default function SetAssessment({
     clickHandler,
     userId,
     courseId,
+    setAssessmentHandler
 }: setAssessmentProps) {
     const [values, setValues] = useState({
         assessment: "",
@@ -32,7 +33,6 @@ export default function SetAssessment({
     const addAssessment = useSetAssessment();
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
-    const navigation = useNavigation<NavigationProp<Routes>>();
 
     function onCancel() {
         clickHandler(false);
@@ -56,11 +56,11 @@ export default function SetAssessment({
 
         try {
             if (courseId && userId) {
-                await addAssessment(userId, courseId, {
+                const assessment= await addAssessment(userId, courseId, {
                     assessment: values.assessment,
                 });
-                clickHandler(false);
-                navigation.navigate("CourseDetails", { courseId: courseId });
+                setAssessmentHandler(assessment);
+                clickHandler(false);         
             } else {
                 clickHandler(false);
             }

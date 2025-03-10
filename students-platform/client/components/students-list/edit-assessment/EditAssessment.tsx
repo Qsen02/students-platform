@@ -4,8 +4,7 @@ import { lectionEditStyles } from "@/components/lection-details/lection-edit/Lec
 import { registerStyles } from "@/components/register/RegisterStyles";
 import { useEditAssessment, useGetAssessmentValue } from "@/hooks/useAssessments";
 import { useGetUserById } from "@/hooks/useUsers";
-import { Routes } from "@/types/navigation";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Assessment } from "@/types/assessment";
 import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -16,6 +15,7 @@ interface EditAssessmentProp {
     courseId:number | null;
     isClicked: boolean;
     clickHandler: React.Dispatch<React.SetStateAction<boolean>>;
+    setAssessmentHandler:React.Dispatch<React.SetStateAction<Assessment|null>>
 }
 
 export default function EditAssessment({
@@ -23,13 +23,13 @@ export default function EditAssessment({
     courseId,
     isClicked,
     clickHandler,
+    setAssessmentHandler
 }: EditAssessmentProp) {
     const {values,setValues,loading,error}=useGetAssessmentValue(userId,courseId);
     const {user} = useGetUserById(null, userId);
     const [errMessage, setErrMessage] = useState<string[]>([]);
     const [isErr, setIsErr] = useState(false);
     const editAssessment=useEditAssessment();
-    const navigation = useNavigation<NavigationProp<Routes>>();
 
     function onCancel() {
         clickHandler(false);
@@ -54,11 +54,11 @@ export default function EditAssessment({
 
         try {
             if (userId && courseId) {
-                await editAssessment(userId,courseId,{
+                const assessment=await editAssessment(userId,courseId,{
                     assessment: values.assessment,
                 });
+                setAssessmentHandler(assessment);
                 clickHandler(false);
-                navigation.navigate("CourseDetails", { courseId: courseId });
             }else{
                 clickHandler(false);
                 return;

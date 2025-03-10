@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Routes } from "@/types/navigation";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { FlatList, Text, View } from "react-native";
@@ -7,34 +7,15 @@ import UserItem from "@/commons/user-item/UserItem";
 import { useGetSignedUsersForCourse } from "@/hooks/useCourses";
 import Spinner from "react-native-loading-spinner-overlay";
 import { homeStyles } from "../home/HomeStyles";
-import SetAssessment from "./set-assessment/SetAssessment";
-import EditAssessment from "./edit-assessment/EditAssessment";
 
 export default function StudentsList() {
     const route = useRoute<RouteProp<Routes, "StudentsList">>();
     const { courseId } = route.params;
-    const { userCourses, setUserCourses, course, loading, error } =
+    const { userCourses, course, loading, error } =
         useGetSignedUsersForCourse([], courseId);
-    const [isSetAssessmentClicked, setIsSetAssessmentClicked] = useState(false);
-    const [choosenUserId, setChoosenUserId] = useState<number | null>(null);
-    const [choosenCourseId, setChoosenCourseId] = useState<number | null>(null);
-    const [isEditAssessmentClicked, setIsEditAssessmentClicked] =
-        useState(false);
 
     return (
         <>
-            <EditAssessment
-                isClicked={isEditAssessmentClicked}
-                clickHandler={setIsEditAssessmentClicked}
-                userId={choosenUserId}
-                courseId={choosenCourseId}
-            />
-            <SetAssessment
-                isClicked={isSetAssessmentClicked}
-                clickHandler={setIsSetAssessmentClicked}
-                userId={choosenUserId}
-                courseId={choosenCourseId}
-            />
             <Spinner
                 visible={loading}
                 animation="fade"
@@ -62,12 +43,6 @@ export default function StudentsList() {
                                     userId={item.user.id}
                                     fullname={item.user.fullname}
                                     facultyNumber={item.user.facultyNumber}
-                                    setAssessmentHandler={
-                                        setIsSetAssessmentClicked
-                                    }
-                                    setUserId={setChoosenUserId}
-                                    setCourseId={setChoosenCourseId}
-                                    editAssessmentHandler={setIsEditAssessmentClicked}
                                 />
                             )}
                             ListEmptyComponent={() => (

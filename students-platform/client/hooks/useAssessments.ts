@@ -24,6 +24,7 @@ export function useGetAssessment(
 
     return {
         assessment,
+        setAssessment
     };
 }
 
