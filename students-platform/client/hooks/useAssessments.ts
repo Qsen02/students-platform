@@ -1,6 +1,6 @@
 import { Assessment } from "@/types/assessment";
 import { useEffect, useState } from "react";
-import { getUserAssessments } from "@/api/assessmentService";
+import { addAssessment, getUserAssessments } from "@/api/assessmentService";
 
 export function useGetAssessment(
     initalValues: null,
@@ -18,6 +18,14 @@ export function useGetAssessment(
     }, []);
 
     return {
-        assessment,
+        assessment,setAssessment,
     };
+}
+
+export function useSetAssessment(){
+    async function setting(userId:number,courseId:number,data:object){
+        return await addAssessment(userId,courseId,data);
+    }
+
+    return setting;
 }

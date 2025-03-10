@@ -149,10 +149,41 @@ export function useEditUser() {
     return editing;
 }
 
-export function useChangePassword(){
-    async function changing(userId:number,data:object){
-        return await changePassword(userId,data);
+export function useChangePassword() {
+    async function changing(userId: number, data: object) {
+        return await changePassword(userId, data);
     }
 
     return changing;
+}
+
+export function useGetUserById(initialValues: null, userId: number | null) {
+    const [user, setUser] = useState<User | null>(initialValues);
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                if (userId) {
+                    const user = await getUserById(userId);
+                    setUser(user);
+                }
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+                return;
+            }
+        })();
+    }, []);
+
+    return {
+        user,
+        loading,
+        error,
+    };
 }

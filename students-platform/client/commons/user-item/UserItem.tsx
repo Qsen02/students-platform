@@ -7,6 +7,9 @@ interface userItemProps {
     userId: number;
     fullname: string;
     facultyNumber: string;
+    setAssessmentHandler: React.Dispatch<React.SetStateAction<boolean>>;
+    setUserId: React.Dispatch<React.SetStateAction<number | null>>;
+    setCourseId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export default function UserItem({
@@ -14,8 +17,18 @@ export default function UserItem({
     userId,
     fullname,
     facultyNumber,
+    setAssessmentHandler,
+    setUserId,
+    setCourseId,
 }: userItemProps) {
-    const { assessment } = useGetAssessment(null, userId, courseId);
+    const { assessment,setAssessment } = useGetAssessment(null, userId, courseId);
+
+    function setState() {
+        setAssessmentHandler(true);
+        setUserId(userId);
+        setCourseId(courseId);
+    }
+
     return (
         <View style={userItemStyles.itemWrapper}>
             <View style={userItemStyles.itemHeader}>
@@ -24,13 +37,14 @@ export default function UserItem({
                     Faculty number: {facultyNumber}
                 </Text>
                 <Text style={userItemStyles.text}>
-                    Mark: {assessment
-                        ? assessment.assessment
-                        : "No mark yet."}
+                    Mark: {assessment ? assessment.assessment : "No mark yet."}
                 </Text>
             </View>
             <View style={userItemStyles.buttonWrapper}>
-                <TouchableOpacity style={userItemStyles.button}>
+                <TouchableOpacity
+                    style={userItemStyles.button}
+                    onPress={setState}
+                >
                     <Text style={userItemStyles.buttonText}>SET MARK</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={userItemStyles.button}>

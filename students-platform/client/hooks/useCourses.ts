@@ -201,6 +201,7 @@ export function useGetCourseForEditFrom(
 
 export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
     const [userCourses, setUserCourses] = useState<UserCourse[]>(initalValues);
+    const [course,setCourse]=useState<Course | null>(null);
     const { loading, setLoading, error, setError } = useErrorLoading(
         false,
         false
@@ -212,6 +213,8 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
                 setLoading(true);
                 const users = await getAllSignedStudentsForCourse(courseId);
                 setUserCourses(users);
+                const course=await getCourseById(courseId);
+                setCourse(course);
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
@@ -223,6 +226,7 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
     return {
         userCourses,
         setUserCourses,
+        course,
         loading,
         error
     }
