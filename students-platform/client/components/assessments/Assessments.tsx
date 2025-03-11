@@ -42,6 +42,9 @@ export default function Assessments() {
                                     assessment={item.assessment}
                                 />
                             )}
+                            ListEmptyComponent={() => (
+                                <Text style={assessmentSyles.text}>No assessments yet.</Text>
+                            )}
                         />
                     </View>
                 </View>

@@ -57,7 +57,10 @@ async function getUserCourseAssessment(userId: number, courseId: number) {
         where: {
             [Op.and]: [{ student_id: userId }, { course_id: courseId }],
         },
-        include: [{ model: Users }, { model: Courses }],
+        include: [
+            { model: Users, as: "student" },
+            { model: Courses, as: "course" },
+        ],
     });
     return assessments;
 }

@@ -21,5 +21,9 @@ export const assessmentSyles=StyleSheet.create({
         padding:10,
         height:"90%",
         boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"
+    },
+    text:{
+        fontSize:16,
+        textAlign:"center"
     }
 })
