@@ -67,7 +67,10 @@ async function getStudentAssessments(studentId: number) {
         where: {
             student_id: studentId,
         },
-        include: [{ model: Users }, { model: Courses }],
+        include: [
+            { model: Users, as: "student" },
+            { model: Courses, as: "course" },
+        ],
     });
     return assessments;
 }

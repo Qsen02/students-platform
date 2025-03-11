@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import {
     addAssessment,
     editAssessment,
+    getStudentAssessments,
     getUserCourseAssessment,
 } from "@/api/assessmentService";
 import { useErrorLoading } from "./useErrorLoading";
+import { getUserById } from "@/api/userService";
 
 export function useGetAssessment(
     initalValues: null,
@@ -17,14 +19,17 @@ export function useGetAssessment(
     );
     useEffect(() => {
         (async () => {
-            const curAssessment = await getUserCourseAssessment(userId, courseId);
+            const curAssessment = await getUserCourseAssessment(
+                userId,
+                courseId
+            );
             setAssessment(curAssessment);
         })();
     }, []);
 
     return {
         assessment,
-        setAssessment
+        setAssessment,
     };
 }
 
@@ -59,7 +64,8 @@ export function useGetAssessmentValue(
                     );
                     if (assessment?.assessment) {
                         setValues({
-                            ...values,assessment: assessment.assessment.toString(),
+                            ...values,
+                            assessment: assessment.assessment.toString(),
                         });
                     }
                 }
@@ -85,4 +91,42 @@ export function useEditAssessment() {
     }
 
     return editing;
+}
+
+export function useGetAssessmentsByStudent(
+    initalValues: [],
+    studentId: number
+) {
+    const [assessments, setAssessments] = useState<Assessment[]>(initalValues);
+    const [studentName, setStudentName] = useState("");
+    const { loading, setLoading, error, setError } = useErrorLoading(
+        false,
+        false
+    );
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const curAssessments = await getStudentAssessments(studentId);
+                setAssessments(curAssessments);
+                console.log(assessments)
+                const student = await getUserById(studentId);
+                if (student?.fullname) {
+                    setStudentName(student.fullname);
+                }
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, []);
+
+    return {
+        assessments,
+        studentName,
+        loading,
+        error,
+    };
 }

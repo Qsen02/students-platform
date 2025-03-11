@@ -1,11 +1,16 @@
 import { View,Text } from "react-native";
 import { assessmentItemStyles } from "./AssessmentItemStyles";
 
-export default function AssessmentItem(){
+interface AssessmentItemProp{
+    courseName:string,
+    assessment:number
+}
+
+export default function AssessmentItem({courseName,assessment}:AssessmentItemProp){
     return (
         <View style={assessmentItemStyles.wrapper}>
-            <Text style={assessmentItemStyles.text}>Course: Express and PostgreSQL</Text>
-            <Text style={assessmentItemStyles.text}>Mark: 6</Text>
+            <Text style={assessmentItemStyles.text}>Course: {courseName}</Text>
+            <Text style={assessmentItemStyles.text}>Mark: {assessment}</Text>
         </View>
     )
 }

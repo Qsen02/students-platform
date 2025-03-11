@@ -7,18 +7,22 @@ import { CoursesUsers } from "./CoursesStudents";
 function makeAssociations() {
     Users.hasMany(Assessments, {
         foreignKey: "student_id",
+        as:"student"
     });
 
     Assessments.belongsTo(Users, {
         foreignKey: "student_id",
+        as: "student"
     });
 
-    Courses.hasOne(Assessments, {
+    Courses.hasMany(Assessments, {
         foreignKey: "course_id",
+        as:"course"
     });
 
     Assessments.belongsTo(Courses, {
         foreignKey: "course_id",
+        as:"course"
     });
 
     Lections.belongsTo(Courses, {
