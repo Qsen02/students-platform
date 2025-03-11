@@ -13,7 +13,7 @@ export async function getUserCourseAssessment(userId:number,courseId:number){
     return assessments as Assessment | null;
 }
 
-export async function getStudentAssessment(userId:number){
+export async function getStudentAssessments(userId:number){
     const assessments = await get(`${endpoint}/for/student/${userId}`);
     return assessments as Assessment[] | [];
 }
