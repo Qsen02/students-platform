@@ -52,12 +52,26 @@ async function updateAssessment(
     return assessment[1][0];
 }
 
-async function getUserAssessments(userId: number, courseId: number) {
+async function getUserCourseAssessment(userId: number, courseId: number) {
     const assessments = await Assessments.findOne({
         where: {
             [Op.and]: [{ student_id: userId }, { course_id: courseId }],
         },
         include: [{ model: Users }, { model: Courses }],
+    });
+    return assessments;
+}
+
+async function getStudentAssessments(studentId: number) {
+    const assessments = await Assessments.findAll({
+        where: {
+            student_id: studentId,
+        },
+        include: [
+            {
+                model: Courses,
+            },
+        ],
     });
     return assessments;
 }
@@ -74,6 +88,7 @@ export {
     getAssessmentById,
     createAssessment,
     updateAssessment,
-    getUserAssessments,
+    getUserCourseAssessment,
     checkAssessmentId,
+    getStudentAssessments,
 };

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
     addAssessment,
     editAssessment,
-    getUserAssessments,
+    getUserCourseAssessment,
 } from "@/api/assessmentService";
 import { useErrorLoading } from "./useErrorLoading";
 
@@ -17,7 +17,7 @@ export function useGetAssessment(
     );
     useEffect(() => {
         (async () => {
-            const curAssessment = await getUserAssessments(userId, courseId);
+            const curAssessment = await getUserCourseAssessment(userId, courseId);
             setAssessment(curAssessment);
         })();
     }, []);
@@ -53,7 +53,7 @@ export function useGetAssessmentValue(
             try {
                 setLoading(true);
                 if (userId && courseId) {
-                    const assessment = await getUserAssessments(
+                    const assessment = await getUserCourseAssessment(
                         userId,
                         courseId
                     );

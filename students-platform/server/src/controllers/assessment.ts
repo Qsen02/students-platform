@@ -2,10 +2,10 @@ import { Router } from "express";
 import { isUser } from "../middlewares/guard";
 import { checkUserId } from "../services/user";
 import {
-    checkAssessmentId,
     createAssessment,
     getAssessmentById,
-    getUserAssessments,
+    getStudentAssessments,
+    getUserCourseAssessment,
     updateAssessment,
 } from "../services/assessment";
 import { body, validationResult } from "express-validator";
@@ -13,6 +13,17 @@ import { checkCourseId } from "../services/course";
 import { errorParser } from "../utils/errorParser";
 
 const assessmentRouter = Router();
+
+assessmentRouter.get("/for/student/:userId",async(req,res)=>{
+    const userId=Number(req.params.userId);
+    const isValid=await checkUserId(userId);
+    if(!isValid){
+        res.status(404).json({ message: "Resource not found!" });
+        return;
+    }
+    const assessements=await getStudentAssessments(userId);
+    res.json(assessements);
+})
 
 assessmentRouter.get("/for/:userId/in/:courseId", isUser(), async (req, res) => {
     const userId = Number(req.params.userId);
@@ -23,7 +34,7 @@ assessmentRouter.get("/for/:userId/in/:courseId", isUser(), async (req, res) => 
         res.status(404).json({ message: "Resource not found!" });
         return;
     }
-    const assessments = await getUserAssessments(userId,courseId);
+    const assessments = await getUserCourseAssessment(userId,courseId);
     res.json(assessments);
 });
 

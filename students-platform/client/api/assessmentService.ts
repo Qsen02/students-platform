@@ -8,9 +8,14 @@ export async function getAssessmentById(assessmentId:number){
     return assessment as Assessment;
 }
 
-export async function getUserAssessments(userId:number,courseId:number){
+export async function getUserCourseAssessment(userId:number,courseId:number){
     const assessments = await get(`${endpoint}/for/${userId}/in/${courseId}`);
     return assessments as Assessment | null;
+}
+
+export async function getStudentAssessment(userId:number){
+    const assessments = await get(`${endpoint}/for/student/${userId}`);
+    return assessments as Assessment[] | [];
 }
 
 export async function addAssessment(userId:number,courseId:number,data:object){
