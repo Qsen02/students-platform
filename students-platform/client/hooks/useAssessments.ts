@@ -110,7 +110,6 @@ export function useGetAssessmentsByStudent(
                 setLoading(true);
                 const curAssessments = await getStudentAssessments(studentId);
                 setAssessments(curAssessments);
-                console.log(assessments)
                 const student = await getUserById(studentId);
                 if (student?.fullname) {
                     setStudentName(student.fullname);
