@@ -63,6 +63,9 @@ export default function Profile() {
                                     Faculty number: {user?.facultyNumber}
                                 </Text>
                                 <Text style={profileStyles.profileHeaderText}>
+                                    Course: {user?.course}
+                                </Text>
+                                <Text style={profileStyles.profileHeaderText}>
                                     Role: {user?.role}
                                 </Text>
                                 <Text style={profileStyles.profileHeaderText}>
