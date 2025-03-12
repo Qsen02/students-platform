@@ -1,3 +1,4 @@
+import { pagination } from "@/api/courseService";
 import { StyleSheet } from "react-native";
 
 export const coursesStyles = StyleSheet.create({
@@ -35,4 +36,31 @@ export const coursesStyles = StyleSheet.create({
         fontSize:16,
         marginTop:20
     },
+    paginationWrapper:{
+        marginLeft:"auto",
+        marginRight:"auto",
+        height:75,
+        width:300,
+        display:"flex",
+        flexDirection:"row",
+        gap:10,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    paginationButton:{
+        backgroundColor:"red",
+        height:30,
+        width:40,
+        borderRadius:"50%",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center",
+        paddingBottom:3
+    },
+    paginationText:{
+        color:"white",
+        fontSize:18,
+        fontWeight:"bold"
+    }
 });

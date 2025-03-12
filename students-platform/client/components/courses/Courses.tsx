@@ -8,6 +8,7 @@ import { useGetAllCourses, useSearchCourses } from "@/hooks/useCourses";
 import { homeStyles } from "../home/HomeStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import CourseItem from "@/commons/course-items/CourseItem";
+import { pagination } from "@/api/courseService";
 
 export default function Courses() {
     const [serachValue, setSearchValue] = useState({
@@ -95,6 +96,21 @@ export default function Courses() {
                     )}
                 />
             )}
+            <View style={coursesStyles.paginationWrapper}>
+                <TouchableOpacity style={coursesStyles.paginationButton}>
+                    <Text style={coursesStyles.paginationText}>{"<<"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={coursesStyles.paginationButton}>
+                    <Text style={coursesStyles.paginationText}>{"<"}</Text>
+                </TouchableOpacity>
+                <Text>1 of 2</Text>
+                <TouchableOpacity style={coursesStyles.paginationButton}>
+                    <Text style={coursesStyles.paginationText}>{">"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={coursesStyles.paginationButton}>
+                    <Text style={coursesStyles.paginationText}>{">>"}</Text>
+                </TouchableOpacity>
+            </View>
         </>
     );
 }
