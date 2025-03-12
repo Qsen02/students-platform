@@ -53,13 +53,16 @@ export function useGetAllCourses(initialValues: []) {
         false,
         false
     );
+    const [maxPageCount, setMaxPageCount] = useState(1);
+    const [curPage, setCurPage] = useState(1);
 
     useEffect(() => {
         (async () => {
             try {
                 setLoading(true);
-                const courses = await getAllCourses();
-                setCourses({ type: "getAll", payload: courses });
+                const coursesData = await getAllCourses();
+                setCourses({ type: "getAll", payload: coursesData.courses });
+                setMaxPageCount(coursesData.count);
                 setLoading(false);
             } catch (err) {
                 setLoading(false);
@@ -71,6 +74,10 @@ export function useGetAllCourses(initialValues: []) {
     return {
         courses,
         setCourses,
+        maxPageCount,
+        setMaxPageCount,
+        curPage,
+        setCurPage,
         loading,
         setLoading,
         error,
@@ -201,7 +208,7 @@ export function useGetCourseForEditFrom(
 
 export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
     const [userCourses, setUserCourses] = useState<UserCourse[]>(initalValues);
-    const [course,setCourse]=useState<Course | null>(null);
+    const [course, setCourse] = useState<Course | null>(null);
     const { loading, setLoading, error, setError } = useErrorLoading(
         false,
         false
@@ -213,7 +220,7 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
                 setLoading(true);
                 const users = await getAllSignedStudentsForCourse(courseId);
                 setUserCourses(users);
-                const course=await getCourseById(courseId);
+                const course = await getCourseById(courseId);
                 setCourse(course);
                 setLoading(false);
             } catch (err) {
@@ -227,6 +234,8 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
         userCourses,
         course,
         loading,
-        error
-    }
+        error,
+    };
 }
+
+export function usePagination() {}

@@ -30,7 +30,8 @@ courseRouter.get("/latest", async (req, res) => {
 
 courseRouter.get("/page/:pageNumber", async (req, res) => {
     const pageNumber = Number(req.params.pageNumber);
-    const { count, courses } = await pagination(pageNumber);
+    const { courseCount, courses } = await pagination(pageNumber);
+    const count=Math.floor(courseCount/6);
     res.json({ count, courses });
 });
 

@@ -5,8 +5,8 @@ import { UserCourse } from "@/types/userCourses";
 const endpoint="courses";
 
 export async function getAllCourses(){
-    const courses = await get(`${endpoint}`);
-    return courses as Course[];
+    const courses = await get(`${endpoint}/page/0`);
+    return courses as {count:number,courses:Course[]};
 }
 
 export async function getLatestCourses(){
@@ -21,7 +21,7 @@ export async function getCourseById(courseId:number){
 
 export async function pagination(page:number){
     const courses = await get(`${endpoint}/page/${page}`);
-    return courses as Course[];
+    return courses as {count:number,courses:Course[]};
 }
 
 export async function searchCourses(query:string){

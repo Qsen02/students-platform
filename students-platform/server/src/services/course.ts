@@ -86,7 +86,7 @@ async function pagination(pageCount: number) {
         limit: 6,
         offset: skipCount,
     });
-    return { count: count, courses: rows };
+    return { courseCount: count, courses: rows };
 }
 
 async function checkCourseId(courseId: number) {

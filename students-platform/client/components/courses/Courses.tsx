@@ -14,8 +14,18 @@ export default function Courses() {
     const [serachValue, setSearchValue] = useState({
         query: "",
     });
-    const { courses, setCourses, loading, setLoading, error, setError } =
-        useGetAllCourses([]);
+    const {
+        courses,
+        setCourses,
+        maxPageCount,
+        setMaxPageCount,
+        curPage,
+        setCurPage,
+        loading,
+        setLoading,
+        error,
+        setError,
+    } = useGetAllCourses([]);
     const searchCourses = useSearchCourses();
     const [isSearched, setIsSearched] = useState(false);
 
@@ -36,6 +46,22 @@ export default function Courses() {
             setError(true);
             return;
         }
+    }
+
+    function firstPage() {
+        setCurPage(1);
+    }
+
+    function nextPage() {
+        setCurPage((value) => value + 1);
+    }
+
+    function previousPage() {
+        setCurPage((value) => value - 1);
+    }
+
+    function lastPage() {
+        setCurPage(maxPageCount);
     }
 
     return (
@@ -97,17 +123,33 @@ export default function Courses() {
                 />
             )}
             <View style={coursesStyles.paginationWrapper}>
-                <TouchableOpacity style={coursesStyles.paginationButton}>
+                <TouchableOpacity
+                    style={coursesStyles.paginationButton}
+                    onPress={firstPage}
+                >
                     <Text style={coursesStyles.paginationText}>{"<<"}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={coursesStyles.paginationButton}>
+                <TouchableOpacity
+                    style={coursesStyles.paginationButton}
+                    onPress={previousPage}
+                    disabled={curPage <= 1}
+                >
                     <Text style={coursesStyles.paginationText}>{"<"}</Text>
                 </TouchableOpacity>
-                <Text>1 of 2</Text>
-                <TouchableOpacity style={coursesStyles.paginationButton}>
+                <Text>
+                    {curPage} of {maxPageCount}
+                </Text>
+                <TouchableOpacity
+                    style={coursesStyles.paginationButton}
+                    onPress={nextPage}
+                    disabled={curPage >= maxPageCount}
+                >
                     <Text style={coursesStyles.paginationText}>{">"}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={coursesStyles.paginationButton}>
+                <TouchableOpacity
+                    style={coursesStyles.paginationButton}
+                    onPress={lastPage}
+                >
                     <Text style={coursesStyles.paginationText}>{">>"}</Text>
                 </TouchableOpacity>
             </View>
