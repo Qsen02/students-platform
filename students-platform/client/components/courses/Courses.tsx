@@ -4,11 +4,14 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { coursesStyles } from "./CoursesStlyes";
-import { useGetAllCourses, useSearchCourses } from "@/hooks/useCourses";
+import {
+    useGetAllCourses,
+    usePagination,
+    useSearchCourses,
+} from "@/hooks/useCourses";
 import { homeStyles } from "../home/HomeStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import CourseItem from "@/commons/course-items/CourseItem";
-import { pagination } from "@/api/courseService";
 
 export default function Courses() {
     const [serachValue, setSearchValue] = useState({
@@ -18,7 +21,6 @@ export default function Courses() {
         courses,
         setCourses,
         maxPageCount,
-        setMaxPageCount,
         curPage,
         setCurPage,
         loading,
@@ -28,6 +30,7 @@ export default function Courses() {
     } = useGetAllCourses([]);
     const searchCourses = useSearchCourses();
     const [isSearched, setIsSearched] = useState(false);
+    const { setPagination } = usePagination(setCourses, setLoading, setError);
 
     async function onSearch() {
         try {
@@ -50,18 +53,22 @@ export default function Courses() {
 
     function firstPage() {
         setCurPage(1);
+        setPagination(1);
     }
 
     function nextPage() {
         setCurPage((value) => value + 1);
+        setPagination(curPage + 1);
     }
 
     function previousPage() {
         setCurPage((value) => value - 1);
+        setPagination(curPage - 1);
     }
 
     function lastPage() {
         setCurPage(maxPageCount);
+        setPagination(maxPageCount);
     }
 
     return (
@@ -122,37 +129,41 @@ export default function Courses() {
                     )}
                 />
             )}
-            <View style={coursesStyles.paginationWrapper}>
-                <TouchableOpacity
-                    style={coursesStyles.paginationButton}
-                    onPress={firstPage}
-                >
-                    <Text style={coursesStyles.paginationText}>{"<<"}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={coursesStyles.paginationButton}
-                    onPress={previousPage}
-                    disabled={curPage <= 1}
-                >
-                    <Text style={coursesStyles.paginationText}>{"<"}</Text>
-                </TouchableOpacity>
-                <Text>
-                    {curPage} of {maxPageCount}
-                </Text>
-                <TouchableOpacity
-                    style={coursesStyles.paginationButton}
-                    onPress={nextPage}
-                    disabled={curPage >= maxPageCount}
-                >
-                    <Text style={coursesStyles.paginationText}>{">"}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={coursesStyles.paginationButton}
-                    onPress={lastPage}
-                >
-                    <Text style={coursesStyles.paginationText}>{">>"}</Text>
-                </TouchableOpacity>
-            </View>
+            {!isSearched ? (
+                <View style={coursesStyles.paginationWrapper}>
+                    <TouchableOpacity
+                        style={coursesStyles.paginationButton}
+                        onPress={firstPage}
+                    >
+                        <Text style={coursesStyles.paginationText}>{"<<"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={coursesStyles.paginationButton}
+                        onPress={previousPage}
+                        disabled={curPage <= 1}
+                    >
+                        <Text style={coursesStyles.paginationText}>{"<"}</Text>
+                    </TouchableOpacity>
+                    <Text>
+                        {curPage} of {maxPageCount}
+                    </Text>
+                    <TouchableOpacity
+                        style={coursesStyles.paginationButton}
+                        onPress={nextPage}
+                        disabled={curPage >= maxPageCount}
+                    >
+                        <Text style={coursesStyles.paginationText}>{">"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={coursesStyles.paginationButton}
+                        onPress={lastPage}
+                    >
+                        <Text style={coursesStyles.paginationText}>{">>"}</Text>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                ""
+            )}
         </>
     );
 }

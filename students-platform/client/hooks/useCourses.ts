@@ -1,5 +1,5 @@
 import { Course } from "@/types/course";
-import { useEffect, useReducer, useState } from "react";
+import React, { SetStateAction, useEffect, useReducer, useState } from "react";
 import { useErrorLoading } from "./useErrorLoading";
 import {
     createCourse,
@@ -9,6 +9,7 @@ import {
     getAllSignedStudentsForCourse,
     getCourseById,
     getLatestCourses,
+    pagination,
     searchCourses,
 } from "@/api/courseService";
 import { Lection } from "@/types/lection";
@@ -75,7 +76,6 @@ export function useGetAllCourses(initialValues: []) {
         courses,
         setCourses,
         maxPageCount,
-        setMaxPageCount,
         curPage,
         setCurPage,
         loading,
@@ -238,4 +238,24 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
     };
 }
 
-export function usePagination() {}
+export function usePagination(
+    courseHandler: React.Dispatch<ActionType>,
+    loadingHanlder: React.Dispatch<SetStateAction<boolean>>,
+    errorHanlder: React.Dispatch<SetStateAction<boolean>>,
+) {
+    async function setPagination(page:number){
+        try{
+            loadingHanlder(true);
+            const courseData=await pagination(page-1);
+            courseHandler({type:"pagination",payload:courseData.courses});
+            loadingHanlder(false);
+        }catch(err){
+            loadingHanlder(false);
+            errorHanlder(true);
+        }
+    }
+  
+    return {
+        setPagination
+    }
+}
