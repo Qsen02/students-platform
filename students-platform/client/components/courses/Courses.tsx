@@ -12,6 +12,7 @@ import {
 import { homeStyles } from "../home/HomeStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import CourseItem from "@/commons/course-items/CourseItem";
+import ResultItems from "@/commons/result-items/ResultItems";
 
 export default function Courses() {
     const [serachValue, setSearchValue] = useState({
@@ -20,6 +21,8 @@ export default function Courses() {
     const {
         courses,
         setCourses,
+        searchResults,
+        setSearchResults,
         maxPageCount,
         curPage,
         setCurPage,
@@ -31,15 +34,19 @@ export default function Courses() {
     const searchCourses = useSearchCourses();
     const [isSearched, setIsSearched] = useState(false);
     const { setPagination } = usePagination(setCourses, setLoading, setError);
+    const [isTyped, setIsTyped] = useState(false);
+    const [isErr, setIsErr] = useState(false);
 
     async function onSearch() {
         try {
+            setIsTyped(false);
             setError(false);
             setLoading(true);
             setIsSearched(true);
             let query = serachValue.query;
             if (query === "") {
                 query = "No value";
+                setIsSearched(false);
             }
             const searchedResults = await searchCourses(query);
             setCourses({ type: "search", payload: searchedResults });
@@ -71,6 +78,24 @@ export default function Courses() {
         setPagination(maxPageCount);
     }
 
+    async function changeHandler(e: string) {
+        setSearchValue({ ...serachValue, query: e });
+        try {
+            let query = serachValue.query;
+            if (query === "") {
+                query = "No value";
+                setIsSearched(false);
+            }
+            const results = await searchCourses(query);
+            setIsErr(false);
+            setIsTyped(true);
+            setSearchResults(results);
+        } catch (err) {
+            setIsErr(true);
+            return;
+        }
+    }
+
     return (
         <>
             <SafeAreaView style={coursesStyles.searchForm}>
@@ -80,12 +105,30 @@ export default function Courses() {
                 <View style={coursesStyles.searchWrapper}>
                     <InputField
                         value={serachValue.query}
-                        changeHandler={(e: string) =>
-                            setSearchValue({ ...serachValue, query: e })
-                        }
+                        changeHandler={changeHandler}
                         placeholder="Search for courses..."
                         keyboardType="default"
                     />
+                    {isTyped ? (
+                        <View style={coursesStyles.resultsWrapper}>
+                            {isErr ? (
+                                <Text style={coursesStyles.resultsText}>No results.</Text>
+                            ) : (
+                                <FlatList
+                                    data={searchResults}
+                                    keyExtractor={(item) => item.id.toString()}
+                                    renderItem={({ item }) => (
+                                        <ResultItems
+                                            courseId={item.id}
+                                            courseName={item.courseName}
+                                        />
+                                    )}
+                                />
+                            )}
+                        </View>
+                    ) : (
+                        ""
+                    )}
                     <TouchableOpacity
                         style={coursesStyles.searchButton}
                         onPress={onSearch}
@@ -94,7 +137,11 @@ export default function Courses() {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-            <Text style={coursesStyles.searchTitle}>All Courses</Text>
+            {!isTyped ? (
+                <Text style={coursesStyles.searchTitle}>All Courses</Text>
+            ) : (
+                ""
+            )}
             <Spinner
                 visible={loading}
                 color="rgb(0, 157, 255)"
@@ -113,7 +160,7 @@ export default function Courses() {
                         No results found :(
                     </Text>
                 </View>
-            ) : (
+            ) : !isTyped ? (
                 <FlatList
                     data={courses}
                     keyExtractor={(item) => item.id.toString()}
@@ -128,8 +175,10 @@ export default function Courses() {
                         <Text style={coursesStyles.text}>No courses yet.</Text>
                     )}
                 />
+            ) : (
+                ""
             )}
-            {!isSearched ? (
+            {!isSearched && !isTyped ? (
                 <View style={coursesStyles.paginationWrapper}>
                     <TouchableOpacity
                         style={coursesStyles.paginationButton}

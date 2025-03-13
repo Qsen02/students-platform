@@ -56,6 +56,7 @@ export function useGetAllCourses(initialValues: []) {
     );
     const [maxPageCount, setMaxPageCount] = useState(1);
     const [curPage, setCurPage] = useState(1);
+    const [searchResults,setSearchResults]=useState<Course[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -75,6 +76,8 @@ export function useGetAllCourses(initialValues: []) {
     return {
         courses,
         setCourses,
+        searchResults,
+        setSearchResults,
         maxPageCount,
         curPage,
         setCurPage,

@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 
 export const coursesStyles = StyleSheet.create({
     searchForm: {
+        zIndex:10,
+        position:"relative",
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -62,5 +64,23 @@ export const coursesStyles = StyleSheet.create({
         color:"white",
         fontSize:18,
         fontWeight:"bold"
+    },
+    resultsWrapper:{
+        position:"absolute",
+        top:28,
+        height:200,
+        width:"100%",
+        backgroundColor:"white",
+        borderBottomLeftRadius:20,
+        borderBottomRightRadius:20,
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
+        display:"flex",
+        flexDirection:"column",
+        gap:10
+    },
+    resultsText:{
+        textAlign:"center",
+        marginTop:10
     }
 });
