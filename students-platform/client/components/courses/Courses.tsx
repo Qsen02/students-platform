@@ -13,6 +13,8 @@ import { homeStyles } from "../home/HomeStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import CourseItem from "@/commons/course-items/CourseItem";
 import ResultItems from "@/commons/result-items/ResultItems";
+import { getAllCourses } from "@/api/courseService";
+import { Course } from "@/types/course";
 
 export default function Courses() {
     const [serachValue, setSearchValue] = useState({
@@ -47,9 +49,15 @@ export default function Courses() {
             if (query === "") {
                 query = "No value";
                 setIsSearched(false);
+                const searchedResults = await getAllCourses();
+                setCourses({
+                    type: "getAll",
+                    payload: searchedResults.courses,
+                });
+            } else {
+                const searchedResults = await searchCourses(query);
+                setCourses({ type: "search", payload: searchedResults });
             }
-            const searchedResults = await searchCourses(query);
-            setCourses({ type: "search", payload: searchedResults });
             setLoading(false);
         } catch (err) {
             setLoading(false);
@@ -82,14 +90,22 @@ export default function Courses() {
         setSearchValue({ ...serachValue, query: e });
         try {
             let query = serachValue.query;
+            let searchedResults: Course[] = [];
             if (query === "") {
                 query = "No value";
                 setIsSearched(false);
+                searchedResults = (await getAllCourses()).courses;
+                setCourses({
+                    type: "getAll",
+                    payload: searchedResults,
+                });
+            } else {
+                searchedResults = await searchCourses(query);
+                setCourses({ type: "search", payload: searchedResults });
             }
-            const results = await searchCourses(query);
             setIsErr(false);
             setIsTyped(true);
-            setSearchResults(results);
+            setSearchResults(searchedResults);
         } catch (err) {
             setIsErr(true);
             return;
@@ -112,7 +128,9 @@ export default function Courses() {
                     {isTyped ? (
                         <View style={coursesStyles.resultsWrapper}>
                             {isErr ? (
-                                <Text style={coursesStyles.resultsText}>No results.</Text>
+                                <Text style={coursesStyles.resultsText}>
+                                    No results.
+                                </Text>
                             ) : (
                                 <FlatList
                                     data={searchResults}
