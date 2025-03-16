@@ -17,15 +17,18 @@ export default function CourseItem({ id, name, image }: HomeCourseItemProps) {
     const naviagtion = useNavigation<NavigationProp<Routes>>();
     return (
         <View style={courseItemStyles.wrapper}>
-            {image ? (
-                <Image
-                    source={imgError ? alternative : { uri: image }}
-                    style={courseItemStyles.image}
-                    onError={() => setImgError(true)}
-                />
-            ) : (
-                <Image source={alternative} style={courseItemStyles.image} />
-            )}
+                {image ? (
+                    <Image
+                        source={imgError ? alternative : { uri: image }}
+                        style={courseItemStyles.image}
+                        onError={() => setImgError(true)}
+                    />
+                ) : (
+                    <Image
+                        source={alternative}
+                        style={courseItemStyles.image}
+                    />
+                )}
             <Text style={courseItemStyles.text}>{name}</Text>
             <TouchableOpacity
                 style={courseItemStyles.button}
