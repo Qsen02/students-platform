@@ -5,7 +5,7 @@ export const courseItemStyles=StyleSheet.create({
         marginTop:30,
         marginLeft:"auto",
         marginRight:"auto",
-        width:350,
+        width:"90%",
         backgroundColor:"rgb(0, 157, 255)",
         borderRadius:5,
         display:"flex",
@@ -17,7 +17,8 @@ export const courseItemStyles=StyleSheet.create({
     },
     image:{
         width:"100%",
-        height:300
+        height:150,
+        objectFit:"fill"
     },
     text:{
         color:"white",
