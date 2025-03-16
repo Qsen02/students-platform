@@ -18,6 +18,7 @@ export const courseItemStyles=StyleSheet.create({
     image:{
         width:"100%",
         height:150,
+        objectFit:"cover"
     },
     text:{
         color:"white",
