@@ -56,7 +56,7 @@ export function useGetAllCourses(initialValues: []) {
     );
     const [maxPageCount, setMaxPageCount] = useState(1);
     const [curPage, setCurPage] = useState(1);
-    const [searchResults,setSearchResults]=useState<Course[]>([]);
+    const [searchResults, setSearchResults] = useState<Course[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -244,21 +244,21 @@ export function useGetSignedUsersForCourse(initalValues: [], courseId: number) {
 export function usePagination(
     courseHandler: React.Dispatch<ActionType>,
     loadingHanlder: React.Dispatch<SetStateAction<boolean>>,
-    errorHanlder: React.Dispatch<SetStateAction<boolean>>,
+    errorHanlder: React.Dispatch<SetStateAction<boolean>>
 ) {
-    async function setPagination(page:number){
-        try{
+    async function setPagination(page: number) {
+        try {
             loadingHanlder(true);
-            const courseData=await pagination(page-1);
-            courseHandler({type:"pagination",payload:courseData.courses});
+            const courseData = await pagination(page - 1);
+            courseHandler({ type: "pagination", payload: courseData.courses });
             loadingHanlder(false);
-        }catch(err){
+        } catch (err) {
             loadingHanlder(false);
             errorHanlder(true);
         }
     }
-  
+
     return {
-        setPagination
-    }
+        setPagination,
+    };
 }
