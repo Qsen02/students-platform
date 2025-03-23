@@ -7,8 +7,8 @@
 - Guests - they only can see courses, search courses and see lections titles but not content of the lecions or functionallity to sign up in course.
 # How to run project
 1. You need to install Expo Go on your phone.
-2. Install global or for current project ngrok.
-3. Run for server command `npm start` to start server
+2. Install ngrok global or for current project on server.
+3. In server run command `npm start` to start server.
 4. Server locally listen on port 4000. In another console run command `ngrok http 4000` to create tunnel for this port. After that on `Forwarding` is the url that can copy and paste on the client in api/requester file on host constant to connect client with server.
 5. For client run command `npm start`.
 6. After that you will see QR code on console with Expo Go and you can scan these and run the app in your phone.
