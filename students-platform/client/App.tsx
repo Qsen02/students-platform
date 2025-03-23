@@ -22,67 +22,56 @@ export default function App() {
         <>
             <NavigationContainer>
                 <UserContextProvider>
-                    <Header />
-                    <Stack.Navigator>
+                    <Stack.Navigator screenOptions={{
+                        header:()=><Header/>
+                    }}>
                         <Stack.Screen
                             name="Home"
                             component={Home}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Register"
                             component={Register}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Logout"
                             component={Logout}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Login"
                             component={Login}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Courses"
                             component={Courses}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Create"
                             component={CourseCreate}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="CourseDetails"
                             component={CourseDetails}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="LectionDetails"
                             component={LectionDetails}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="LectionCreate"
                             component={LectionCreate}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Profile"
                             component={Profile}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="StudentsList"
                             component={StudentsList}
-                            options={{ headerShown: false }}
                         />
                         <Stack.Screen
                             name="Assessments"
                             component={Assessments}
-                            options={{ headerShown: false }}
                         />
                     </Stack.Navigator>
                 </UserContextProvider>
