@@ -8,5 +8,8 @@ export const tabIconStyles=StyleSheet.create({
     },
     itemText:{
         color:"white",
+    },
+    active:{
+        color:"rgb(251, 62, 62)"
     }
 })

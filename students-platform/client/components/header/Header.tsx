@@ -15,7 +15,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Home"}
-                                color={route.name == "Home" ? "red" : "white"}
+                                color={route.name == "Home" ? "rgb(224, 64, 96)" : "white"}
                                 name={"home"}
                                 size={30}
                             />
@@ -23,7 +23,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Courses"}
-                                color={route.name == "Courses" ? "red" : "white"}
+                                color={route.name == "Courses" ? "rgb(251, 62, 62)" : "white"}
                                 name={"book"}
                                 size={30}
                             />
@@ -32,7 +32,7 @@ export default function Header() {
                             <TabIcon
                                 params={{ userId: user?.id }}
                                 title={"Assessments"}
-                                color={route.name == "Assessments" ? "red" : "white"}
+                                color={route.name == "Assessments" ? "rgb(251, 62, 62)" : "white"}
                                 name={"tag"}
                                 size={30}
                             />
@@ -41,7 +41,7 @@ export default function Header() {
                             <TabIcon
                                 params={{ userId: user?.id }}
                                 title={"Profile"}
-                                color={route.name == "Profile" ? "red" : "white"}
+                                color={route.name == "Profile" ? "rgb(251, 62, 62)" : "white"}
                                 name={"user"}
                                 size={30}
                             />
@@ -49,7 +49,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Logout"}
-                                color={route.name == "Logout" ? "red" : "white"}
+                                color={route.name == "Logout" ? "rgb(251, 62, 62)" : "white"}
                                 name={"sign-out"}
                                 size={30}
                             />
@@ -60,7 +60,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Home"}
-                                color={route.name == "Home" ? "red" : "white"}
+                                color={route.name == "Home" ? "rgb(251, 62, 62)" : "white"}
                                 name={"home"}
                                 size={30}
                             />
@@ -68,7 +68,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Courses"}
-                                color={route.name == "Courses" ? "red" : "white"}
+                                color={route.name == "Courses" ? "rgb(251, 62, 62)" : "white"}
                                 name={"book"}
                                 size={30}
                             />
@@ -76,7 +76,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Create"}
-                                color={route.name == "Create" ? "red" : "white"}
+                                color={route.name == "Create" ? "rgb(251, 62, 62)" : "white"}
                                 name={"plus"}
                                 size={30}
                             />
@@ -85,7 +85,7 @@ export default function Header() {
                             <TabIcon
                                 params={{ userId: user?.id }}
                                 title={"Profile"}
-                                color={route.name == "Profile" ? "red" : "white"}
+                                color={route.name == "Profile" ? "rgb(251, 62, 62)" : "white"}
                                 name={"user"}
                                 size={30}
                             />
@@ -93,7 +93,7 @@ export default function Header() {
                         <View>
                             <TabIcon
                                 title={"Logout"}
-                                color={route.name == "Logout" ? "red" : "white"}
+                                color={route.name == "Logout" ? "rgb(251, 62, 62)" : "white"}
                                 name={"sign-out"}
                                 size={30}
                             />
@@ -105,7 +105,7 @@ export default function Header() {
                     <View>
                         <TabIcon
                             title={"Home"}
-                            color={route.name == "Home" ? "red" : "white"}
+                            color={route.name == "Home" ? "rgb(251, 62, 62)" : "white"}
                             name={"home"}
                             size={30}
                         />
@@ -113,7 +113,7 @@ export default function Header() {
                     <View>
                         <TabIcon
                             title={"Courses"}
-                            color={route.name == "Courses" ? "red" : "white"}
+                            color={route.name == "Courses" ? "rgb(251, 62, 62)" : "white"}
                             name={"book"}
                             size={30}
                         />
@@ -121,7 +121,7 @@ export default function Header() {
                     <View>
                         <TabIcon
                             title={"Login"}
-                            color={route.name == "Login" ? "red" : "white"}
+                            color={route.name == "Login" ? "rgb(251, 62, 62)" : "white"}
                             name={"sign-in"}
                             size={30}
                         />
@@ -129,7 +129,7 @@ export default function Header() {
                     <View>
                         <TabIcon
                             title={"Register"}
-                            color={route.name == "Register" ? "red" : "white"}
+                            color={route.name == "Register" ? "rgb(251, 62, 62)" : "white"}
                             name={"user-plus"}
                             size={30}
                         />
