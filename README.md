@@ -1,6 +1,10 @@
 # Student Platform
-- This is platfrom for learning students and facilitating lecturers to post their courses and lections.
+- This is mobile application for learning students and facilitating lecturers to post their courses and lections.
 
+# Technologies
+-Front-end: React Native with typescript 
+
+-Back-end: Express with typescript 
 # Features
 - Students - they can login and register to this platform and sign for courses. In each course have lections which students can read after sign in for current course. They can view their assessments for every course and they can view all signed courses in their profile. In every lections they can change font size to be small, normal or big.
 - Lecturers - they can create courses, delete and edit courses and can add lections to this course. Lections can be deleted or updated too. For every course they can see how students are signed and they can set assessment for current course on current student. In profile screen lecturers can see their created courses.
